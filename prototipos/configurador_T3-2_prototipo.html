@@ -965,7 +965,7 @@ function runCheck(){
   const steps = res === 'nf'
     ? [['c1','no']]
     : res === 'fibra' ? [['c1','yes'],['c2','yes']] : [['c1','yes'],['c2','no'],['c3', res === 'wimax' ? 'yes' : 'no']];
-  const D = reduce ? 60 : 620;
+  const D = reduce ? 60 : 1100;
   steps.forEach(([id, r], i) => {
     setTimeout(() => { const li = $('#' + id, ov); li.classList.add('v', 'run'); }, i * D);
     setTimeout(() => { const li = $('#' + id, ov); li.classList.remove('run'); li.classList.add(r); li.querySelector('.st').textContent = r === 'yes' ? '✓' : '–'; if (id === 'c1' && r === 'no') li.lastElementChild.textContent = 'No encontramos la dirección en el buscador'; }, i * D + D * .8);
@@ -1075,7 +1075,7 @@ const SHEETS = {
 function typeWriter(el, text, done){
   if (reduce){ el.textContent = text; el.classList.remove('caret'); done && done(); return; }
   let i = 0;
-  const tick = () => { if (!el.isConnected) return; el.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 18); else { el.classList.remove('caret'); done && done(); } };
+  const tick = () => { if (!el.isConnected) return; el.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 35); else { el.classList.remove('caret'); done && done(); } };
   tick();
 }
 
@@ -1204,8 +1204,8 @@ function scenario(k){
   go('coverage', {replace:true});
   setTimeout(() => {
     const [cp, st, num, piso] = fill;
-    const typeInto = (id, v, cb) => { const el = $('#' + id); if (!el) return; if (reduce){ el.value = v; cb(); return; } let i = 0; const t = () => { if (!el.isConnected) return; el.value = v.slice(0, ++i); if (i < v.length) setTimeout(t, 45); else cb(); }; t(); };
-    typeInto('cp', cp, () => typeInto('st', st, () => typeInto('num', num, () => { const p = $('#piso'); if (p) p.value = piso; setTimeout(runCheck, 350); })));
+    const typeInto = (id, v, cb) => { const el = $('#' + id); if (!el) return; if (reduce){ el.value = v; cb(); return; } let i = 0; const t = () => { if (!el.isConnected) return; el.value = v.slice(0, ++i); if (i < v.length) setTimeout(t, 80); else cb(); }; t(); };
+    typeInto('cp', cp, () => typeInto('st', st, () => typeInto('num', num, () => { const p = $('#piso'); if (p) p.value = piso; setTimeout(runCheck, 700); })));
   }, reduce ? 50 : 500);
 }
 

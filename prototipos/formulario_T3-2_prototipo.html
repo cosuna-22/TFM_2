@@ -501,7 +501,7 @@ $('#fillBtn').addEventListener('click', () => {
   const typeNext = () => {
     if (k >= keys.length){ if (S.step === 1){ $('#priv').checked = true; S.d.priv = true; setErr('priv', false); } return; }
     const id = keys[k++], el = $('#' + id), v = demo[id]; let i = 0; el.focus();
-    const t = () => { if (!el.isConnected) return; el.value = v.slice(0, ++i); el.dispatchEvent(new Event('input')); if (i < v.length) setTimeout(t, reduce ? 0 : 38); else { el.dispatchEvent(new Event('blur')); setTimeout(typeNext, 160); } };
+    const t = () => { if (!el.isConnected) return; el.value = v.slice(0, ++i); el.dispatchEvent(new Event('input')); if (i < v.length) setTimeout(t, reduce ? 0 : 65); else { el.dispatchEvent(new Event('blur')); setTimeout(typeNext, 400); } };
     t();
   };
   typeNext();

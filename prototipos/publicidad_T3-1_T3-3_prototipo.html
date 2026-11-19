@@ -410,19 +410,19 @@ function drawSearch(){
     <div class="res"><div class="loc">📍 Resultados para ${loc} · simulados</div><div id="resBody" style="opacity:0;transition:opacity .4s"></div></div>`;
   $('#resBody').innerHTML = body;
   let i = 0; const el = $('#qq');
-  const ty = () => { el.textContent = q.slice(0, ++i); if (i < q.length) typeT = setTimeout(ty, reduce ? 0 : 40); else { el.classList.remove('caret'); $('#resBody').style.opacity = 1; } };
+  const ty = () => { el.textContent = q.slice(0, ++i); if (i < q.length) typeT = setTimeout(ty, reduce ? 0 : 75); else { el.classList.remove('caret'); $('#resBody').style.opacity = 1; } };
   ty();
   // Cadena de decisión
   $('#chain').innerHTML = steps.map(([c, t, s]) => `<li class="${c}"><i>${c === 'ok' ? '✓' : c === 'no' ? '✕' : '–'}</i><span><b>${t}</b><small>${s}</small></span></li>`).join('') +
     `<li class="${show === 'ad' || show === 'brand' ? 'ok' : 'no'}"><i>${show === 'ad' || show === 'brand' ? '✓' : '✕'}</i><span><b>${show === 'ad' ? 'Se muestra el anuncio de contratación' : show === 'brand' ? 'Se muestra el anuncio de marca' : 'No se paga ningún clic de Embou'}</b></span></li>`;
-  $$('#chain li').forEach((li, k) => setTimeout(() => li.classList.add('v'), reduce ? 0 : 180 + k * 160));
+  $$('#chain li').forEach((li, k) => setTimeout(() => li.classList.add('v'), reduce ? 0 : 400 + k * 450));
   drawAssets();
   if (show === 'ad' && !reduce){
     rotT = setInterval(() => {
       const t = $('#adT'), d = $('#adD'); if (!t) return clearInterval(rotT);
       t.classList.add('fd'); d.classList.add('fd');
       setTimeout(() => { rotI++; const c = combos()[rotI % 3]; t.textContent = c.t.join(' | '); d.textContent = c.d; t.classList.remove('fd'); d.classList.remove('fd'); drawAssets(); }, 350);
-    }, 3200);
+    }, 5500);
   }
 }
 function drawAssets(){
@@ -471,8 +471,8 @@ function drawMeta(){
       if (k >= frames.length) { storyT.push(setTimeout(() => { bars.forEach(b => { b.style.transition = 'none'; b.style.width = '0'; }); play(0); }, 800)); return; }
       const [a, b, p] = frames[k];
       $('#sf').innerHTML = `<div class="k">${a.split(' ').map((w, i) => `<span style="animation-delay:${i * .12}s">${w}</span>`).join(' ')}<br>${b.split(' ').map((w, i) => `<span class="y" style="animation-delay:${.3 + i * .12}s">${w}</span>`).join(' ')}</div><p>${p}</p>`;
-      const bar = bars[k]; bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = `width ${reduce ? .01 : 3.2}s linear`; bar.style.width = '100%';
-      storyT.push(setTimeout(() => play(k + 1), reduce ? 2000 : 3300));
+      const bar = bars[k]; bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = `width ${reduce ? .01 : 5.4}s linear`; bar.style.width = '100%';
+      storyT.push(setTimeout(() => play(k + 1), reduce ? 2000 : 5500));
     };
     play(0);
   }
@@ -488,7 +488,7 @@ $('#feed').addEventListener('click', e => {
   const old = $('#p-meta .scr > .wa'); if (old) old.remove();
   $('#p-meta .scr').appendChild(w);
   w.addEventListener('click', ev => { if (ev.target.closest('[data-back]')) w.remove(); });
-  let i = 0; const el = $('#waIn', w); const ty = () => { el.textContent = msg.slice(0, ++i); if (i < msg.length) setTimeout(ty, reduce ? 0 : 22); }; ty();
+  let i = 0; const el = $('#waIn', w); const ty = () => { el.textContent = msg.slice(0, ++i); if (i < msg.length) setTimeout(ty, reduce ? 0 : 40); }; ty();
   $('#waSend', w).addEventListener('click', () => {
     const cv = $('.cv', w); el.textContent = '';
     cv.insertAdjacentHTML('beforeend', `<div class="bub me">${msg}<small>ahora ✓✓</small></div>`);
@@ -575,12 +575,15 @@ $('#rPlay').addEventListener('click', () => {
   if (bought){ recStop(); drawRec(); }
   $('#rPlay').textContent = '❚❚ Pausa';
   const max = S.r.mail === 'si' ? 48 : 168, stepH = S.r.mail === 'si' ? 1 : 3;
+  let hold = 0;
   recT = setInterval(() => {
+    if (hold > 0){ hold--; return; }
     const prev = recH; recH = Math.min(max, recH + stepH);
     const changed = S.r.mail === 'si' ? (prev < 2 && recH >= 2) || (prev < 48 && recH >= 48) : Math.floor(prev / 12) !== Math.floor(recH / 12);
+    if (changed) hold = S.r.mail === 'si' ? 6 : (Math.floor(prev / 24) !== Math.floor(recH / 24) ? 4 : 0);
     if (changed || prev === 0) recRender(); else { const bar = $('#rBar'); if (bar) bar.style.width = (recH / 48 * 100) + '%'; $('#rClock').textContent = S.r.mail === 'si' ? `+${recH} h` : `Día ${Math.min(7, Math.floor(recH / 24) + 1)}`; }
     if (recH >= max){ clearInterval(recT); recT = null; $('#rPlay').textContent = '▶ Reproducir'; }
-  }, reduce ? 30 : (S.r.mail === 'si' ? 90 : 160));
+  }, reduce ? 30 : (S.r.mail === 'si' ? 420 : 380));
 });
 const buy = () => { if (S.r.ctrl === 'si' || bought) return; if (recH === 0) recH = S.r.mail === 'si' ? 2 : 50; bought = true; stopDay = Math.floor(recH / 24); clearInterval(recT); recT = null; $('#rPlay').textContent = '▶ Reproducir'; recRender(); toast('Secuencia detenida: Laura sale de la audiencia de recuperación.'); };
 $('#rBuy').addEventListener('click', buy);

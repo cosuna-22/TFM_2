@@ -350,7 +350,7 @@ function renderPhone(){
     em.style.top = e.hoy.generic ? '330px' : '250px';
     em.innerHTML = `<div class="bubble">${e.hoy.generic ? '' : '<div style="font-size:12px;opacity:.7;margin-bottom:6px">Ninguna notificación</div>'}${e.hoy.text}</div>`;
     $('#lock').appendChild(em);
-    if (e.hoy.call) setTimeout(() => { if (mode === 'hoy' && EV[ix] === e) openCall(); }, reduce ? 50 : 1800);
+    if (e.hoy.call) setTimeout(() => { if (mode === 'hoy' && EV[ix] === e) openCall(); }, reduce ? 50 : 2800);
   }
 }
 function closeApp(instant){ const r = $('#appRoot'); r.innerHTML = ''; clearInterval(closeApp._t); }
@@ -446,7 +446,7 @@ $('#play').addEventListener('click', () => {
   if (playing){ stop(); return; }
   $('#play').textContent = '❚❚ Pausa';
   if (ix === EV.length - 1) show(0);
-  playing = setInterval(() => { if (ix === EV.length - 1){ stop(); return; } show(ix + 1); }, reduce ? 2500 : 4200);
+  playing = setInterval(() => { if (ix === EV.length - 1){ stop(); return; } show(ix + 1); }, reduce ? 2500 : 7500);
 });
 $('#prev').addEventListener('click', () => { stop(); show(ix - 1); });
 $('#next').addEventListener('click', () => { stop(); show(ix + 1); });

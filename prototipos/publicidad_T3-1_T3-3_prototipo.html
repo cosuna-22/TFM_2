@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publicidad T3.1 y T3.3 · Prototipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--y:#FFE100;--k:#141414;--g:#5f5f5a;--l:#e3e1d8;--bg:#f4f3ee;--ok:#2f7a35;--okb:#e8f3e8;--wa:#25d366;--r:#ff8a7a;--rd:#b3261e;
+  --stage:#0f0f0e;--s2:#1b1b19;--s3:#26261f;--ink:#f4f3ee;--ink2:#a9a79e;--line:#2e2e2b;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--stage);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #2b6cff;outline-offset:2px}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400}
+.disc{position:sticky;top:0;z-index:60;background:var(--y);color:var(--k);font-size:12.5px;font-weight:600;padding:7px 16px;text-align:center;line-height:1.35}
+.disc b{font-weight:900}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 20px 60px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.kick{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--y);font-weight:800}
+h1{font-size:clamp(32px,4vw,50px);line-height:.98;margin:6px 0 8px;font-weight:900;letter-spacing:-.03em}
+h1 .serif{color:var(--y);font-size:1.06em}
+.lead{color:var(--ink2);font-size:14.5px;line-height:1.5;margin:0;max-width:640px}
+.tabs{display:flex;gap:6px;background:var(--s2);border:1px solid var(--line);border-radius:999px;padding:5px;flex-wrap:wrap}
+.tabs button{border:0;background:transparent;border-radius:999px;padding:10px 16px;font-weight:800;font-size:13.5px;color:var(--ink2);transition:all .3s var(--ease)}
+.tabs button.on{background:var(--y);color:var(--k)}
+.pane{display:none;grid-template-columns:minmax(300px,1fr) auto;gap:44px;align-items:start;animation:pin .45s var(--ease)}
+.pane.on{display:grid}
+@keyframes pin{from{opacity:0;transform:translateY(12px)}}
+.ctl{display:flex;flex-direction:column;gap:14px}
+.box{background:var(--s2);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.box h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin:0 0 10px;font-weight:800}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid #4a4a45;background:transparent;border-radius:999px;padding:8px 13px;font-weight:700;font-size:13px;color:var(--ink);transition:all .25s}
+.seg button:hover{border-color:var(--y)}
+.seg button.on{background:var(--ink);color:var(--k);border-color:var(--ink)}
+.seg.hy button.on[data-v="hoy"]{background:var(--r);border-color:var(--r)}
+.seg.y button.on{background:var(--y);border-color:var(--y)}
+.chain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.chain li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.4;opacity:0;transform:translateX(-8px);transition:all .35s var(--ease)}
+.chain li.v{opacity:1;transform:none}
+.chain li i{flex:none;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:900;background:var(--s3)}
+.chain li.ok i{background:#2f7a35;color:#fff}.chain li.no i{background:var(--r);color:#141414}.chain li.na i{background:#3a3a35;color:var(--ink2)}
+.chain li small{display:block;color:var(--ink2);font-size:12px}
+.chain li b{font-weight:800}
+.assets{display:flex;flex-direction:column;gap:5px;font-size:13px}
+.assets div{display:grid;grid-template-columns:86px 1fr 46px;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;transition:background .3s}
+.assets div.on{background:#2f2d14}
+.assets div.off{opacity:.35}
+.assets span:first-child{color:var(--ink2);font-size:11.5px;font-weight:700}
+.assets span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2);font-size:11.5px}
+.assets em{font-style:normal;font-size:10px;font-weight:800;color:var(--y);margin-left:6px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.3px;line-height:1.4}
+.kv dt{color:var(--ink2)}.kv dd{margin:0}
+.note{font-size:11.5px;color:#8b897f;line-height:1.5;margin:0}
+.ph{display:inline-block;background:#efe9c4;border:1px dashed #b9ab45;border-radius:5px;padding:0 4px;font-size:.92em;font-weight:700;color:#141414;white-space:nowrap}
+
+/* Teléfono */
+.device{width:390px;height:812px;border:10px solid #050505;border-radius:48px;background:#050505;position:relative;box-shadow:0 0 0 1px #333,0 30px 80px rgba(0,0,0,.55),0 0 120px rgba(255,225,0,.07);flex:none}
+.scr{position:absolute;inset:0;border-radius:38px;overflow:hidden;background:#fff;color:#1f1f1f;isolation:isolate}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:112px;height:30px;background:#000;border-radius:20px;z-index:40}
+.sb{height:46px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 28px 6px;font-size:14px;font-weight:700}
+.view{position:absolute;inset:46px 0 0 0;overflow-y:auto;overflow-x:hidden}
+/* Buscador */
+.sbar{margin:8px 14px 6px;border:1px solid #dfe1e5;border-radius:24px;padding:11px 16px;display:flex;align-items:center;gap:10px;font-size:15px;box-shadow:0 1px 6px rgba(32,33,36,.12)}
+.sbar .q{flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+.sbar .q.caret::after{content:"▍";color:#1a73e8;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.sbar .mg{color:#1a73e8;font-weight:900}
+.stabs{display:flex;gap:18px;padding:4px 18px 8px;font-size:13px;color:#5f6368;border-bottom:1px solid #eee}
+.stabs span:first-child{color:#1a73e8;border-bottom:3px solid #1a73e8;padding-bottom:6px}
+.res{padding:6px 16px 30px}
+.loc{font-size:11.5px;color:#5f6368;margin:6px 0 10px;display:flex;gap:6px;align-items:center}
+.ad{padding:12px 0 14px;border-bottom:1px solid #eee;animation:fadeUp .5s var(--ease) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}}
+.ad .sp{font-size:12px;font-weight:700;color:#202124}
+.ad .url{display:flex;gap:8px;align-items:center;font-size:12.5px;margin:4px 0 4px}
+.ad .fav{width:26px;height:26px;border-radius:50%;background:var(--k);color:var(--y);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.ad .url b{display:block;font-weight:600;color:#202124}
+.ad .url small{color:#4d5156}
+.ad .t{color:#1a0dab;font-size:18px;line-height:1.3;transition:opacity .35s}
+.ad .t.fd{opacity:0}
+.ad .d{font-size:13.5px;color:#4d5156;line-height:1.45;margin-top:4px;transition:opacity .35s}
+.ad .d.fd{opacity:0}
+.ext{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ext button{border:1px solid #dadce0;background:#fff;border-radius:18px;padding:7px 12px;font-size:12.8px;color:#1a0dab;font-weight:600;display:flex;gap:6px;align-items:center}
+.ext button.wab{color:#0b7a3e}
+.sl{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:10px;font-size:13.5px;color:#1a0dab}
+.sk{padding:12px 0 14px;border-bottom:1px solid #eee}
+.sk .ln{height:9px;border-radius:5px;background:#e9eaec;margin:7px 0}
+.sk .tt{height:13px;border-radius:6px;background:#d7dbe4;width:72%;margin:8px 0}
+.sk .lab{font-size:11.5px;color:#9aa0a6;font-weight:600}
+.org{padding:12px 0;border-bottom:1px solid #eee}
+.org .t{color:#1a0dab;font-size:17px}
+.org .d{font-size:13px;color:#4d5156;margin-top:3px;line-height:1.4}
+.pager{display:flex;justify-content:center;gap:12px;padding:18px 0;font-size:14px;color:#1a0dab}
+.pager b{color:#202124}
+.pager .p3{background:var(--r);color:#141414;border-radius:6px;padding:0 6px;animation:pul 1.6s infinite}
+@keyframes pul{50%{box-shadow:0 0 0 6px rgba(255,138,122,.3)}}
+.empty{margin:14px 0;border:1.5px dashed #c9c6ba;border-radius:14px;padding:12px 14px;font-size:13.3px;line-height:1.45;color:#3d3c36;background:#fcfcf7;animation:fadeUp .5s both}
+.empty b{color:#141414}
+/* Social */
+.feedbar{display:flex;justify-content:space-between;align-items:center;padding:6px 14px 8px;border-bottom:1px solid #eee;font-weight:900;font-size:20px;letter-spacing:-.02em}
+.feedbar span{display:flex;gap:14px;font-size:18px;font-weight:400}
+.stories{display:flex;gap:12px;padding:10px 14px;border-bottom:1px solid #eee;overflow:hidden}
+.stories i{flex:none;width:58px;height:58px;border-radius:50%;background:#eee;border:2.5px solid #ddd}
+.post{border-bottom:1px solid #eee;padding-bottom:10px}
+.post .ph2{display:flex;align-items:center;gap:9px;padding:10px 12px}
+.post .pa{width:34px;height:34px;border-radius:50%;background:var(--k);color:var(--y);display:flex;align-items:center;justify-content:center;font-weight:900}
+.post .ph2 b{display:block;font-size:13.5px}.post .ph2 small{font-size:11.5px;color:#777}
+.post .pt{padding:0 12px 10px;font-size:13.8px;line-height:1.45}
+.creative{aspect-ratio:1/1;background:var(--y);position:relative;overflow:hidden;color:var(--k);padding:22px}
+.creative .big{font-size:38px;font-weight:900;line-height:.95;letter-spacing:-.03em;position:relative;z-index:2;max-width:85%}
+.creative .big .serif{font-size:1.06em}
+.creative .sub{position:absolute;left:22px;right:22px;bottom:20px;font-size:13px;font-weight:700;z-index:2;line-height:1.35}
+.creative .lg{position:absolute;right:20px;top:20px;font-weight:900;font-size:20px;letter-spacing:-.5px;z-index:2}.creative .lg b{color:#fff;-webkit-text-stroke:0}
+.dots{position:absolute;inset:0;z-index:1}
+.dots i{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--k);opacity:0;animation:pop .5s var(--ease) forwards}
+@keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:.85;transform:scale(1)}}
+.creative.price{background:var(--k);color:#fff}
+.creative.price .big{color:var(--y)}
+.creative .pbox{position:absolute;left:22px;right:22px;bottom:20px;z-index:2;background:#fff;color:#141414;border-radius:14px;padding:12px 14px}
+.creative .pbox .n{font-size:34px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.creative .pbox .n small{font-size:13px}
+.creative .pbox p{margin:4px 0 0;font-size:12px;font-weight:700;line-height:1.35}
+.cta{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f3f3f3;margin:0;font-size:13px}
+.cta b{display:block;font-size:13.5px}
+.cta button{border:0;background:var(--wa);color:#fff;border-radius:8px;padding:9px 12px;font-weight:800;font-size:13px}
+.story{position:absolute;inset:0;background:var(--k);color:#fff;display:flex;flex-direction:column;z-index:10}
+.story .bars{display:flex;gap:4px;padding:10px 10px 0}
+.story .bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
+.story .bars i b{display:block;height:100%;width:0;background:#fff}
+.story .who{display:flex;gap:8px;align-items:center;padding:10px 12px;font-size:13px;font-weight:700}
+.story .who .pa{width:30px;height:30px;border-radius:50%;background:var(--y);color:var(--k);display:flex;align-items:center;justify-content:center;font-weight:900}
+.story .frame{flex:1;display:flex;flex-direction:column;justify-content:center;padding:26px;position:relative;overflow:hidden}
+.story .frame .k{font-size:44px;font-weight:900;line-height:.95;letter-spacing:-.03em}
+.story .frame .k span{display:inline-block;opacity:0;transform:translateY(30px);animation:wd .6s var(--ease) forwards}
+@keyframes wd{to{opacity:1;transform:none}}
+.story .frame .k .y{color:var(--y)}
+.story .frame p{font-size:15px;line-height:1.45;color:#d7d5cc;margin-top:16px;opacity:0;animation:wd .6s .8s var(--ease) forwards}
+.story .swipe{text-align:center;padding:14px;font-weight:800;font-size:14px;background:var(--wa);margin:0 14px 30px;border-radius:24px;color:#fff;border:0}
+/* WhatsApp */
+.wa{position:absolute;inset:0;background:#efeae2;background-image:radial-gradient(#e2dccf 1px,transparent 1px);background-size:14px 14px;z-index:20;display:flex;flex-direction:column;animation:fadeUp .4s var(--ease)}
+.wa .wb{background:#075e54;color:#fff;padding:54px 12px 10px;display:flex;gap:10px;align-items:center;font-weight:700}
+.wa .wb button{border:0;background:none;color:#fff;font-size:20px}
+.wa .wb .pa{width:34px;height:34px;border-radius:50%;background:var(--y);color:#111;display:flex;align-items:center;justify-content:center;font-weight:900}
+.wa .wb small{display:block;font-weight:500;font-size:11.5px;opacity:.8}
+.wa .cv{flex:1;padding:14px;display:flex;flex-direction:column;gap:8px}
+.wa .tag{align-self:center;font-size:11px;background:#fff7c2;border-radius:7px;padding:4px 8px;color:#555;text-align:center;line-height:1.35}
+.wa .in{display:flex;gap:8px;padding:10px;background:#f0f0f0;align-items:center}
+.wa .in div{flex:1;background:#fff;border-radius:20px;padding:10px 14px;font-size:14px;line-height:1.35}
+.wa .in button{width:42px;height:42px;border-radius:50%;border:0;background:#075e54;color:#fff;font-size:16px;flex:none}
+.bub{max-width:84%;font-size:14px;line-height:1.42;padding:8px 10px 5px;border-radius:10px;box-shadow:0 1px 1px rgba(0,0,0,.1);animation:fadeUp .35s both}
+.bub small{display:block;text-align:right;font-size:10.5px;color:#667781;margin-top:2px}
+.bub.me{align-self:flex-end;background:#d9fdd3}.bub.them{align-self:flex-start;background:#fff}
+/* Recuperación */
+.rt{position:relative;margin:4px 0 6px}
+.rt .track{height:4px;background:var(--s3);border-radius:2px;position:relative}
+.rt .track b{position:absolute;left:0;top:0;bottom:0;background:var(--y);border-radius:2px;width:0;transition:width .3s linear}
+.rt .mk{display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;color:var(--ink2);font-weight:700}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.days div{background:var(--s3);border-radius:10px;padding:8px 4px;text-align:center;font-size:11.5px;color:var(--ink2);transition:all .3s}
+.days div b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}
+.days div .im{display:flex;gap:3px;justify-content:center;min-height:10px}
+.days div .im i{width:9px;height:9px;border-radius:50%;background:#55544c}
+.days div.on{background:#2f2d14}
+.days div.on .im i.s{background:var(--y)}
+.days div.stop{opacity:.3}
+.mail{background:#fff;color:#1f1f1f;height:100%;display:flex;flex-direction:column}
+.mail .mt{padding:10px 14px;border-bottom:1px solid #eee;font-size:13px;color:#1769e0;font-weight:600}
+.mail .mbody{padding:14px;overflow:auto}
+.mail .from{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.mail .from .pa{width:38px;height:38px;border-radius:50%;background:var(--k);color:var(--y);font-weight:900;display:flex;align-items:center;justify-content:center}
+.mail .from b{display:block;font-size:14.5px}.mail .from small{color:#777;font-size:12px}
+.mail h3{font-size:18px;line-height:1.25;margin:4px 0 12px}
+.mail .card{border:1px solid #ececec;border-radius:14px;overflow:hidden}
+.mail .card .mh{background:var(--k);padding:11px 14px;font-weight:900;font-size:19px;color:var(--y);letter-spacing:-.5px}.mail .card .mh b{color:#fff}
+.mail .card .mb{padding:14px;font-size:14px;line-height:1.55}
+.mail .card .mb p{margin:0 0 10px}
+.mail .tb{background:var(--bg);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13.3px}
+.mail .tb div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.mail .tb b{font-weight:800}
+.mbtn{display:block;width:100%;border:0;border-radius:22px;padding:12px;font-weight:800;font-size:14.5px;margin-top:8px;text-align:center}
+.mbtn.y{background:var(--y);color:#111}.mbtn.w{background:var(--wa);color:#fff}.mbtn.o{background:#fff;border:1.5px solid #111;color:#111}
+.ctrl-st{position:absolute;inset:46px 0 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;background:#f6f5f0}
+.ctrl-st .ic{width:70px;height:70px;border-radius:50%;background:#e3e1d8;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:14px}
+.ctrl-st p{font-size:14.5px;line-height:1.5;color:#3d3c36;margin:0}
+/* Simulador */
+.sim{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:28px;align-items:start}
+.sl2{display:flex;flex-direction:column;gap:14px}
+.rng label{display:flex;justify-content:space-between;font-size:13.3px;font-weight:700;margin-bottom:6px}
+.rng label span{color:var(--y);font-variant-numeric:tabular-nums}
+.rng input{width:100%;accent-color:#FFE100}
+.rng small{display:block;font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.35}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kp{background:var(--s2);border:1px solid var(--line);border-radius:14px;padding:12px}
+.kp small{display:block;font-size:11.3px;color:var(--ink2);line-height:1.3}
+.kp b{font-size:24px;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kp.bad b{color:var(--r)}.kp.good b{color:#7fd1ae}
+.gauge{margin-top:16px;background:var(--s2);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.gauge h3{margin:0 0 10px;font-size:15px}
+.gbar{margin-top:28px;height:16px;border-radius:8px;background:var(--s3);position:relative;overflow:visible}
+.gbar b{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:#7fd1ae;transition:width .5s var(--ease),background .3s}
+.gbar i{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink)}
+.gbar i::after{content:attr(data-l);position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:11px;font-style:normal;font-weight:800;white-space:nowrap;color:var(--ink)}
+.gl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink2);margin-top:8px}
+.months{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;height:150px;margin-top:14px}
+.months div{display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.months .c{width:100%;border-radius:8px 8px 3px 3px;background:var(--y);transition:height .6s var(--ease),background .3s}
+.months .c.cut{background:repeating-linear-gradient(45deg,#3a3a35 0 6px,#2a2a26 6px 12px)}
+.months span{font-size:11.5px;color:var(--ink2);font-weight:700}
+.verdict{margin-top:14px;border-radius:14px;padding:12px 14px;font-size:13.8px;line-height:1.5}
+.verdict.ok{background:#16301f;border:1px solid #2f7a35}
+.verdict.no{background:#331a16;border:1px solid #7a2f2a}
+.verdict.off{background:#2a2a26;border:1px solid #4a4a45}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);background:#fff;color:#141414;font-size:13.5px;padding:11px 15px;border-radius:12px;opacity:0;transition:all .35s var(--ease);pointer-events:none;z-index:80;max-width:min(92vw,520px);text-align:center;font-weight:600}
+.toast.v{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1000px){
+  .pane{grid-template-columns:1fr;justify-items:center}
+  .pane .ctl{width:100%;max-width:560px;order:2}
+  .sim{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:480px){
+  .wrap{padding:18px 12px 40px}
+  .device{width:100%;height:760px;border-width:6px;border-radius:30px}
+  .scr{border-radius:24px}.island{display:none}
+  .tabs{border-radius:16px}
+  .disc .dx{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="disc" role="note"><b>Prototipo académico del TFM (ESIC)</b> · No son anuncios reales de Embou · Resultados y competidores simulados<span class="dx"> · Textos de T3.1 del TFM; los de Meta y T3.3, ilustrativos</span></div>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <div class="kick">E3 · Captación de no clientes · Laura (S1)</div>
+      <h1>Publicidad <span class="serif">solo</span> en Aragón</h1>
+      <p class="lead">T3.1 reorganiza la publicidad que Embou ya paga para que solo la vea quien puede contratar, y T3.3 recupera a quien abandona el configurador. Cambia las condiciones y mira qué ve Laura.</p>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="on" data-tab="srch" role="tab">1 · Búsqueda</button>
+      <button data-tab="meta" role="tab">2 · Redes de Meta</button>
+      <button data-tab="rec" role="tab">3 · Recuperación (T3.3)</button>
+      <button data-tab="sim" role="tab">4 · Regla de corte y ROAS</button>
+    </div>
+  </div>
+
+  <!-- 1. BÚSQUEDA -->
+  <section class="pane on" id="p-srch">
+    <div class="ctl">
+      <div class="box"><h2>Escenario</h2><div class="seg hy" data-g="s.mode"><button data-v="hoy">Hoy</button><button data-v="plan" class="on">Con T3.1</button></div></div>
+      <div class="box"><h2>Fase de los textos</h2><div class="seg y" data-g="s.phase"><button data-v="pre" class="on">Hasta mayo · arraigo</button><button data-v="post">Desde el 3 de mayo · precio final</button></div></div>
+      <div class="box"><h2>Desde dónde busca</h2><div class="seg" data-g="s.who"><button data-v="zgz" class="on">Laura en Zaragoza</button><button data-v="ter">No cliente en Teruel</button><button data-v="mad">Usuario en Madrid</button><button data-v="cli">Cliente de Embou</button></div></div>
+      <div class="box"><h2>Qué busca</h2><div class="seg" data-g="s.q"><button data-v="0" class="on">ofertas fibra zaragoza</button><button data-v="1">fibra y movil teruel</button><button data-v="2">embou</button><button data-v="3">mi embou factura</button></div></div>
+      <div class="box"><h2>Decisión de la campaña</h2><ul class="chain" id="chain"></ul></div>
+      <div class="box"><h2>Recursos del anuncio de contratación</h2><div class="assets" id="assets"></div><p class="note" style="margin-top:8px">Anuncio adaptable: Google combina títulos y descripciones. Los marcados «mayo» solo se activan con el lanzamiento de T3.2 (regla 6: no prometer lo que aún no se cumple).</p></div>
+    </div>
+    <div class="device"><div class="island"></div><div class="scr"><div class="sb"><span>10:24</span><span>●●● ▮</span></div><div class="view" id="serp"></div></div></div>
+  </section>
+
+  <!-- 2. META -->
+  <section class="pane" id="p-meta">
+    <div class="ctl">
+      <div class="box"><h2>Formato</h2><div class="seg y" data-g="m.fmt"><button data-v="feed" class="on">Publicación</button><button data-v="story">Historia · vídeo corto</button></div></div>
+      <div class="box"><h2>Fase de los textos</h2><div class="seg y" data-g="m.phase"><button data-v="pre" class="on">Hasta mayo · arraigo</button><button data-v="post">Desde mayo · precio final</button></div></div>
+      <div class="box"><h2>Segmentación de la campaña</h2><dl class="kv">
+        <dt>Ubicación</dt><dd>Personas que viven en Aragón</dd>
+        <dt>Edad</dt><dd>35 a 44 años (Laura, S1)</dd>
+        <dt>Excluye</dt><dd>Clientes de Embou (lista cifrada de Dynamics 365)</dd>
+        <dt>Objetivo</dt><dd>Mensajes: clic a WhatsApp, que cuenta como contacto cualificado (OE3.2)</dd>
+        <dt>Puja</dt><dd>Por contactos hasta abril; por ventas desde junio, con conversiones offline (8.5)</dd>
+        <dt>Retargeting</dt><dd>No: corresponde a T3.3</dd></dl></div>
+      <div class="box"><h2>Por qué así</h2><p class="lead" style="font-size:13.5px">El 42,1 % de las visitas llega del extranjero y cerca del 95 % de las ventas se cierra fuera de la web. Por eso la campaña no busca clics, sino conversaciones con quien puede contratar. Pulsa «Enviar mensaje» en el anuncio.</p></div>
+    </div>
+    <div class="device"><div class="island"></div><div class="scr"><div class="sb"><span>21:15</span><span>●●● ▮</span></div><div class="view" id="feed"></div></div></div>
+  </section>
+
+  <!-- 3. RECUPERACIÓN -->
+  <section class="pane" id="p-rec">
+    <div class="ctl">
+      <div class="box"><h2>Dónde abandonó Laura</h2><div class="seg" data-g="r.where"><button data-v="cfg" class="on">En el configurador</button><button data-v="frm">En el formulario</button></div></div>
+      <div class="box"><h2>¿Dejó su correo con consentimiento comercial?</h2><div class="seg" data-g="r.mail"><button data-v="no" class="on">No · caso B, anuncios</button><button data-v="si">Sí · caso A, correos</button></div></div>
+      <div class="box"><h2>Grupo de control</h2><div class="seg" data-g="r.ctrl"><button data-v="no" class="on">Recibe la táctica</button><button data-v="si">Está en el 10 % de control</button></div></div>
+      <div class="box"><h2 id="rTitle">Siete días después del abandono</h2>
+        <div id="rTl"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><div class="seg"><button id="rPlay">▶ Reproducir</button><button id="rBuy">Laura contrata</button><button id="rReset">↺</button></div></div>
+        <p class="note" style="margin-top:10px" id="rNote"></p></div>
+    </div>
+    <div class="device"><div class="island"></div><div class="scr"><div class="sb"><span id="rClock">19:02</span><span>●●● ▮</span></div><div class="view" id="rec"></div></div></div>
+  </section>
+
+  <!-- 4. SIMULADOR -->
+  <section class="pane" id="p-sim" style="grid-template-columns:1fr">
+    <div class="sim">
+      <div class="sl2">
+        <div class="box"><h2>Escenario</h2><div class="seg y" data-g="x.sc"><button data-v="0">Pesimista</button><button data-v="1" class="on">Base</button><button data-v="2">Optimista</button></div></div>
+        <div class="box"><h2>Hito de conversión de junio</h2><div class="seg" data-g="x.hito"><button data-v="si" class="on">Se cumple: se activan los medios</button><button data-v="no">No se cumple</button></div></div>
+        <div class="box sl2" id="ranges"></div>
+        <p class="note">Campaña de contratación de julio a diciembre: 3.500 € al mes (21.000 €) más 6.000 € de trabajo. Valores por venta: 257,85 € el primer año, 665,59 € de vida en ingresos y 248,87 € de vida en margen (37,4 %). Modelo de rentabilidad del anexo.</p>
+      </div>
+      <div>
+        <div class="kpis" id="kpis"></div>
+        <div class="gauge"><h3>Coste por venta frente a la regla de corte</h3><div class="gbar"><b id="gCost"></b><i id="gCut" data-l="249 € · corte"></i></div><div class="gl"><span>0 €</span><span>700 €</span></div></div>
+        <div class="gauge"><h3>ROAS de vida frente al de equilibrio</h3><div class="gbar"><b id="gRoas"></b><i id="gEq" data-l="3,44 · equilibrio"></i></div><div class="gl"><span>0</span><span>10</span></div></div>
+        <div class="gauge"><h3>Medios por mes (julio–diciembre)</h3><div class="months" id="months"></div><div class="verdict" id="verdict"></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const f0 = n => { const r = Math.round(n); return (r < 0 ? '−' : '') + String(Math.abs(r)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
+const f2 = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
+const PH = t => `<span class="ph" title="Dato que fija Embou">{${t}}</span>`;
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('v'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('v'), 3000); };
+const S = {s:{mode:'plan', phase:'pre', who:'zgz', q:'0'}, m:{fmt:'feed', phase:'pre'}, r:{where:'cfg', mail:'no', ctrl:'no'}, x:{sc:'1', hito:'si'}};
+
+/* ---------- Tabs y grupos ---------- */
+$$('.tabs button').forEach(b => b.addEventListener('click', () => {
+  $$('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+  $$('.pane').forEach(p => p.classList.toggle('on', p.id === 'p-' + b.dataset.tab));
+  ({srch:drawSearch, meta:drawMeta, rec:drawRec, sim:drawSim})[b.dataset.tab]();
+}));
+$$('[data-g]').forEach(g => g.addEventListener('click', e => {
+  const b = e.target.closest('button[data-v]'); if (!b) return;
+  const [o, k] = g.dataset.g.split('.'); S[o][k] = b.dataset.v;
+  $$('button', g).forEach(x => x.classList.toggle('on', x === b));
+  if (o === 's') drawSearch(); if (o === 'm') drawMeta(); if (o === 'r') { recStop(); drawRec(); } if (o === 'x'){ if (k === 'sc') applyScen(); drawSim(); }
+}));
+
+/* ---------- 1. Búsqueda ---------- */
+const Q = ['ofertas fibra zaragoza', 'fibra y movil teruel', 'embou', 'mi embou factura'];
+const ASSETS = [
+  ['Título 1', 'Fibra en Zaragoza con Embou', 30, false],
+  ['Título 2', 'Tu operadora de aquí', 30, false],
+  ['Título 3', 'Más de 20 años en Aragón', 30, false],
+  ['Título 4', 'Contrata online o por WhatsApp', 30, false],
+  ['Título 5', 'Precio final a la vista', 30, true],
+  ['Descripción 1', 'La operadora aragonesa que llega a todo Aragón. Contrata online o por WhatsApp.', 90, false],
+  ['Descripción 2', 'Fibra y móvil con precio final, permanencia e instalación a la vista.', 90, true],
+];
+let rotT = null, rotI = 0, typeT = null;
+function combos(){
+  const post = S.s.phase === 'post';
+  const q = +S.s.q;
+  const t1 = q === 1 ? 'Fibra y móvil en Teruel' : 'Fibra en Zaragoza con Embou';
+  const list = post
+    ? [[t1, 'Precio final a la vista', 'Tu operadora de aquí', 6], [t1, 'Tu operadora de aquí', 'Contrata online o por WhatsApp', 6], ['Precio final a la vista', 'Más de 20 años en Aragón', 'Tu operadora de aquí', 5]]
+    : [[t1, 'Tu operadora de aquí', 'Más de 20 años en Aragón', 5], [t1, 'Contrata online o por WhatsApp', 'Tu operadora de aquí', 5], ['Tu operadora de aquí', 'Más de 20 años en Aragón', 'Contrata online o por WhatsApp', 5]];
+  return list.map(c => ({t:c.slice(0, 3), d:ASSETS[c[3]][1], used:c}));
+}
+function decide(){
+  const {mode, who, q} = S.s; const qi = +q;
+  const steps = []; let show = null;
+  if (mode === 'hoy'){
+    steps.push(['na', 'Hoy no se filtra por ubicación', 'Los anuncios llegan también fuera de Aragón: el 42,1 % de las visitas viene del extranjero.']);
+    steps.push(['na', 'Hoy no se excluye a los clientes', 'Se paga por clics de quien ya es cliente y busca su factura.']);
+    if (qi === 2 || qi === 3) show = 'org'; else { steps.push(['no', 'Fuera de la primera página', 'En búsquedas de contratación, Embou aparece entre las posiciones 21 y 34.']); show = 'hoy'; }
+    return {steps, show};
+  }
+  const inAr = who !== 'mad';
+  steps.push([inAr ? 'ok' : 'no', `Ubicación: ${inAr ? 'está en Aragón' : 'fuera de Aragón'}`, inAr ? 'Google Ads: personas que están o viven habitualmente en Aragón.' : 'No se muestra: no puede contratar. Objetivo: menos del 5 % de clics de fuera.']);
+  if (!inAr) return {steps, show:'none-geo'};
+  const cli = who === 'cli';
+  steps.push([cli ? 'no' : 'ok', cli ? 'Es cliente: excluido' : 'No es cliente', cli ? 'Lista cifrada de clientes de Dynamics 365, actualizada cada mes.' : 'Solo no clientes, según la definición de OE3.']);
+  if (qi === 3){ steps.push(['no', 'Palabra negativa: «factura»', 'Búsquedas de gestión excluidas («mi embou», «factura», «contraseña wifi», «darse de baja»).']); return {steps, show:'org'}; }
+  if (cli) return {steps, show:'org'};
+  if (qi === 2){ steps.push(['ok', 'Campaña de marca', 'Protege la búsqueda «embou» con enlaces a tarifas, cobertura y WhatsApp.']); return {steps, show:'brand'}; }
+  steps.push(['ok', 'Campaña de contratación', `Grupo de anuncios: ${qi === 1 ? 'fibra y móvil · cabeceras de comarca' : 'ofertas de fibra · Zaragoza'}.`]);
+  steps.push(['ok', 'Extensiones de contacto', 'Llamada, WhatsApp y ubicación de tienda: cuentan como contactos cualificados (OE3.2).']);
+  return {steps, show:'ad'};
+}
+const skel = lab => `<div class="sk"><div class="lab">${lab}</div><div class="tt"></div><div class="ln" style="width:94%"></div><div class="ln" style="width:70%"></div></div>`;
+function adHTML(kind){
+  const c = combos()[rotI % 3];
+  const brand = kind === 'brand';
+  const t = brand ? `Embou · Tu operadora de aquí | ${S.s.phase === 'post' ? 'Precio final a la vista' : 'Más de 20 años en Aragón'}` : c.t.join(' | ');
+  const d = brand ? 'Fibra, WiMAX y móvil en todo Aragón. Consulta la cobertura de tu localidad o escríbenos por WhatsApp.' : c.d;
+  return `<div class="ad" id="theAd"><div class="sp">Patrocinado</div>
+    <div class="url"><span class="fav">e</span><span><b>Embou</b><small>embou.es › tarifas</small></span></div>
+    <div class="t" id="adT">${t}</div><div class="d" id="adD">${d}</div>
+    ${brand ? `<div class="sl"><span>Tarifas de fibra y móvil</span><span>Cobertura por localidad</span><span>Mi Embou</span><span>Tiendas</span></div>` : ''}
+    <div class="ext"><button data-x="call">📞 Llamar</button><button class="wab" data-x="wa">💬 WhatsApp</button><button data-x="store">📍 ${S.s.who === 'ter' ? 'Tienda en Teruel' : 'Tienda en Zaragoza'}</button></div></div>`;
+}
+function drawSearch(){
+  clearInterval(rotT); clearTimeout(typeT); rotI = 0;
+  const {steps, show} = decide();
+  const q = Q[+S.s.q];
+  const loc = {zgz:'Zaragoza', ter:'Teruel', mad:'Madrid', cli:'Zaragoza · cliente de Embou'}[S.s.who];
+  let body = '';
+  if (show === 'ad' || show === 'brand') body = adHTML(show) + skel('Patrocinado · operador nacional') + `<div class="org"><div class="t">Tarifas de fibra en Aragón · comparador</div><div class="d">Resultado orgánico simulado.</div></div>`;
+  else if (show === 'hoy') body = skel('Patrocinado · operador nacional') + skel('Patrocinado · operador nacional') + skel('Patrocinado · marca de bajo coste') + `<div class="org"><div class="t">Comparador de tarifas de fibra 2027</div><div class="d">Resultado orgánico simulado.</div></div>` + skel('Resultado orgánico') + `<div class="empty"><b>Embou no aparece.</b> Su posición media en estas búsquedas está entre la 21 y la 34: la tercera página. Laura elige entre operadores nacionales que prometen un precio final.</div><div class="pager"><b>1</b><span>2</span><span class="p3">3 · Embou</span><span>Siguiente</span></div>`;
+  else if (show === 'none-geo') body = skel('Patrocinado · operador nacional') + skel('Patrocinado · operador nacional') + `<div class="empty"><b>El anuncio de Embou no se muestra.</b> Quien busca desde Madrid no puede contratar internet de Embou: hoy ese clic se pagaría igual.</div>` + skel('Resultado orgánico');
+  else body = `<div class="org"><div class="t">Mi Embou · Accede a tu área de cliente</div><div class="d">embou.es › mi-embou · Consulta tus facturas, tus datos y las incidencias de tu zona.</div></div>` + (S.s.mode === 'plan' ? `<div class="empty"><b>Sin anuncio:</b> ${S.s.who === 'cli' ? 'es cliente y está excluido' : 'es una búsqueda de gestión'}. El resultado orgánico ya le lleva a Mi Embou y no se paga ningún clic.</div>` : `<div class="empty"><b>Hoy, sin exclusiones,</b> esta búsqueda de un cliente puede activar un anuncio y pagarse un clic que no trae ninguna venta.</div>`) + skel('Resultado orgánico');
+  $('#serp').innerHTML = `<div class="sbar"><span class="mg">⌕</span><span class="q caret" id="qq"></span></div><div class="stabs"><span>Todo</span><span>Mapas</span><span>Noticias</span><span>Imágenes</span></div>
+    <div class="res"><div class="loc">📍 Resultados para ${loc} · simulados</div><div id="resBody" style="opacity:0;transition:opacity .4s"></div></div>`;
+  $('#resBody').innerHTML = body;
+  let i = 0; const el = $('#qq');
+  const ty = () => { el.textContent = q.slice(0, ++i); if (i < q.length) typeT = setTimeout(ty, reduce ? 0 : 40); else { el.classList.remove('caret'); $('#resBody').style.opacity = 1; } };
+  ty();
+  // Cadena de decisión
+  $('#chain').innerHTML = steps.map(([c, t, s]) => `<li class="${c}"><i>${c === 'ok' ? '✓' : c === 'no' ? '✕' : '–'}</i><span><b>${t}</b><small>${s}</small></span></li>`).join('') +
+    `<li class="${show === 'ad' || show === 'brand' ? 'ok' : 'no'}"><i>${show === 'ad' || show === 'brand' ? '✓' : '✕'}</i><span><b>${show === 'ad' ? 'Se muestra el anuncio de contratación' : show === 'brand' ? 'Se muestra el anuncio de marca' : 'No se paga ningún clic de Embou'}</b></span></li>`;
+  $$('#chain li').forEach((li, k) => setTimeout(() => li.classList.add('v'), reduce ? 0 : 180 + k * 160));
+  drawAssets();
+  if (show === 'ad' && !reduce){
+    rotT = setInterval(() => {
+      const t = $('#adT'), d = $('#adD'); if (!t) return clearInterval(rotT);
+      t.classList.add('fd'); d.classList.add('fd');
+      setTimeout(() => { rotI++; const c = combos()[rotI % 3]; t.textContent = c.t.join(' | '); d.textContent = c.d; t.classList.remove('fd'); d.classList.remove('fd'); drawAssets(); }, 350);
+    }, 3200);
+  }
+}
+function drawAssets(){
+  const post = S.s.phase === 'post'; const used = new Set(combos()[rotI % 3].used.filter(x => typeof x === 'string'));
+  const ui = combos()[rotI % 3].used[3];
+  $('#assets').innerHTML = ASSETS.map(([lab, txt, max, may], k) => {
+    const len = [...txt].length; const off = may && !post; const on = (used.has(txt) || k === ui) && S.s.mode === 'plan' && decide().show === 'ad';
+    return `<div class="${off ? 'off' : on ? 'on' : ''}"><span>${lab}${may ? '<em>MAYO</em>' : ''}</span><span>${txt}</span><span>${len}/${max}</span></div>`;
+  }).join('');
+}
+$('#serp').addEventListener('click', e => {
+  const x = e.target.closest('[data-x]'); if (!x) return;
+  toast({call:'Llamada desde el anuncio: cuenta como contacto cualificado (OE3.2).', wa:'Abre WhatsApp con un mensaje ya escrito: contacto cualificado (OE3.2).', store:'Ubicación de tienda: la visita se mide como contacto cualificado (cita en tienda).'}[x.dataset.x]);
+});
+
+/* ---------- 2. Meta ---------- */
+let storyT = [];
+function dotsHTML(){
+  const pts = [[62,28],[70,40],[55,48],[78,55],[48,62],[66,66],[82,30],[58,36],[74,72],[44,40],[86,46],[52,74],[68,52],[40,54],[80,64]];
+  return `<div class="dots">${pts.map(([x, y], i) => `<i style="left:${x}%;top:${y}%;animation-delay:${.2 + i * .07}s"></i>`).join('')}</div>`;
+}
+function drawMeta(){
+  storyT.forEach(clearTimeout); storyT = [];
+  const ow = $('#p-meta .scr > .wa'); if (ow) ow.remove();
+  const post = S.m.phase === 'post';
+  const primary = post
+    ? 'Fibra y móvil con el precio final a la vista: lo que ves es lo que pagas. Permanencia, instalación y router, claros desde el primer clic.'
+    : 'Llevamos más de 20 años conectando Aragón, de Zaragoza a unas 900 localidades. Pregúntanos por WhatsApp qué llega a tu casa: te responde una persona de aquí.';
+  const creative = post
+    ? `<div class="creative price"><div class="lg" style="color:var(--y)">e<b>mbou</b></div><div class="big">Lo que ves es <span class="serif">lo que pagas.</span></div>
+       <div class="pbox"><div class="n">29,00 <small>€/mes IVA incluido</small></div><p>Fibra 300Mb y móvil 30GB · Permanencia 12 meses · Instalación y router incluidos</p></div></div>`
+    : `<div class="creative">${dotsHTML()}<div class="lg">e<b style="color:#141414">mbou</b></div><div class="big">Tu operadora <span class="serif">de aquí,</span> en todo Aragón.</div><div class="sub">Fibra, WiMAX y móvil en unas 900 localidades.<br>Más de 20 años conectando el territorio.</div></div>`;
+  if (S.m.fmt === 'feed'){
+    $('#feed').innerHTML = `<div class="feedbar">Inicio<span>♡ ✉</span></div><div class="stories">${'<i></i>'.repeat(6)}</div>
+      <div class="post" style="opacity:.5"><div class="ph2"><span class="pa" style="background:#ddd"></span><span><b style="background:#eee;color:transparent;border-radius:4px">Publicación de un amigo</b></span></div><div style="height:90px;background:#f1f1f1"></div></div>
+      <div class="post"><div class="ph2"><span class="pa">e</span><span><b>Embou</b><small>Publicidad · Aragón</small></span></div><div class="pt">${primary}</div>${creative}
+        <div class="cta"><span><small style="color:#666">WhatsApp</small><b>${post ? 'Pregunta tu precio final' : '¿Qué llega a tu casa?'}</b></span><button data-wa>Enviar mensaje</button></div></div>
+      <div class="post" style="opacity:.5"><div class="ph2"><span class="pa" style="background:#ddd"></span></div><div style="height:200px;background:#f1f1f1"></div></div>`;
+  } else {
+    const frames = post
+      ? [['Lo que ves', 'es lo que pagas.', 'Precio final, IVA incluido, antes de dar tu dirección.'], ['Permanencia,', 'instalación y router.', 'Todo a la vista, junto al precio.'], ['Fibra 300Mb y móvil 30GB', '29 €/mes.', 'Pregúntanos por WhatsApp.']]
+      : [['Tu operadora', 'de aquí.', 'Más de 20 años conectando Aragón.'], ['En todo', 'Aragón.', 'Fibra, WiMAX y móvil en unas 900 localidades.'], ['¿Qué llega', 'a tu casa?', 'Te responde una persona de aquí.']];
+    $('#feed').innerHTML = `<div class="story"><div class="bars">${frames.map(() => '<i><b></b></i>').join('')}</div><div class="who"><span class="pa">e</span>Embou <span style="font-weight:500;opacity:.7">· Publicidad</span></div><div class="frame" id="sf"></div><button class="swipe" data-wa>💬 Enviar mensaje por WhatsApp</button></div>`;
+    const bars = $$('#feed .bars b');
+    const play = k => {
+      if (k >= frames.length) { storyT.push(setTimeout(() => { bars.forEach(b => { b.style.transition = 'none'; b.style.width = '0'; }); play(0); }, 800)); return; }
+      const [a, b, p] = frames[k];
+      $('#sf').innerHTML = `<div class="k">${a.split(' ').map((w, i) => `<span style="animation-delay:${i * .12}s">${w}</span>`).join(' ')}<br>${b.split(' ').map((w, i) => `<span class="y" style="animation-delay:${.3 + i * .12}s">${w}</span>`).join(' ')}</div><p>${p}</p>`;
+      const bar = bars[k]; bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = `width ${reduce ? .01 : 3.2}s linear`; bar.style.width = '100%';
+      storyT.push(setTimeout(() => play(k + 1), reduce ? 2000 : 3300));
+    };
+    play(0);
+  }
+}
+$('#feed').addEventListener('click', e => {
+  if (e.target.closest('[data-back]')){ const o = $('#p-meta .scr > .wa'); if (o) o.remove(); return; }
+  if (!e.target.closest('[data-wa]')) return;
+  const msg = S.m.phase === 'post' ? 'Hola, he visto vuestro anuncio. ¿Me decís el precio final de la fibra y el móvil en mi dirección?' : 'Hola, he visto vuestro anuncio. ¿Qué tarifa llega a mi casa?';
+  const w = document.createElement('div'); w.className = 'wa';
+  w.innerHTML = `<div class="wb"><button data-back aria-label="Volver">‹</button><span class="pa">e</span><span>Embou<small>Cuenta de empresa verificada</small></span></div>
+    <div class="cv"><span class="tag">Has iniciado la conversación desde un anuncio de Embou.<br>Se mide como contacto cualificado (OE3.2).</span></div>
+    <div class="in"><div id="waIn"></div><button id="waSend" aria-label="Enviar">➤</button></div>`;
+  const old = $('#p-meta .scr > .wa'); if (old) old.remove();
+  $('#p-meta .scr').appendChild(w);
+  w.addEventListener('click', ev => { if (ev.target.closest('[data-back]')) w.remove(); });
+  let i = 0; const el = $('#waIn', w); const ty = () => { el.textContent = msg.slice(0, ++i); if (i < msg.length) setTimeout(ty, reduce ? 0 : 22); }; ty();
+  $('#waSend', w).addEventListener('click', () => {
+    const cv = $('.cv', w); el.textContent = '';
+    cv.insertAdjacentHTML('beforeend', `<div class="bub me">${msg}<small>ahora ✓✓</small></div>`);
+    setTimeout(() => cv.insertAdjacentHTML('beforeend', `<div class="bub them">¡Hola! Soy del equipo comercial de Embou, en Aragón. Dime tu código postal y calle y te digo qué llega y el precio final, sin compromiso.<small>ahora</small></div>`), reduce ? 50 : 1200);
+  }, {once:true});
+});
+
+/* ---------- 3. Recuperación ---------- */
+let recT = null, recH = 0, bought = false;
+const TAR = {name:'Fibra 300Mb y móvil 30GB + 1 línea + DAZN, Agile TV y Filmin', total:'36,00', after:'38,00'};
+function recNote(){
+  return S.r.mail === 'si'
+    ? 'Caso A: correo a las 2 horas con la tarifa, el precio final, la permanencia y la instalación, y otro a las 48 horas con ayuda. Solo si marcó la casilla comercial (art. 21.1 LSSI). La secuencia se detiene al contratar.'
+    : `Caso B: durante siete días, anuncios en Google y Meta solo en Aragón, con un máximo de dos impactos al día y solo si aceptó las cookies publicitarias. Mensaje según dónde abandonó: ${S.r.where === 'cfg' ? 'el precio final' : 'contratar es rápido y una persona le ayuda por WhatsApp'}.`;
+}
+function drawRec(){
+  $('#rNote').textContent = S.r.ctrl === 'si' ? 'El 10 % de quienes abandonan, elegido al azar, no recibe nada: es el grupo de control con el que se mide si la táctica recupera ventas que no habrían llegado igualmente.' : recNote();
+  if (S.r.ctrl === 'si'){
+    $('#rTitle').textContent = 'Grupo de control';
+    $('#rTl').innerHTML = '';
+    $('#rec').innerHTML = `<div class="ctrl-st"><div class="ic">∅</div><p><b>Laura no recibe nada.</b><br>Forma parte del 10 % de control de T3.3. Comparar sus altas en siete días con las de quien sí recibe la táctica mide su efecto real (KPI de T3.3).</p></div>`;
+    return;
+  }
+  if (S.r.mail === 'si'){
+    $('#rTitle').textContent = '48 horas después del abandono';
+    $('#rTl').innerHTML = `<div class="rt"><div class="track"><b id="rBar"></b></div><div class="mk"><span>Abandono</span><span>2 h · correo 1</span><span>48 h · correo 2</span></div></div>`;
+  } else {
+    $('#rTitle').textContent = 'Siete días después del abandono';
+    $('#rTl').innerHTML = `<div class="days" id="days">${Array.from({length:7}, (_, i) => `<div data-d="${i}"><b>Día ${i + 1}</b><span class="im"><i></i><i></i></span></div>`).join('')}</div>`;
+  }
+  recRender();
+}
+function recRender(){
+  const st = bought;
+  if (S.r.mail === 'si'){
+    const pct = Math.min(100, recH / 48 * 100); const bar = $('#rBar'); if (bar) bar.style.width = pct + '%';
+    $('#rClock').textContent = recH === 0 ? '19:02' : `+${recH} h`;
+    if (st){ $('#rec').innerHTML = stopped('Laura terminó su solicitud desde el primer correo. La secuencia se detiene y no recibe el segundo.'); return; }
+    if (recH < 2) $('#rec').innerHTML = abandonScreen();
+    else if (recH < 48) $('#rec').innerHTML = mailA1();
+    else $('#rec').innerHTML = mailA2();
+  } else {
+    const day = Math.min(6, Math.floor(recH / 24));
+    $$('#days div').forEach((d, i) => { d.classList.toggle('on', recH > 0 && i <= day && !(st && i > stopDay)); d.classList.toggle('stop', st && i > stopDay); $$('i', d).forEach((x, k) => x.classList.toggle('s', recH > 0 && i <= day && !(st && i > stopDay) && (i < day || k <= (recH % 24 >= 12 ? 1 : 0)))); });
+    $('#rClock').textContent = recH === 0 ? '19:02' : `Día ${day + 1}`;
+    if (st){ $('#rec').innerHTML = stopped('Laura contrata. Entra en la lista de exclusión y deja de ver anuncios de recuperación el mismo día.'); return; }
+    $('#rec').innerHTML = recH === 0 ? abandonScreen() : retargetAd(day);
+  }
+}
+let stopDay = 99;
+const abandonScreen = () => `<div class="ctrl-st"><div class="ic">⏏</div><p><b>Laura cierra la página</b> en ${S.r.where === 'cfg' ? 'el configurador, con su tarifa elegida' : 'el paso 2 del formulario'}.<br>Le ha sonado el móvil. Hoy, Embou no sabría que estuvo ni qué eligió.</p><p style="margin-top:14px;font-size:12.5px;color:#777">Pulsa «Reproducir» para avanzar el tiempo.</p></div>`;
+const stopped = t => `<div class="ctrl-st" style="background:#eef6ee"><div class="ic" style="background:#2f7a35;color:#fff">✓</div><p><b>Solicitud enviada.</b><br>${t}</p></div>`;
+function mailA1(){
+  return `<div class="mail"><div class="mt">‹ Buzón</div><div class="mbody"><div class="from"><span class="pa">e</span><span><b>Embou</b><small>Hace un momento</small></span></div>
+    <h3>Laura, tu tarifa te espera: ${TAR.total} €/mes, IVA incluido</h3>
+    <div class="card"><div class="mh">e<b>mbou</b></div><div class="mb"><p>Hola, Laura: guardamos la tarifa que estabas configurando para que la termines cuando quieras.</p>
+    <div class="tb"><div><span>Tu tarifa</span><b>Fibra 300Mb y móvil 30GB + extras</b></div><div><span>Total</span><b>${TAR.total} €/mes</b></div><div><span>Al acabar la promoción</span><b>${TAR.after} €/mes</b></div><div><span>Permanencia</span><b>12 meses</b></div><div><span>Instalación y router</span><b>Incluidos</b></div></div>
+    <p><b>Lo que ves es lo que pagas.</b></p><button class="mbtn y" data-r="finish">Terminar mi solicitud</button></div></div>
+    <p style="font-size:11.5px;color:#888;margin-top:10px">Recibes este correo porque aceptaste comunicaciones comerciales. Darse de baja.</p></div></div>`;
+}
+function mailA2(){
+  return `<div class="mail"><div class="mt">‹ Buzón</div><div class="mbody"><div class="from"><span class="pa">e</span><span><b>Embou</b><small>Hace un momento</small></span></div>
+    <h3>¿Te ayudamos a terminar, Laura?</h3>
+    <div class="card"><div class="mh">e<b>mbou</b></div><div class="mb"><p>Hola, Laura: si te surgió alguna duda con tu tarifa de ${TAR.total} €/mes, una persona de nuestro equipo te ayuda a terminar en un momento.</p>
+    <button class="mbtn w" data-r="wa">Escribir por WhatsApp</button><button class="mbtn o" data-r="call">¿Te llamamos?</button><button class="mbtn y" data-r="finish">Terminar mi solicitud</button></div></div>
+    <p style="font-size:11.5px;color:#888;margin-top:10px">Es el último correo de esta secuencia. Darse de baja.</p></div></div>`;
+}
+function retargetAd(day){
+  const cfg = S.r.where === 'cfg';
+  const plat = day % 2 ? 'meta' : 'search';
+  const head = cfg ? 'Tu tarifa, con el precio final a la vista' : 'Te falta un paso: te ayudamos por WhatsApp';
+  const sub = cfg ? 'Fibra 300Mb y móvil 30GB desde 29 €/mes, IVA incluido. Permanencia 12 meses, instalación incluida.' : 'Termina tu solicitud en un minuto o pregunta a una persona de Embou por WhatsApp.';
+  if (plat === 'search') return `<div class="sbar" style="margin-top:12px"><span class="mg">⌕</span><span class="q">recetas fáciles para cenar</span></div><div class="res"><div class="loc">Red de display · web de recetas (simulada)</div>${skel('Contenido de la web')}
+    <div class="ad"><div class="sp">Anuncio · Embou</div><div class="creative ${cfg ? 'price' : ''}" style="aspect-ratio:1.6/1;border-radius:12px;margin-top:8px;${cfg ? '' : 'background:var(--y)'}"><div class="big" style="font-size:25px;max-width:90%">${head}</div><div class="sub" style="${cfg ? 'color:#fff' : ''}">${sub}</div></div>
+    <div class="ext"><button class="wab" data-r="wa">💬 WhatsApp</button><button data-r="finish">Terminar mi solicitud</button></div></div>${skel('Contenido de la web')}</div>`;
+  return `<div class="feedbar">Inicio<span>♡ ✉</span></div><div class="post"><div class="ph2"><span class="pa">e</span><span><b>Embou</b><small>Publicidad · Aragón</small></span></div><div class="pt">${cfg ? 'La tarifa que estabas mirando sigue aquí, con su precio final.' : 'Contratar es rápido, y si tienes dudas te ayuda una persona de aquí.'}</div>
+    <div class="creative ${cfg ? 'price' : ''}"><div class="lg" style="${cfg ? 'color:var(--y)' : ''}">e<b style="color:${cfg ? '#fff' : '#141414'}">mbou</b></div><div class="big" style="font-size:32px">${head}</div><div class="sub" style="${cfg ? 'color:#fff' : ''}">${sub}</div></div>
+    <div class="cta"><span><b>${cfg ? 'Terminar mi solicitud' : 'Habla con una persona'}</b></span><button data-r="${cfg ? 'finish' : 'wa'}">${cfg ? 'Terminar' : 'WhatsApp'}</button></div></div>`;
+}
+function recStop(){ clearInterval(recT); recT = null; recH = 0; bought = false; stopDay = 99; $('#rPlay').textContent = '▶ Reproducir'; }
+$('#rPlay').addEventListener('click', () => {
+  if (S.r.ctrl === 'si') return;
+  if (recT){ clearInterval(recT); recT = null; $('#rPlay').textContent = '▶ Reproducir'; return; }
+  if (bought){ recStop(); drawRec(); }
+  $('#rPlay').textContent = '❚❚ Pausa';
+  const max = S.r.mail === 'si' ? 48 : 168, stepH = S.r.mail === 'si' ? 1 : 3;
+  recT = setInterval(() => {
+    const prev = recH; recH = Math.min(max, recH + stepH);
+    const changed = S.r.mail === 'si' ? (prev < 2 && recH >= 2) || (prev < 48 && recH >= 48) : Math.floor(prev / 12) !== Math.floor(recH / 12);
+    if (changed || prev === 0) recRender(); else { const bar = $('#rBar'); if (bar) bar.style.width = (recH / 48 * 100) + '%'; $('#rClock').textContent = S.r.mail === 'si' ? `+${recH} h` : `Día ${Math.min(7, Math.floor(recH / 24) + 1)}`; }
+    if (recH >= max){ clearInterval(recT); recT = null; $('#rPlay').textContent = '▶ Reproducir'; }
+  }, reduce ? 30 : (S.r.mail === 'si' ? 90 : 160));
+});
+const buy = () => { if (S.r.ctrl === 'si' || bought) return; if (recH === 0) recH = S.r.mail === 'si' ? 2 : 50; bought = true; stopDay = Math.floor(recH / 24); clearInterval(recT); recT = null; $('#rPlay').textContent = '▶ Reproducir'; recRender(); toast('Secuencia detenida: Laura sale de la audiencia de recuperación.'); };
+$('#rBuy').addEventListener('click', buy);
+$('#rReset').addEventListener('click', () => { recStop(); drawRec(); });
+$('#rec').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (!b) return; if (b.dataset.r === 'finish') buy(); else toast(b.dataset.r === 'wa' ? 'WhatsApp se abriría con la tarifa ya escrita (contacto cualificado).' : 'Se abriría «¿Te llamamos?» con la tarifa indicada.'); });
+
+/* ---------- 4. Simulador ---------- */
+const SC = [{cpc:2.5, cvr:2.55, l2v:20, inc:80}, {cpc:1.5, cvr:4, l2v:25, inc:90}, {cpc:1.2, cvr:5.14, l2v:30, inc:95}];
+const RG = [
+  ['cpc', 'Coste por clic', .8, 3, .05, v => f2(v) + ' €', 'CPC medio en España 0,65 $; las búsquedas de fibra, de las más competidas (ClickPatrol, 2025).'],
+  ['cvr', 'Clics que acaban en contacto o solicitud', 1, 7, .05, v => f2(v) + ' %', 'WordStream (2025): 2,55 % finanzas y 5,14 % servicios.'],
+  ['l2v', 'Contactos que acaban en alta', 10, 40, 1, v => f0(v) + ' %', 'Estimación del equipo.'],
+  ['inc', 'Incrementalidad', 50, 100, 1, v => f0(v) + ' %', 'Embou está entre las posiciones 21 y 34 en orgánico: casi todo es incremental.'],
+];
+let X = {...SC[1]};
+$('#ranges').innerHTML = RG.map(([k, l, mi, ma, st, fm, s]) => `<div class="rng"><label for="r-${k}">${l}<span id="v-${k}"></span></label><input type="range" id="r-${k}" min="${mi}" max="${ma}" step="${st}"><small>${s}</small></div>`).join('');
+RG.forEach(([k]) => $('#r-' + k).addEventListener('input', e => { X[k] = +e.target.value; $$('[data-g="x.sc"] button').forEach(b => b.classList.remove('on')); drawSim(); }));
+function applyScen(){ X = {...SC[+S.x.sc]}; }
+const ANUAL = 257.85, VIDA = 665.59, MARG = 248.87, MES = 3500, FIJO = 6000, CUT = 249;
+function drawSim(){
+  RG.forEach(([k, , , , , fm]) => { $('#r-' + k).value = X[k]; $('#v-' + k).textContent = fm(X[k]); });
+  const hito = S.x.hito === 'si';
+  const medios = hito ? MES * 6 : 0;
+  const ventasPrev = medios / X.cpc * (X.cvr / 100) * (X.l2v / 100) * (X.inc / 100);
+  const cpvPrev = ventasPrev ? medios / ventasPrev : Infinity;
+  const corte = hito && cpvPrev > CUT;
+  const mediosReal = corte ? MES * 2 : medios;
+  const ventas = ventasPrev * (medios ? mediosReal / medios : 0);
+  const coste = FIJO + mediosReal;
+  const margen = ventas * MARG, neto = margen - coste, roi = neto / coste;
+  const roas1 = mediosReal ? ventas * ANUAL / mediosReal : 0, roasV = mediosReal ? ventas * VIDA / mediosReal : 0;
+  const eq = FIJO / (0.374 * (medios || 1)) + 1 / 0.374;
+  const eqF = medios ? (FIJO + medios) / (0.374 * medios) : 0;
+  const kp = [
+    ['Clics', f0(medios / X.cpc), ''], ['Contactos y solicitudes', f0(medios / X.cpc * X.cvr / 100), ''],
+    ['Ventas incrementales', f0(ventas), ''], ['Coste por venta', hito ? f0(cpvPrev) + ' €' : '—', hito ? (cpvPrev > CUT ? 'bad' : 'good') : ''],
+    ['ROAS primer año', f2(roas1), ''], ['ROAS de vida', f2(roasV), roasV >= eqF && hito ? 'good' : 'bad'],
+    ['Beneficio neto', f0(neto) + ' €', neto >= 0 ? 'good' : 'bad'], ['ROI de T3.1', f0(roi * 100) + ' %', roi >= 0 ? 'good' : 'bad']];
+  $('#kpis').innerHTML = kp.map(([l, v, c]) => `<div class="kp ${c}"><small>${l}</small><b>${v}</b></div>`).join('');
+  const gc = $('#gCost'); gc.style.width = Math.min(100, (hito ? cpvPrev : 0) / 700 * 100) + '%'; gc.style.background = cpvPrev > CUT ? 'var(--r)' : '#7fd1ae';
+  $('#gCut').style.left = (CUT / 700 * 100) + '%';
+  const gr = $('#gRoas'); gr.style.width = Math.min(100, roasV / 10 * 100) + '%'; gr.style.background = roasV >= eqF ? '#7fd1ae' : 'var(--r)';
+  $('#gEq').style.left = (eqF / 10 * 100) + '%'; $('#gEq').dataset.l = `${f2(eqF || 3.44)} · equilibrio`;
+  const M = ['jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  $('#months').innerHTML = M.map((m, i) => { const on = hito && (!corte || i < 2); return `<div><div class="c ${on ? '' : 'cut'}" style="height:${on ? 100 : 22}%"></div><span>${m}</span><span style="font-weight:600">${on ? '3.500 €' : '0 €'}</span></div>`; }).join('');
+  const v = $('#verdict');
+  if (!hito){ v.className = 'verdict off'; v.innerHTML = '<b>El hito de junio no se cumple:</b> los 21.000 € de medios no se activan y quedan para corregir el configurador. T3.1 se limita a reorganizar la inversión que Embou ya tiene (6.000 € de trabajo). Llevar más tráfico a un embudo que no convierte sería invertir en la parte que menos rinde.'; }
+  else if (corte){ v.className = 'verdict no'; v.innerHTML = `<b>Se activa la regla de corte.</b> Cada venta costaría ${f0(cpvPrev)} €, más que los 249 € de margen de vida de un cliente, durante dos meses seguidos: se dejan de comprar medios desde septiembre y los ${f0(MES * 4)} € restantes pasan a imprevistos. La pérdida queda limitada a ${f0(-neto)} €.`; }
+  else { v.className = 'verdict ok'; v.innerHTML = `<b>La campaña se mantiene.</b> Cada venta cuesta ${f0(cpvPrev)} €, por debajo de la regla de corte (249 €). Cada euro de medios genera ${f2(roas1)} € el primer año y ${f2(roasV)} € en la vida del cliente, ${roasV >= eqF ? 'por encima' : 'por debajo'} de los ${f2(eqF)} € que necesita para cubrir todo su coste.`; }
+}
+
+drawSearch();
+})();
+</script>
+</body>
+</html>

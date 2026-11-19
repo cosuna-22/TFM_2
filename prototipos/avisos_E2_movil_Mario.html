@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un año de Mario · E2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--y:#FFE100;--k:#141414;--g:#5f5f5a;--l:#e3e1d8;--bg:#f4f3ee;--ok:#2f7a35;--wa:#25d366;--wad:#075e54;--r:#ff8a7a;
+  --stage:#0f0f0e;--s2:#1b1b19;--s3:#26261f;--ink:#f4f3ee;--ink2:#a9a79e;--line:#2e2e2b;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--stage);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #2b6cff;outline-offset:2px}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400}
+.disc{position:sticky;top:0;z-index:50;background:var(--y);color:var(--k);font-size:12.5px;font-weight:600;padding:7px 16px;text-align:center;line-height:1.35}
+.disc b{font-weight:900}
+.stage{display:grid;grid-template-columns:minmax(320px,520px) auto;gap:56px;justify-content:center;align-items:start;padding:34px 24px 50px;min-height:calc(100vh - 34px);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px}
+.side{display:flex;flex-direction:column;gap:16px;position:sticky;top:64px}
+.kick{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--y);font-weight:800}
+h1{font-size:44px;line-height:.98;margin:6px 0 10px;font-weight:900;letter-spacing:-.03em}
+h1 .serif{color:var(--y);font-size:1.08em}
+.lead{color:var(--ink2);font-size:14.5px;line-height:1.5;margin:0}
+.mode{display:flex;background:var(--s2);border:1px solid var(--line);border-radius:999px;padding:5px;width:max-content}
+.mode button{border:0;background:transparent;border-radius:999px;padding:9px 18px;font-weight:800;font-size:14px;color:var(--ink2);transition:all .3s var(--ease)}
+.mode button.on{background:var(--y);color:var(--k)}
+.mode button.on.hoy{background:var(--r)}
+.ctl{display:flex;gap:8px;align-items:center}
+.ctl button{border:1px solid #4a4a45;background:transparent;border-radius:999px;padding:8px 14px;font-weight:700;font-size:13px}
+.ctl button:hover{border-color:var(--y)}
+.ctl .pl{background:var(--ink);color:var(--k);border-color:var(--ink)}
+.tl{background:var(--s2);border:1px solid var(--line);border-radius:18px;padding:8px;max-height:350px;overflow:auto}
+.tl button{display:grid;grid-template-columns:76px 1fr auto;gap:10px;align-items:center;width:100%;border:0;background:transparent;border-radius:12px;padding:8px 10px;text-align:left;transition:background .25s}
+.tl button:hover{background:var(--s3)}
+.tl button.on{background:#2f2d14}
+.tl .d{font-size:11.5px;color:var(--ink2);font-weight:700;line-height:1.25}
+.tl .t{font-size:13.5px;font-weight:700;line-height:1.3}
+.tl .t small{display:block;font-weight:500;color:var(--ink2);font-size:11.8px}
+.tl .c{font-size:10.5px;font-weight:800;padding:3px 7px;border-radius:999px;background:var(--s3);color:var(--ink2);white-space:nowrap}
+.tl .c.e1{color:var(--y)}.tl .c.e2{color:#7fd1ae}
+.tl button.on .c{background:#141414}
+.det{background:var(--s2);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.det h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin:0 0 8px;font-weight:800}
+.det .ttl{font-size:19px;font-weight:800;margin:0 0 10px;letter-spacing:-.01em}
+.det dl{display:grid;grid-template-columns:92px 1fr;gap:7px 12px;margin:0;font-size:13.3px;line-height:1.42}
+.det dt{color:var(--ink2)}.det dd{margin:0;color:#e4e2da}
+.det .hoyc{border-left:3px solid var(--r);padding:8px 10px;background:#2a1b18;border-radius:0 10px 10px 0;font-size:13.3px;line-height:1.45;margin-top:12px}
+.meter{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.meter div{background:var(--s2);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.meter small{display:block;color:var(--ink2);font-size:11.3px;line-height:1.3}
+.meter b{font-size:22px;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.foot{font-size:11.3px;color:#8b897f;line-height:1.5}
+.ph{display:inline-block;background:#efe9c4;border:1px dashed #b9ab45;border-radius:5px;padding:0 4px;font-size:.92em;font-weight:700;color:#141414;white-space:nowrap}
+
+/* Teléfono */
+.device{width:390px;height:812px;border:10px solid #050505;border-radius:48px;background:#050505;position:relative;box-shadow:0 0 0 1px #333,0 30px 80px rgba(0,0,0,.55),0 0 120px rgba(255,225,0,.07)}
+.scr{position:absolute;inset:0;border-radius:38px;overflow:hidden;isolation:isolate;background:#0c0c0b}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:112px;height:30px;background:#000;border-radius:20px;z-index:40;transition:width .4s var(--ease),height .4s var(--ease)}
+.island.pulse{width:200px;height:34px}
+.sb{position:absolute;top:0;left:0;right:0;height:46px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 28px 6px;font-size:14px;font-weight:700;color:#fff;z-index:35;pointer-events:none}
+.sb.dark{color:#111}
+.sb .ic{display:flex;gap:6px;align-items:center}
+.sb .wifi{transition:opacity .3s}
+.sb .wifi.off{opacity:.25}
+.sb .nowifi{display:none;font-size:11px;font-weight:800;background:var(--r);color:#141414;border-radius:6px;padding:1px 5px}
+.sb .nowifi.v{display:inline}
+/* Bloqueo */
+.lock{position:absolute;inset:0;background:radial-gradient(120% 80% at 20% 0%,#3b3510 0%,#14130e 45%,#0b0b0a 100%);color:#fff;padding:70px 14px 20px;transition:filter .4s}
+.lock.hoy{background:radial-gradient(120% 80% at 20% 0%,#3a1e1a 0%,#151110 45%,#0b0b0a 100%)}
+.lock .date{text-align:center;font-size:17px;font-weight:600;opacity:.9}
+.lock .clock{text-align:center;font-size:88px;font-weight:700;letter-spacing:-.04em;line-height:1;margin-top:2px;font-variant-numeric:tabular-nums}
+.lock .who{text-align:center;font-size:12px;opacity:.6;margin-top:6px}
+.notifs{position:absolute;left:12px;right:12px;top:230px;display:flex;flex-direction:column;gap:8px}
+.nt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:rgba(245,245,240,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#111;border-radius:20px;padding:11px 12px;box-shadow:0 6px 20px rgba(0,0,0,.25);transform-origin:top center;animation:drop .7s var(--ease) both}
+@keyframes drop{0%{opacity:0;transform:translateY(-40px) scale(.92)}60%{opacity:1;transform:translateY(4px) scale(1.01)}100%{transform:none}}
+.nt:hover{background:rgba(255,255,255,.92)}
+.nt .ai{flex:none;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.ai.mail{background:linear-gradient(#3aa0ff,#1769e0)}.ai.sms{background:linear-gradient(#5be36b,#28b33c)}.ai.wa{background:var(--wa)}.ai.call{background:linear-gradient(#5be36b,#28b33c)}
+.nt .tx{flex:1;min-width:0}
+.nt .hd{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800}
+.nt .hd span{font-weight:500;color:#555}
+.nt .bd{font-size:13px;line-height:1.35;margin-top:2px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.nt .bd b{font-weight:700}
+.empty{position:absolute;left:24px;right:24px;top:250px;text-align:center;animation:fade .6s both}
+.empty .bubble{display:inline-block;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.3);border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.45;color:#e9e7df}
+.empty .bubble b{color:var(--r)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+.hint{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:12px;opacity:.6}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:130px;height:5px;border-radius:3px;background:rgba(255,255,255,.7);z-index:36}
+/* Apps */
+.app{position:absolute;inset:0;background:#fff;color:#111;z-index:20;display:flex;flex-direction:column;animation:openApp .45s var(--ease) both}
+@keyframes openApp{from{opacity:0;transform:scale(.92) translateY(30px);border-radius:30px}}
+.app .bar{padding:54px 14px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee;font-weight:700}
+.app .bar button{border:0;background:none;color:#1769e0;font-size:16px;font-weight:600;padding:0}
+.app .body{flex:1;overflow:auto;padding:16px}
+.mail .from{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.mail .av{width:40px;height:40px;border-radius:50%;background:var(--k);color:var(--y);font-weight:900;display:flex;align-items:center;justify-content:center;font-size:18px}
+.mail .from b{display:block;font-size:15px}.mail .from small{color:#777;font-size:12.5px}
+.mail h3{font-size:19px;line-height:1.25;margin:4px 0 12px;letter-spacing:-.01em}
+.mail .card{border:1px solid #ececec;border-radius:14px;overflow:hidden}
+.mail .card .mh{background:var(--k);padding:12px 14px}
+.mail .card .mh .lg{font-weight:900;font-size:20px;color:var(--y);letter-spacing:-.5px}.mail .card .mh .lg b{color:#fff}
+.mail .card .mb{padding:14px;font-size:14.2px;line-height:1.55}
+.mail .card .mb p{margin:0 0 10px}
+.mail .kv{background:var(--bg);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13.5px}
+.mail .kv div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.mail .kv b{font-weight:800}
+.mbtn{display:block;width:100%;border:0;border-radius:22px;padding:12px;font-weight:800;font-size:14.5px;margin-top:8px;text-align:center}
+.mbtn.y{background:var(--y);color:#111}.mbtn.k{background:var(--k);color:#fff}.mbtn.o{background:#fff;border:1.5px solid #111;color:#111}
+.vids{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.vids div{display:flex;gap:10px;align-items:center;background:var(--bg);border-radius:10px;padding:8px}
+.vids i{flex:none;width:54px;height:36px;border-radius:7px;background:var(--k);color:var(--y);font-style:normal;display:flex;align-items:center;justify-content:center;font-size:14px}
+.vids span{font-size:13px;font-weight:600;line-height:1.3}
+.nps{display:grid;grid-template-columns:repeat(11,1fr);gap:3px;margin:12px 0 4px}
+.nps button{border:1px solid #ddd;background:#fff;border-radius:7px;padding:8px 0;font-weight:800;font-size:12.5px;transition:all .2s}
+.nps button:hover{border-color:#111}
+.nps button.on{background:var(--k);color:var(--y);border-color:var(--k)}
+.nps button.lo{border-bottom:3px solid #e88}.nps button.mi{border-bottom:3px solid #ec6}.nps button.hi{border-bottom:3px solid #6c8}
+.npsl{display:flex;justify-content:space-between;font-size:11px;color:#777}
+.npsr{margin-top:12px;border-radius:12px;padding:11px 12px;font-size:13.3px;line-height:1.45;animation:fade .4s both}
+.npsr.lo{background:#fdecea}.npsr.hi{background:#e8f3e8}.npsr.mi{background:#fff8d6}
+.sms .body{background:#fff;display:flex;flex-direction:column;gap:6px}
+.sms .day{text-align:center;font-size:11.5px;color:#888;margin:4px 0 6px}
+.sms .b{align-self:flex-start;max-width:82%;background:#e9e9eb;border-radius:18px;padding:9px 13px;font-size:14.5px;line-height:1.4;animation:fade .4s both}
+.sms .b a{color:#1769e0}
+.wa .bar{background:var(--wad);color:#fff;border:0}
+.wa .bar button{color:#fff}
+.wa .bar .av{width:34px;height:34px;border-radius:50%;background:var(--y);color:#111;font-weight:900;display:flex;align-items:center;justify-content:center}
+.wa .bar small{display:block;font-weight:500;font-size:11.5px;opacity:.8}
+.wa .body{background:#efeae2;background-image:radial-gradient(#e2dccf 1px,transparent 1px);background-size:14px 14px;display:flex;flex-direction:column;gap:7px}
+.wa .bub{max-width:84%;font-size:14px;line-height:1.42;padding:8px 10px 5px;border-radius:10px;box-shadow:0 1px 1px rgba(0,0,0,.1);animation:fade .35s both}
+.wa .bub small{display:block;text-align:right;font-size:10.5px;color:#667781;margin-top:2px}
+.wa .them{align-self:flex-start;background:#fff;border-top-left-radius:2px}
+.wa .me{align-self:flex-end;background:#d9fdd3;border-top-right-radius:2px}
+.wa .qr{display:flex;flex-direction:column;gap:5px;align-self:flex-start;width:84%}
+.wa .qr button{border:0;background:#fff;color:#0a7cff;border-radius:10px;padding:9px;font-weight:600;font-size:14px;box-shadow:0 1px 1px rgba(0,0,0,.1)}
+.wa .qr button:disabled{color:#aaa;cursor:default}
+.wa .tag{align-self:center;font-size:11px;background:#fff7c2;border-radius:7px;padding:4px 8px;color:#555}
+.typing{align-self:flex-start;background:#fff;border-radius:10px;padding:10px 12px;display:flex;gap:4px}
+.typing span{width:6px;height:6px;border-radius:50%;background:#9aa;animation:tp 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes tp{50%{transform:translateY(-4px);opacity:.5}}
+/* Llamada (hoy) */
+.call{position:absolute;inset:0;z-index:20;background:linear-gradient(#2b2b2b,#111);color:#fff;display:flex;flex-direction:column;align-items:center;padding-top:110px;animation:openApp .45s var(--ease) both}
+.call .av{width:96px;height:96px;border-radius:50%;background:#555;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800}
+.call h3{font-size:28px;margin:16px 0 4px;font-weight:600}
+.call .st{font-size:15px;opacity:.75}
+.call .tm{font-size:15px;margin-top:6px;font-variant-numeric:tabular-nums;opacity:.9}
+.call .note{margin:34px 24px 0;font-size:14px;line-height:1.45;text-align:center;background:rgba(255,255,255,.08);border-radius:14px;padding:12px}
+.call .note b{color:var(--r)}
+.call .end{margin-top:auto;margin-bottom:70px;width:70px;height:70px;border-radius:50%;background:#ff3b30;border:0;font-size:28px;color:#fff;transform:rotate(135deg)}
+.wv{width:180px;height:30px;display:flex;gap:4px;align-items:center;justify-content:center;margin-top:26px}
+.wv i{width:4px;border-radius:2px;background:#9a9a9a;animation:wv 1s ease-in-out infinite}
+@keyframes wv{50%{height:4px}}
+.toast{position:absolute;left:14px;right:14px;bottom:30px;z-index:38;background:rgba(20,20,20,.92);color:#fff;border-radius:14px;padding:11px 13px;font-size:13px;line-height:1.4;transform:translateY(20px);opacity:0;transition:all .35s var(--ease);pointer-events:none}
+.toast.v{transform:none;opacity:1}
+
+@media (max-width:980px){
+  .stage{grid-template-columns:1fr;justify-items:center;gap:26px;padding:20px 16px 40px}
+  .side{position:static;max-width:560px;width:100%;order:2}
+  .device{order:1}
+  h1{font-size:34px}
+}
+@media (max-width:480px){
+  .stage{padding:0 0 30px;background-image:none}
+  .device{width:100%;height:calc(100svh - 52px);border:0;border-radius:0;box-shadow:none}
+  .scr{border-radius:0}.island{display:none}
+  .side{padding:0 16px}
+  .meter{grid-template-columns:1fr 1fr}
+  .disc .dx{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="disc" role="note"><b>Prototipo académico del TFM (ESIC)</b> · No es una comunicación de Embou · Datos de ejemplo<span class="dx"> · Textos de los mensajes del anexo del TFM</span></div>
+<main class="stage">
+  <aside class="side">
+    <div>
+      <div class="kick">E2 · Fidelización por tecnología · Mario (S4)</div>
+      <h1>Un año de Mario, <span class="serif">antes de que llame.</span></h1>
+      <p class="lead">Cliente con WiMAX en un pueblo de Teruel. Compara lo que le llega hoy con lo que le llegaría con T2.1, T2.2 y T1.2. Pulsa cada notificación para abrirla.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <div class="mode" role="tablist" aria-label="Escenario"><button data-mode="hoy" class="hoy" role="tab">Hoy</button><button data-mode="plan" class="on" role="tab">Con el plan</button></div>
+      <div class="ctl"><button id="prev" aria-label="Anterior">←</button><button id="play" class="pl">▶ Reproducir</button><button id="next" aria-label="Siguiente">→</button></div>
+    </div>
+    <div class="tl" id="tl" role="list"></div>
+    <div class="det" id="det" aria-live="polite"></div>
+    <div class="meter">
+      <div><small>Mensajes recibidos por Mario</small><b id="mN">0</b></div>
+      <div><small>Coste de mensajería acumulado</small><b id="mC">0,00 €</b></div>
+      <div><small>Llamadas que Mario tuvo que hacer</small><b id="mL">0</b></div>
+    </div>
+    <p class="foot">Coste por mensaje: WhatsApp de servicio 0,0166 €, SMS 0,0459 € y correo sin coste adicional (supuestos de 8.1). Localidad, horas y causa son datos de ejemplo; entre llaves, los datos que fija Embou. Los textos de T2.2 (M1–M4) y T1.2 (A1, A2) son los del anexo; los de T2.1 desarrollan su secuencia (tabla «Secuencia de T2.1»).</p>
+  </aside>
+
+  <div class="device">
+    <div class="island" id="island"></div>
+    <div class="scr" id="scr">
+      <div class="sb" id="sb"><span><span id="sbTime">9:41</span> <span class="nowifi" id="nowifi">Sin conexión</span></span><span class="ic"><span class="wifi" id="wifi">ᯤ</span><span>▮</span></span></div>
+      <div class="lock" id="lock">
+        <div class="date" id="lDate"></div>
+        <div class="clock" id="lClock"></div>
+        <div class="who">Mario · WiMAX 100Mb · cliente desde el 1 de marzo de 2027</div>
+        <div class="notifs" id="notifs"></div>
+        <div class="hint" id="lhint">Pulsa una notificación para abrirla</div>
+      </div>
+      <div id="appRoot"></div>
+      <div class="toast" id="toast"></div>
+      <div class="homebar"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmt = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PH = t => `<span class="ph" title="Dato que fija Embou">{${t}}</span>`;
+const PRICE = {wa:0.0166, sms:0.0459, mail:0};
+const LOC = 'Calamocha';
+const ICON = {mail:'✉', sms:'💬', wa:'✆', call:'✆'};
+const APPN = {mail:'Correo', sms:'Mensajes', wa:'WhatsApp'};
+
+/* Plantilla de correo de Embou */
+const mail = (subject, html, btns = '') => ({type:'mail', subject, html, btns});
+
+/* ---------- Eventos del año ---------- */
+const EV = [
+{d:'2027-03-01T10:12', short:'Día 0', t:'Bienvenida', tac:'T2.1', est:'e2', canal:'Correo', dolor:'Hoy no existe ningún recorrido de bienvenida.', src:'Secuencia de T2.1 · texto ilustrativo',
+ plan:[{app:'mail', from:'Embou', title:'Mario, bienvenido a Embou', prev:'Ya tienes tu WiMAX funcionando. Te contamos qué esperar los próximos meses…',
+   view:mail('Mario, bienvenido a Embou: estamos en tu pueblo también cuando algo falla',
+   `<p>Hola, Mario: ya tienes tu <b>WiMAX 100Mb</b> funcionando. Gracias por confiar en tu operadora de aquí.</p>
+    <div class="kv"><div><span>Tu tienda de referencia</span><b>${PH('tienda más cercana')}</b></div><div><span>Atención</span><b>976 363 800 · WhatsApp</b></div></div>
+    <p>Durante los próximos meses te iremos escribiendo para que todo vaya bien: cómo funciona tu tecnología, tu primera factura y qué hacer si algo falla.</p>
+    <p>Descarga <b>Mi Embou</b> para ver tus facturas y las incidencias de tu zona.</p>`,
+   `<button class="mbtn y" data-toast="Abriría la tienda de aplicaciones para descargar Mi Embou.">Descargar Mi Embou</button>`)}],
+ hoy:{text:'Mario recibe el contrato y la primera factura. <b>Nadie le cuenta qué esperar</b> de su tecnología.'}},
+{d:'2027-03-04T18:40', short:'Día 3', t:'Guía de tu WiMAX', tac:'T2.1', est:'e2', canal:'Correo', dolor:'No sabe si es normal que la señal baje cuando llueve, ni a quién preguntar.', src:'Secuencia de T2.1 · texto ilustrativo',
+ plan:[{app:'mail', from:'Embou', title:'Así funciona tu WiMAX cuando llueve o hace viento', prev:'Tu conexión llega por radio desde nuestra red. Con lluvia fuerte o viento…',
+   view:mail('Mario, así funciona tu WiMAX cuando llueve o hace viento',
+   `<p>Hola, Mario: tu conexión llega <b>por radio</b> desde una de nuestras más de 1.110 antenas en Aragón hasta la pequeña antena de tu casa.</p>
+    <p>Con lluvia fuerte o viento, la señal puede bajar un rato. <b>Es normal y suele volver sola.</b> Si no vuelve:</p>
+    <div class="kv"><div><span>1. Reinicia el router</span><b>30 segundos</b></div><div><span>2. Mira las incidencias de tu zona</span><b>Mi Embou</b></div><div><span>3. Escríbenos</span><b>WhatsApp</b></div></div>
+    <p>Y si hay una avería en ${LOC}, <b>te avisaremos nosotros</b> antes de que tengas que llamar.</p>`)}],
+ hoy:{text:'Cuando llueve y baja la señal, <b>Mario no sabe si es normal</b> ni a quién preguntar.'}},
+{d:'2027-03-11T12:05', short:'Día 10', t:'¿Funciona todo bien?', tac:'T2.1', est:'e2', canal:'WhatsApp', dolor:'Fallos de instalación que nadie detecta a tiempo.', src:'Secuencia de T2.1 · texto ilustrativo',
+ plan:[{app:'wa', from:'Embou', title:'Embou', prev:'Hola, Mario. ¿Funciona todo bien con tu conexión?', view:{type:'wa', msgs:['Hola, Mario 👋 Soy de Embou. Han pasado diez días desde la instalación: <b>¿funciona todo bien con tu conexión?</b>'], qr:['Sí, todo bien','Necesito ayuda'], rep:{'Sí, todo bien':'¡Genial! Si algún día notas algo raro, escríbenos por aquí.','Necesito ayuda':'Te pasamos con una persona del equipo de atención. Cuéntanos qué notas y lo miramos con tu línea delante.'}}}],
+ hoy:{text:'Si la instalación quedó mal, <b>Mario lo descubre solo</b> y tiene que llamar.', call:false}},
+{d:'2027-03-28T19:30', short:'Antes de la 1.ª factura', t:'Cómo leer tu primera factura', tac:'T2.1', est:'e2', canal:'Correo', dolor:'Su primera factura, con prorrateo, le parece un error.', src:'Secuencia de T2.1 · texto ilustrativo',
+ plan:[{app:'mail', from:'Embou', title:'Tu primera factura será distinta: te explicamos por qué', prev:'Incluye los días desde la instalación hasta fin de mes…',
+   view:mail('Mario, tu primera factura será distinta a las demás: te explicamos por qué',
+   `<p>Hola, Mario: el ${PH('fecha de cobro')} te llegará tu primera factura. Es normal que no coincida con tu cuota:</p>
+    <div class="kv"><div><span>Días del 1 al 31 de marzo</span><b>Prorrateo</b></div><div><span>Abril por adelantado</span><b>Cuota mensual</b></div><div><span>Instalación y router</span><b>Incluidos</b></div></div>
+    <p>Desde la segunda factura pagarás tu cuota de siempre. Si algo no te cuadra, escríbenos y lo miramos contigo.</p>`)}],
+ hoy:{text:'Llega la primera factura con prorrateo, <b>le parece un error</b> y llama a atención.', call:true}},
+{d:'2027-04-30T17:15', short:'Día 60', t:'Qué hacer si algo falla', tac:'T2.1', est:'e2', canal:'Correo', dolor:'Lentitud en las incidencias.', src:'Secuencia de T2.1 · texto ilustrativo',
+ plan:[{app:'mail', from:'Embou', title:'Si algo falla, esto es lo que puedes hacer', prev:'Tres vídeos de un minuto y los canales para hablar con una persona…',
+   view:mail('Mario, si algo falla, esto es lo que puedes hacer',
+   `<p>Hola, Mario: la mayoría de los problemas se resuelven en un minuto. Te dejamos tres vídeos cortos:</p>
+    <div class="vids"><div><i>▶</i><span>Reiniciar el router sin perder la configuración</span></div><div><i>▶</i><span>Comprobar que la antena tiene señal</span></div><div><i>▶</i><span>Ver las incidencias de tu zona en Mi Embou</span></div></div>
+    <p>¿Prefieres hablar con una persona? WhatsApp o 976 363 800.</p>`)}],
+ hoy:{text:'Ante cualquier fallo, <b>la única opción que conoce es llamar</b>.'}},
+{d:'2027-05-18T10:20', short:'10:20', t:'Corte por el temporal', tac:'T2.2', est:'e2', canal:'SMS y correo', dolor:'Se entera de la incidencia cuando ya no tiene conexión.', src:'Anexo · M1 y M2', incident:true,
+ plan:[
+  {app:'sms', from:'Embou', title:'Embou', prev:'Embou: Mario, hay un corte de servicio en Calamocha por el temporal de viento…',
+   view:{type:'sms', msgs:[`Embou: Mario, hay un corte de servicio en ${LOC} por el temporal de viento. Ya estamos en ello y prevemos resolverlo a las 14:00. Te avisamos al terminar.`]}},
+  {app:'mail', from:'Embou', title:`Corte de servicio en ${LOC}: ya estamos en ello`, prev:'Te escribimos antes de que tengas que llamarnos…',
+   view:mail(`Mario, corte de servicio en ${LOC}: ya estamos en ello`,
+   `<p>Hola, Mario: te escribimos antes de que tengas que llamarnos. Desde las <b>10:05</b> hay un corte de servicio en ${LOC} que puede afectar a tu conexión.</p>
+    <div class="kv"><div><span>Qué ha pasado</span><b>Temporal de viento</b></div><div><span>Cuándo volverá</span><b>Hacia las 14:00</b></div><div><span>Qué tienes que hacer</span><b>Nada</b></div></div>
+    <p>Nuestro equipo técnico ya está trabajando en ello. Te iremos contando cómo va hasta que esté resuelto.</p><p><b>Tu operadora de aquí, en todo Aragón.</b></p>`)}],
+ hoy:{text:'Mario se queda sin conexión y <b>nadie le avisa</b>. Llama a atención para saber qué pasa.', call:true, nowifi:true}},
+{d:'2027-05-18T14:30', short:'14:30', t:'Seguimiento del corte', tac:'T2.2', est:'e2', canal:'Correo', dolor:'Objeción: «Si me vuelve a fallar y nadie me avisa, me paso a otro operador».', src:'Anexo · M3', incident:true,
+ plan:[{app:'mail', from:'Embou', title:`Seguimos con el corte de ${LOC}: te contamos cómo va`, prev:'La reparación está llevando más de lo previsto…',
+   view:mail(`Mario, seguimos con el corte de ${LOC}: te contamos cómo va`,
+   `<p>Hola, Mario: la reparación está llevando más de lo previsto y no queremos que te quedes sin saber qué pasa.</p>
+    <div class="kv"><div><span>Cómo va</span><b>Antena repuesta, ajustando señal</b></div><div><span>Nueva previsión</span><b>16:00</b></div></div>
+    <p>Te volveremos a escribir a las 16:00, o antes si se resuelve.</p>`)}],
+ hoy:{text:'Sigue sin conexión. <b>Vuelve a llamar</b> y espera en línea.', call:true, nowifi:true}},
+{d:'2027-05-18T16:05', short:'16:05', t:'Servicio restablecido', tac:'T2.2', est:'e2', canal:'Correo', dolor:'Tener a alguien que le ayude si el problema sigue.', src:'Anexo · M4',
+ plan:[{app:'mail', from:'Embou', title:`El servicio en ${LOC} vuelve a funcionar`, prev:'El corte se resolvió a las 16:05. Gracias por tu paciencia…',
+   view:mail(`Mario, el servicio en ${LOC} vuelve a funcionar`,
+   `<p>Hola, Mario: el corte de ${LOC} se resolvió a las <b>16:05</b>. Gracias por tu paciencia.</p>
+    <p>Si tu conexión todavía no funciona, no esperes: pulsa «Llamar a atención» y nuestro equipo técnico te ayuda.</p>`,
+   `<button class="mbtn k" data-toast="Llamaría a atención técnica con la incidencia ya identificada.">Llamar a atención</button>`)}],
+ hoy:{text:'La conexión vuelve sola. <b>Nadie le explica qué pasó</b> ni si volverá a ocurrir.'}},
+{d:'2027-05-30T11:00', short:'Día 90', t:'Encuesta NPS', tac:'T2.1', est:'e2', canal:'Correo', dolor:'Mide OE2: el NPS a 90 días frente al grupo de control.', src:'Secuencia de T2.1 · encuesta de Opinat',
+ plan:[{app:'mail', from:'Embou', title:'¿Recomendarías Embou? Una pregunta, diez segundos', prev:'Tu opinión nos ayuda a mejorar el servicio en tu zona…',
+   view:{type:'mail', subject:'Mario, ¿recomendarías Embou a un amigo o familiar?', survey:true,
+   html:`<p>Hola, Mario: llevas tres meses con nosotros. Una sola pregunta:</p><p><b>Del 0 al 10, ¿con qué probabilidad recomendarías Embou a un amigo o familiar?</b></p>`}}],
+ hoy:{text:'Solo recibe la encuesta de relación anual. <b>Su NPS cae unos 20 puntos</b> respecto al del alta.'}},
+{d:'2027-09-01T12:10', short:'Mes 6', t:'¿Sigue todo bien?', tac:'T2.1', est:'e2', canal:'WhatsApp', dolor:'Deterioro a lo largo del año.', src:'Secuencia de T2.1 · texto ilustrativo',
+ plan:[{app:'wa', from:'Embou', title:'Embou', prev:'Mario, llevas seis meses con nosotros. ¿Sigue todo bien?', view:{type:'wa', msgs:['Mario, llevas seis meses con nosotros 🙂 <b>¿Sigue todo bien con tu WiMAX?</b>'], qr:['Todo bien','Quiero que me llaméis'], rep:{'Todo bien':'¡Nos alegra! Aquí seguimos para lo que necesites.','Quiero que me llaméis':'Hecho: una persona del equipo te llama hoy. Ya tiene tu línea delante.'}}}],
+ hoy:{text:'Seis meses <b>sin ningún contacto</b> de Embou, salvo las facturas.'}},
+{d:'2028-01-31T10:00', short:'30 días antes', t:'Tu promoción se renueva', tac:'T1.2', est:'e1', canal:'Correo', dolor:'Hoy recibe un único aviso igual para todos, o ninguno si su promoción no tiene permanencia.', src:'Anexo · A1 (E1, T1.2)',
+ plan:[{app:'mail', from:'Embou', title:'Tu promoción se renueva el 1 de marzo y tu factura no cambia', prev:'Te escribimos con un mes de margen para que no haya sorpresas…',
+   view:mail('Mario, tu promoción se renueva el 1 de marzo y tu factura no cambia',
+   `<p>Hola, Mario: te escribimos con un mes de margen para que no haya sorpresas. El <b>1 de marzo</b> tu promoción ${PH('promoción')} se renueva sola y no tienes que hacer nada.</p>
+    <div class="kv"><div><span>Lo que vas a pagar</span><b>26,00 €/mes, lo mismo que ahora</b></div><div><span>Nueva permanencia</span><b>12 meses, hasta el 28 feb. 2029</b></div></div>
+    <p>Si algo no te cuadra o prefieres hablarlo, pulsa «Necesito ayuda» y te llama una persona de nuestro equipo.</p><p><b>Tu operadora de aquí, en todo Aragón.</b></p>`,
+   `<button class="mbtn o" data-toast="Se crearía un caso en Dynamics 365 y una persona de retención le llamaría.">Necesito ayuda</button>`)}],
+ hoy:{text:'Recibe <b>una newsletter de renovación igual para todos</b>, sin su precio ni su permanencia.', generic:true}},
+{d:'2028-03-01T09:30', short:'Día de la renovación', t:'Renovación confirmada', tac:'T1.2', est:'e1', canal:'SMS', dolor:'Motivación: no llevarse sustos.', src:'Anexo · A2 (E1, T1.2)',
+ plan:[{app:'sms', from:'Embou', title:'Embou', prev:'Embou: Mario, tu promocion se ha renovado hoy. Pagas 26,00 EUR al mes…',
+   view:{type:'sms', msgs:['Embou: Mario, tu promocion se ha renovado hoy. Pagas 26,00 EUR al mes y tu permanencia sigue hasta el 28/02/2029. Dudas? Te llamamos: <a>embou.es/ayuda</a>']}}],
+ hoy:{text:'Se entera de la renovación <b>al ver la factura</b>.'}},
+];
+
+/* ---------- Estado ---------- */
+let mode = 'plan', ix = 0, playing = null;
+
+function dt(e){ return new Date(e.d); }
+function updLock(e){
+  const d = dt(e);
+  const ds = d.toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long'}); $('#lDate').textContent = ds.charAt(0).toUpperCase() + ds.slice(1);
+  const hm = d.toLocaleTimeString('es-ES', {hour:'numeric', minute:'2-digit'});
+  $('#lClock').textContent = hm; $('#sbTime').textContent = hm;
+  const off = mode === 'hoy' ? !!e.hoy.nowifi : !!e.incident;
+  $('#wifi').classList.toggle('off', off); $('#nowifi').classList.toggle('v', off);
+  $('#lock').classList.toggle('hoy', mode === 'hoy');
+}
+function notifHTML(n, i, e){
+  const time = dt(e).toLocaleTimeString('es-ES', {hour:'numeric', minute:'2-digit'});
+  return `<button class="nt" data-n="${i}" style="animation-delay:${i * .45}s"><span class="ai ${n.app}">${ICON[n.app]}</span><span class="tx"><span class="hd">${n.app === 'mail' ? 'Embou' : n.from}<span>${APPN[n.app]} · ${time}</span></span><span class="bd">${n.app === 'mail' ? `<b>${n.title}</b><br>${n.prev}` : n.prev}</span></span></button>`;
+}
+function renderPhone(){
+  const e = EV[ix];
+  closeApp(true); updLock(e);
+  const box = $('#notifs'); box.innerHTML = '';
+  const old = $('.empty'); if (old) old.remove();
+  if (mode === 'plan'){
+    box.innerHTML = e.plan.map((n, i) => notifHTML(n, i, e)).join('');
+    $('#lhint').style.display = '';
+    const isl = $('#island'); isl.classList.add('pulse'); setTimeout(() => isl.classList.remove('pulse'), 700);
+  } else {
+    $('#lhint').style.display = 'none';
+    if (e.hoy.generic){
+      box.innerHTML = `<button class="nt" data-generic="1"><span class="ai mail">✉</span><span class="tx"><span class="hd">Embou<span>Correo</span></span><span class="bd"><b>Newsletter: novedades de Embou</b><br>Descubre nuestras tarifas y promociones de este mes…</span></span></button>`;
+    }
+    const em = document.createElement('div'); em.className = 'empty';
+    em.style.top = e.hoy.generic ? '330px' : '250px';
+    em.innerHTML = `<div class="bubble">${e.hoy.generic ? '' : '<div style="font-size:12px;opacity:.7;margin-bottom:6px">Ninguna notificación</div>'}${e.hoy.text}</div>`;
+    $('#lock').appendChild(em);
+    if (e.hoy.call) setTimeout(() => { if (mode === 'hoy' && EV[ix] === e) openCall(); }, reduce ? 50 : 1800);
+  }
+}
+function closeApp(instant){ const r = $('#appRoot'); r.innerHTML = ''; clearInterval(closeApp._t); }
+function openNotif(i){
+  const n = EV[ix].plan[i]; const v = n.view; const e = EV[ix];
+  const ds = dt(e).toLocaleDateString('es-ES', {day:'numeric', month:'short'}) + ' · ' + dt(e).toLocaleTimeString('es-ES', {hour:'numeric', minute:'2-digit'});
+  let h = '';
+  if (v.type === 'mail'){
+    h = `<div class="app mail"><div class="bar"><button data-close>‹ Buzón</button></div><div class="body">
+      <div class="from"><span class="av">e</span><span><b>Embou</b><small>${ds}</small></span></div>
+      <h3>${v.subject}</h3>
+      <div class="card"><div class="mh"><span class="lg">e<b>mbou</b></span></div><div class="mb">${v.html}
+        ${v.survey ? `<div class="nps" id="nps">${Array.from({length:11}, (_, k) => `<button data-nps="${k}" class="${k <= 6 ? 'lo' : k <= 8 ? 'mi' : 'hi'}">${k}</button>`).join('')}</div><div class="npsl"><span>Nada probable</span><span>Muy probable</span></div><div id="npsr"></div>` : ''}
+        ${v.btns || ''}</div></div></div></div>`;
+  } else if (v.type === 'sms'){
+    h = `<div class="app sms"><div class="bar"><button data-close>‹</button><span>Embou</span></div><div class="body"><div class="day">${ds}</div>${v.msgs.map(m => `<div class="b">${m}</div>`).join('')}</div></div>`;
+  } else if (v.type === 'wa'){
+    h = `<div class="app wa"><div class="bar"><button data-close>‹</button><span class="av">e</span><span>Embou<small>Cuenta de empresa verificada</small></span></div><div class="body" id="waBody"><span class="tag">Mensaje de servicio · ${ds}</span>${v.msgs.map(m => `<div class="bub them">${m}<small>${dt(e).toLocaleTimeString('es-ES', {hour:'numeric', minute:'2-digit'})}</small></div>`).join('')}
+      <div class="qr" id="qr">${v.qr.map(q => `<button data-qr="${q}">${q}</button>`).join('')}</div></div></div>`;
+  }
+  $('#appRoot').innerHTML = h;
+}
+function openCall(){
+  calls++; drawMeter();
+  $('#appRoot').innerHTML = `<div class="call"><div class="av">e</div><h3>Embou</h3><div class="st">Atención al cliente · en espera</div><div class="tm" id="ctm">00:00</div>
+    <div class="wv">${Array.from({length:14}, (_, i) => `<i style="height:${8 + (i * 7) % 22}px;animation-delay:${i * .07}s"></i>`).join('')}</div>
+    <div class="note">${EV[ix].incident ? 'Hoy, Mario se entera del corte cuando ya no tiene conexión y <b>tiene que llamar</b>. Con T2.2, el aviso le llega antes: el plan estima <b>3.750 llamadas evitadas</b> al año.' : 'Hoy, la duda sobre su factura <b>acaba en una llamada</b>. Con T2.1, se la explican antes de que llegue.'}</div>
+    <button class="end" data-close aria-label="Colgar">✆</button></div>`;
+  let s = 0; closeApp._t = setInterval(() => { s++; const el = $('#ctm'); if (el) el.textContent = `00:${String(s).padStart(2, '0')}`; else clearInterval(closeApp._t); }, 1000);
+}
+
+/* ---------- Panel ---------- */
+let calls = 0;
+function renderTL(){
+  $('#tl').innerHTML = EV.map((e, i) => `<button role="listitem" data-ix="${i}" class="${i === ix ? 'on' : ''}"><span class="d">${dt(e).toLocaleDateString('es-ES', {day:'numeric', month:'short', year:i >= 10 ? 'numeric' : undefined})}<br>${e.short}</span><span class="t">${e.t}<small>${mode === 'plan' ? e.canal : 'Hoy'}</small></span><span class="c ${e.est}">${e.tac}</span></button>`).join('');
+  const on = $('#tl .on'); if (on) on.scrollIntoView({block:'nearest', behavior:reduce ? 'auto' : 'smooth'});
+}
+function renderDet(){
+  const e = EV[ix];
+  $('#det').innerHTML = `<h2>${e.tac} · ${e.est === 'e2' ? 'E2. Fidelización por tecnología' : 'E1. Fidelización (ciclo de vida)'}</h2>
+    <p class="ttl">${e.t}</p>
+    <dl><dt>Momento</dt><dd>${e.short} · ${dt(e).toLocaleDateString('es-ES', {day:'numeric', month:'long', year:'numeric'})}</dd>
+    <dt>Canal</dt><dd>${e.canal}</dd>
+    <dt>Resuelve</dt><dd>${e.dolor}</dd>
+    <dt>Texto</dt><dd>${e.src}</dd></dl>
+    ${mode === 'hoy' ? `<div class="hoyc">${e.hoy.text}</div>` : ''}`;
+}
+function drawMeter(){
+  let n = 0, c = 0;
+  if (mode === 'plan') EV.slice(0, ix + 1).forEach(e => e.plan.forEach(p => { n++; c += PRICE[p.app]; }));
+  else EV.slice(0, ix + 1).forEach(e => { if (e.hoy.generic) n++; });
+  $('#mN').textContent = n;
+  $('#mC').textContent = (c < .01 && c > 0 ? '< 0,01' : fmt(c)) + ' €';
+  const L = mode === 'hoy' ? EV.slice(0, ix + 1).filter(e => e.hoy.call).length : 0;
+  $('#mL').textContent = L;
+}
+function show(i){
+  ix = (i + EV.length) % EV.length;
+  renderTL(); renderDet(); renderPhone(); drawMeter();
+}
+function toast(m){ const t = $('#toast'); t.textContent = m; t.classList.add('v'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('v'), 2800); }
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click', e => {
+  const md = e.target.closest('[data-mode]');
+  if (md){ mode = md.dataset.mode; $$('[data-mode]').forEach(b => b.classList.toggle('on', b === md)); show(ix); return; }
+  const t = e.target.closest('[data-ix]'); if (t){ stop(); show(+t.dataset.ix); return; }
+  const n = e.target.closest('.nt[data-n]'); if (n){ stop(); openNotif(+n.dataset.n); return; }
+  const g = e.target.closest('[data-generic]'); if (g){ toast('Una newsletter igual para todos: sin su precio, su fecha de renovación ni su permanencia.'); return; }
+  if (e.target.closest('[data-close]')){ closeApp(); return; }
+  const tt = e.target.closest('[data-toast]'); if (tt){ toast(tt.dataset.toast + ' (Simulado.)'); return; }
+  const q = e.target.closest('[data-qr]');
+  if (q){
+    const v = EV[ix].plan[0].view, body = $('#waBody');
+    $$('#qr button').forEach(b => b.disabled = true);
+    const me = document.createElement('div'); me.className = 'bub me'; me.innerHTML = `${q.dataset.qr}<small>ahora ✓✓</small>`; body.appendChild(me);
+    const ty = document.createElement('div'); ty.className = 'typing'; ty.innerHTML = '<span></span><span></span><span></span>'; body.appendChild(ty);
+    setTimeout(() => { if (!ty.isConnected) return; ty.remove(); const r = document.createElement('div'); r.className = 'bub them'; r.innerHTML = `${v.rep[q.dataset.qr]}<small>ahora</small>`; body.appendChild(r); }, reduce ? 50 : 1200);
+    return;
+  }
+  const np = e.target.closest('[data-nps]');
+  if (np){
+    const k = +np.dataset.nps; $$('#nps button').forEach(b => b.classList.toggle('on', b === np));
+    const cls = k <= 6 ? 'lo' : k <= 8 ? 'mi' : 'hi';
+    const msg = k <= 6 ? `<b>Detractor (${k}).</b> La respuesta activa T1.1: el cliente entra en la lista de riesgo y una persona del equipo de retención le contacta por WhatsApp.`
+      : k <= 8 ? `<b>Pasivo (${k}).</b> Se registra en Opinat y Dynamics 365; la secuencia sigue y en el mes 6 se le vuelve a preguntar.`
+      : `<b>Promotor (${k}).</b> Se registra en Opinat; cuenta para el NPS a 90 días que se compara con el grupo de control (KPI de E2).`;
+    $('#npsr').innerHTML = `<div class="npsr ${cls}">${msg}</div>`;
+  }
+});
+function stop(){ if (playing){ clearInterval(playing); playing = null; $('#play').textContent = '▶ Reproducir'; } }
+$('#play').addEventListener('click', () => {
+  if (playing){ stop(); return; }
+  $('#play').textContent = '❚❚ Pausa';
+  if (ix === EV.length - 1) show(0);
+  playing = setInterval(() => { if (ix === EV.length - 1){ stop(); return; } show(ix + 1); }, reduce ? 2500 : 4200);
+});
+$('#prev').addEventListener('click', () => { stop(); show(ix - 1); });
+$('#next').addEventListener('click', () => { stop(); show(ix + 1); });
+document.addEventListener('keydown', e => { if (e.key === 'ArrowRight'){ stop(); show(ix + 1); } if (e.key === 'ArrowLeft'){ stop(); show(ix - 1); } if (e.key === 'Escape') closeApp(); });
+
+show(0);
+})();
+</script>
+</body>
+</html>

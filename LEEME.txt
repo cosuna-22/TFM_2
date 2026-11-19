@@ -1,0 +1,11 @@
+Presentación TFM Embou · instrucciones
+
+1. Descomprime la carpeta entera (la presentación y la carpeta «prototipos» deben quedar juntas).
+2. Abre «Presentacion_TFM_Embou.html» con Chrome o Edge. Funciona sin internet.
+3. Avanza con la flecha abajo, la derecha o la barra espaciadora; retrocede con la flecha arriba o la izquierda.
+   F: pantalla completa · R: pantallas de reserva para preguntas · Inicio: portada.
+4. Los botones de prototipo abren una pestaña nueva. Al volver a la pestaña de la presentación, seguís en la misma diapositiva.
+   Si recargáis la página, también vuelve a la diapositiva en la que estabais.
+5. «Presentacion_TFM_Embou.pptx» es la versión para subir al aula virtual; el PDF es el respaldo.
+
+Trabajo académico del TFM (ESIC). No es una comunicación de Embou.

@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Configurador T3.2 · Prototipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --y:#FFE100; --k:#141414; --g:#5f5f5a; --l:#e3e1d8; --bg:#f4f3ee; --w:#fff;
+  --ok:#2f7a35; --okb:#e8f3e8; --wa:#25d366; --err:#b3261e; --errb:#fdecea;
+  --stage:#0f0f0e; --stage2:#1b1b19; --ink:#f4f3ee; --ink2:#a9a79e; --line:#2e2e2b;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--stage);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #2b6cff;outline-offset:2px}
+
+/* ---------- Aviso académico ---------- */
+.disc{position:sticky;top:0;z-index:50;background:var(--y);color:var(--k);font-size:12.5px;font-weight:600;padding:7px 16px;text-align:center;line-height:1.35}
+.disc b{font-weight:900}
+
+/* ---------- Escenario ---------- */
+.stage{min-height:calc(100vh - 34px);display:grid;grid-template-columns:minmax(300px,440px) auto;gap:56px;justify-content:center;align-items:start;padding:36px 24px 48px;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px;background-position:-1px -1px}
+.side{position:sticky;top:70px;display:flex;flex-direction:column;gap:18px}
+.kicker{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--y);font-weight:800}
+.side h1{font-size:34px;line-height:1.04;margin:6px 0 8px;font-weight:900;letter-spacing:-.02em}
+.side h1 .w{display:inline-block;opacity:0;transform:translateY(.5em);animation:up .7s var(--ease) forwards}
+@keyframes up{to{opacity:1;transform:none}}
+.side p.lead{color:var(--ink2);font-size:14px;line-height:1.5;margin:0}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--stage2);border:1px solid var(--line);border-radius:14px;padding:11px 12px}
+.kpi small{display:block;color:var(--ink2);font-size:11.5px;line-height:1.3}
+.kpi b{font-size:20px;font-weight:900}
+.kpi b i{font-style:normal;color:var(--y)}
+.card-s{background:var(--stage2);border:1px solid var(--line);border-radius:16px;padding:14px 15px}
+.card-s h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);margin:0 0 9px;font-weight:800}
+.journey{display:flex;flex-wrap:wrap;gap:6px}
+.journey span{font-size:12px;font-weight:700;padding:5px 9px;border-radius:999px;border:1px solid var(--line);color:var(--ink2);transition:all .35s var(--ease)}
+.journey span.done{color:var(--ink);border-color:#4a4a45}
+.journey span.on{background:var(--y);border-color:var(--y);color:var(--k)}
+#nowTitle{font-size:17px;font-weight:800;margin:0 0 8px;color:var(--ink)}
+#nowRules{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+#nowRules li{display:flex;gap:9px;font-size:13.2px;line-height:1.42;color:#dcdad2;animation:fadeIn .45s var(--ease) both}
+#nowRules li:nth-child(2){animation-delay:.05s}#nowRules li:nth-child(3){animation-delay:.1s}#nowRules li:nth-child(4){animation-delay:.15s}#nowRules li:nth-child(5){animation-delay:.2s}
+#nowRules li i{flex:none;width:20px;height:20px;border-radius:50%;background:var(--y);color:var(--k);font-style:normal;font-weight:900;font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.scen{display:flex;flex-wrap:wrap;gap:7px}
+.scen button{background:transparent;border:1px solid #4a4a45;color:var(--ink);border-radius:999px;padding:7px 11px;font-size:12.5px;font-weight:700;transition:background .2s,border-color .2s}
+.scen button:hover{background:#26261f;border-color:var(--y)}
+.scen button.rst{border-style:dashed;color:var(--ink2)}
+#log{list-style:none;margin:0;padding:0;max-height:210px;overflow:auto;display:flex;flex-direction:column;gap:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.8px}
+#log li{display:flex;gap:8px;align-items:baseline;animation:logIn .5s var(--ease) both;color:#cfcdc4}
+#log li time{color:#77756d;flex:none}
+#log li b{color:var(--y);font-weight:700}
+#log li.empty{color:#77756d;font-family:Inter,sans-serif}
+@keyframes logIn{from{opacity:0;transform:translateY(-8px);background:#3a3612}to{opacity:1;transform:none;background:transparent}}
+.foot{font-size:11.5px;color:#8b897f;line-height:1.5}
+
+/* ---------- Teléfono ---------- */
+.device{width:390px;height:812px;border:10px solid #050505;border-radius:48px;background:#050505;box-shadow:0 0 0 1px #333,0 30px 80px rgba(0,0,0,.55),0 0 120px rgba(255,225,0,.07);position:relative}
+.app{position:absolute;inset:0;border-radius:38px;overflow:hidden;background:var(--w);color:var(--k);display:flex;flex-direction:column;isolation:isolate}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:112px;height:30px;background:#050505;border-radius:20px;z-index:30}
+.status{height:44px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 6px;font-size:13px;font-weight:700;background:var(--k);color:#fff}
+.hdr{height:52px;flex:none;background:var(--k);display:flex;align-items:center;gap:10px;padding:0 14px;color:#fff;view-transition-name:hdr}
+.logo{font-weight:900;font-size:23px;letter-spacing:-.6px;color:var(--y)}.logo b{color:#fff;font-weight:800}
+.hdr .back{width:32px;height:32px;border-radius:50%;border:0;background:#2a2a28;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;visibility:hidden}
+.hdr .back.v{visibility:visible}
+.hdr .sp{flex:1}
+.hdr .ic{width:30px;height:30px;border-radius:50%;border:2px solid #fff}
+.hdr .mn{width:30px;height:30px;border-radius:50%;background:var(--y);color:var(--k);display:flex;align-items:center;justify-content:center;font-weight:900}
+#screen{flex:1;position:relative;min-height:0;view-transition-name:screen;display:flex;flex-direction:column}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 16px 88px;scroll-behavior:smooth;overscroll-behavior:contain}
+.scr.has-sticky{padding-bottom:150px}
+.scr.has-sticky.short{padding-bottom:110px}
+
+/* Transiciones entre pantallas */
+::view-transition-old(screen){animation:vtOut .28s var(--ease) both}
+::view-transition-new(screen){animation:vtIn .38s var(--ease) both}
+html.back ::view-transition-old(screen){animation:vtOutB .28s var(--ease) both}
+html.back ::view-transition-new(screen){animation:vtInB .38s var(--ease) both}
+@keyframes vtOut{to{opacity:0;transform:translateX(-36px)}}
+@keyframes vtIn{from{opacity:0;transform:translateX(48px)}}
+@keyframes vtOutB{to{opacity:0;transform:translateX(36px)}}
+@keyframes vtInB{from{opacity:0;transform:translateX(-48px)}}
+.enter > *{animation:rise .5s var(--ease) both}
+.enter > *:nth-child(2){animation-delay:.04s}.enter > *:nth-child(3){animation-delay:.08s}.enter > *:nth-child(4){animation-delay:.12s}.enter > *:nth-child(5){animation-delay:.16s}.enter > *:nth-child(6){animation-delay:.2s}.enter > *:nth-child(n+7){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+
+/* ---------- Componentes de la app ---------- */
+.h2{font-size:20px;font-weight:900;margin:4px 0 8px;line-height:1.18;letter-spacing:-.01em}
+.h3{font-size:13px;font-weight:800;margin:16px 0 7px;text-transform:uppercase;letter-spacing:.06em;color:var(--g)}
+.tx{font-size:13.5px;color:var(--g);line-height:1.5;margin:0 0 10px}
+.hero{background:var(--k);color:#fff;border-radius:16px;padding:14px 14px 13px;margin-bottom:12px;position:relative;overflow:hidden}
+.hero b{display:block;font-size:19px;line-height:1.15;font-weight:900;letter-spacing:-.01em}
+.hero b em{font-style:normal;color:var(--y)}
+.hero span{display:block;font-size:12.3px;color:#c9c7bf;margin-top:5px}
+.hero b,.hero span{position:relative;z-index:1;max-width:74%}
+.hero::after{content:"";position:absolute;right:-52px;top:-52px;width:100px;height:100px;border-radius:50%;border:16px solid var(--y);opacity:.95}
+.bar{display:flex;align-items:center;gap:9px;background:var(--bg);border:0;border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:12px;width:100%;text-align:left}
+.bar b{font-weight:800}.bar .go{margin-left:auto;font-weight:900}
+.pin{width:26px;height:26px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center;flex:none;font-size:13px}
+.chips{display:flex;gap:7px;margin:0 0 12px}
+.chip{font-size:13px;font-weight:700;padding:7px 13px;border-radius:18px;background:var(--bg);border:0;transition:background .25s,color .25s}
+.chip.on{background:var(--k);color:#fff}
+.card{border:1.5px solid var(--l);border-radius:16px;padding:14px;margin-bottom:12px;background:#fff;transition:transform .25s var(--ease),box-shadow .25s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.07)}
+.card.best{border-color:var(--k)}
+.tag{display:inline-block;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:var(--y);border-radius:6px;padding:2px 6px;margin-bottom:6px}
+.tname{font-weight:800;font-size:15.5px;margin-bottom:4px;line-height:1.25}
+.feat{font-size:12.6px;color:var(--g);line-height:1.45}
+.price{display:flex;align-items:flex-end;gap:6px;margin:10px 0 4px}
+.big{font-size:38px;font-weight:900;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.unit{font-size:11.5px;line-height:1.2;font-weight:600}
+.cond{font-size:12.3px;font-weight:700;background:var(--bg);border-radius:9px;padding:7px 9px;margin:6px 0 4px}
+.lnk{font-size:12.5px;text-decoration:underline;background:none;border:0;padding:2px 0;color:var(--k);font-weight:500}
+.btn{display:block;width:100%;background:var(--y);border:0;border-radius:24px;text-align:center;font-weight:800;font-size:15px;padding:13px;margin-top:10px;position:relative;overflow:hidden;transition:transform .15s,filter .2s}
+.btn:active{transform:scale(.98)}
+.btn:hover{filter:brightness(.97)}
+.btn.dk{background:var(--k);color:#fff}
+.btn.ol{background:#fff;border:1.5px solid var(--k)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn .spin{display:inline-block;width:16px;height:16px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:rot .7s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.sum{font-size:12.8px;background:var(--bg);border-radius:11px;padding:9px 11px;margin-bottom:12px;display:flex;gap:8px;align-items:center;line-height:1.35}
+.sum .lnk{margin-left:auto;flex:none}
+.ok{background:var(--okb);border:1.5px solid #b9dcb9;border-radius:13px;padding:10px 12px;font-size:13px;margin-bottom:12px;line-height:1.42;display:flex;gap:9px;align-items:flex-start}
+.ok b{color:var(--ok)}
+.okc{flex:none;width:22px;height:22px;border-radius:50%;background:var(--ok);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px}
+.warn{background:#fffbe0;border:1.5px solid var(--y);border-radius:13px;padding:11px 12px;font-size:13px;margin-bottom:12px;line-height:1.45}
+.help{display:flex;gap:8px;margin-top:10px}
+.help button{flex:1;border:1.5px solid var(--k);background:#fff;border-radius:22px;padding:10px 6px;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px}
+.help button.w{background:var(--wa);border-color:var(--wa);color:#fff}
+.lbl{display:block;font-size:12.5px;font-weight:800;margin:11px 0 5px}
+.lbl small{font-weight:500;color:var(--g)}
+.inp{width:100%;border:1.5px solid #bdbab0;border-radius:11px;padding:11px 12px;font-size:15px;background:#fff;transition:border-color .2s,box-shadow .2s;appearance:none}
+.inp:focus{outline:none;border-color:var(--k);box-shadow:0 0 0 3px rgba(255,225,0,.55)}
+.inp.bad{border-color:var(--err);box-shadow:0 0 0 3px rgba(179,38,30,.12)}
+.inp.good{border-color:var(--ok)}
+select.inp{background-image:linear-gradient(45deg,transparent 50%,var(--k) 50%),linear-gradient(135deg,var(--k) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 12px) 50%;background-size:6px 6px;background-repeat:no-repeat;padding-right:32px}
+.hint{font-size:11.3px;color:var(--g);margin-top:4px;line-height:1.35}
+.errm{font-size:12px;color:var(--err);margin-top:5px;font-weight:600;display:none;line-height:1.35}
+.errm.v{display:block;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-3px)}50%{transform:translateX(3px)}75%{transform:translateX(-2px)}}
+.row2{display:flex;gap:10px}.row2>div{flex:1;min-width:0}
+.sugg{position:relative;z-index:6}
+.sug{position:absolute;left:0;right:0;top:100%;margin-top:-2px;background:#fff;border:1.5px solid var(--k);border-top:0;border-radius:0 0 11px 11px;z-index:5;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,.08)}
+.sug button{display:block;width:100%;text-align:left;border:0;background:#fff;padding:10px 12px;font-size:13.5px;border-top:1px solid var(--l)}
+.sug button:hover,.sug button.on{background:#fffbe0}
+.sug button small{color:var(--g)}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.4;margin:11px 0 0;cursor:pointer}
+.chk input{appearance:none;flex:none;width:22px;height:22px;border:1.8px solid var(--k);border-radius:6px;margin:0;display:grid;place-content:center;background:#fff;transition:background .2s}
+.chk input::after{content:"";width:11px;height:6px;border-left:2.5px solid var(--k);border-bottom:2.5px solid var(--k);transform:rotate(-45deg) scale(0);transition:transform .2s var(--ease);margin-top:-3px}
+.chk input:checked{background:var(--y)}
+.chk input:checked::after{transform:rotate(-45deg) scale(1)}
+.chk small{color:var(--g)}
+.demo{border:1.5px dashed #c9c6ba;border-radius:13px;padding:10px 11px;margin-top:16px;background:#fcfcfa}
+.demo p{margin:0 0 7px;font-size:11.8px;color:var(--g);font-weight:600}
+.demo .dl{display:flex;flex-wrap:wrap;gap:6px}
+.demo button{font-size:12px;font-weight:700;border:1px solid var(--l);background:#fff;border-radius:999px;padding:6px 10px}
+.seg{display:flex;gap:7px;margin-bottom:6px}
+.seg button{flex:1;border:1.5px solid var(--l);border-radius:12px;padding:9px 2px 7px;font-size:14px;font-weight:800;background:#fff;transition:all .25s var(--ease);line-height:1.15}
+.seg button small{display:block;font-size:11px;font-weight:600;color:var(--g);margin-top:2px}
+.seg button.on{border-color:var(--k);background:var(--y);transform:translateY(-1px)}
+.seg button.on small{color:var(--k)}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1.5px solid var(--l);border-radius:13px;padding:10px 11px;margin-bottom:8px;font-size:13.5px;background:#fff;width:100%;text-align:left;transition:border-color .25s,background .25s}
+.opt.on{border-color:var(--k);background:#fffbe0}
+.opt b{font-weight:800}
+.opt small{display:block;color:var(--g);font-size:11.6px;margin-top:2px;line-height:1.35}
+.tg{flex:none;width:44px;height:26px;border-radius:13px;background:#d4d1c6;position:relative;transition:background .25s}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .3s var(--ease)}
+.on .tg,.tg.on{background:var(--k)}
+.on .tg::after,.tg.on::after{transform:translateX(18px);background:var(--y)}
+.step{display:flex;align-items:center;gap:0;flex:none;border:1.5px solid var(--k);border-radius:20px;overflow:hidden}
+.step button{width:32px;height:30px;border:0;background:#fff;font-weight:900;font-size:16px}
+.step button:disabled{color:#bbb;cursor:not-allowed}
+.step span{width:24px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.ph{display:inline-block;background:#efe9c4;border:1px dashed #b9ab45;border-radius:5px;padding:0 4px;font-size:.92em;font-weight:700;white-space:nowrap}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:12.8px;margin:10px 0 4px}
+.spec dt{color:var(--g)}.spec dd{margin:0;font-weight:700}
+.diff{font-size:12.6px;background:var(--bg);border-radius:10px;padding:9px 10px;line-height:1.45;margin-top:8px}
+
+/* Barra fija con el total */
+.sticky{position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1.5px solid var(--l);padding:10px 16px 18px;box-shadow:0 -6px 18px rgba(0,0,0,.07);z-index:8;view-transition-name:sticky}
+.tot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.tot .n{font-size:27px;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.tot .n small{font-size:13px;font-weight:700;letter-spacing:0}
+.tot .r{font-size:11.6px;color:var(--g);text-align:right;line-height:1.35}
+.tot .r b{color:var(--k)}
+.pulse{animation:pulse .6s var(--ease)}
+@keyframes pulse{30%{transform:scale(1.06);color:#000;text-shadow:0 0 0 var(--y)}60%{text-shadow:0 0 18px rgba(255,225,0,.9)}}
+.dsg{font-size:12.5px;overflow:hidden;max-height:0;transition:max-height .35s var(--ease)}
+.dsg.v{max-height:220px}
+.dsg div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--l)}
+.sticky .btn{margin-top:9px}
+.shelp{display:flex;justify-content:center;gap:8px;margin-top:7px;font-size:12px;color:var(--g)}
+.shelp .lnk{font-size:12.5px;font-weight:700}
+
+/* Progreso del formulario */
+.prog{margin-bottom:12px}
+.prog .tr{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.prog .fl{height:100%;background:var(--k);border-radius:3px;transition:width .6s var(--ease)}
+.prog .lb{display:flex;justify-content:space-between;font-size:11.8px;margin-top:6px;color:var(--g);font-weight:600}
+.prog .lb .on{color:var(--k);font-weight:800}
+.prog .lb .dn{color:var(--ok)}
+.addr{border:1.5px solid #b9dcb9;background:var(--okb);border-radius:11px;padding:10px 12px;font-size:13.5px;font-weight:700}
+.rev{border:1.5px solid var(--l);border-radius:14px;overflow:hidden;font-size:13px}
+.rev div{display:flex;justify-content:space-between;gap:12px;padding:9px 12px;border-bottom:1px solid var(--l)}
+.rev div:last-child{border-bottom:0}
+.rev span:first-child{color:var(--g)}
+.rev span:last-child{font-weight:700;text-align:right}
+.totbox{background:var(--k);color:#fff;border-radius:14px;padding:13px 14px;margin-top:12px}
+.totbox .n{font-size:30px;font-weight:900;letter-spacing:-.02em}
+.totbox .n small{font-size:13px}
+.totbox p{margin:4px 0 0;font-size:12px;color:#d6d4cc;line-height:1.4}
+.totbox p b{color:var(--y)}
+
+/* Comprobación de cobertura */
+.check{position:absolute;inset:0;background:rgba(255,255,255,.96);z-index:12;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;animation:fadeIn2 .25s both}
+@keyframes fadeIn2{from{opacity:0}}
+.radar{width:150px;height:150px;position:relative;margin-bottom:26px}
+.radar span{position:absolute;inset:0;border-radius:50%;border:2px solid var(--k);opacity:0;animation:ring 1.8s var(--ease) infinite}
+.radar span:nth-child(2){animation-delay:.6s}.radar span:nth-child(3){animation-delay:1.2s}
+@keyframes ring{0%{transform:scale(.25);opacity:.8}100%{transform:scale(1);opacity:0}}
+.radar i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--y);border:3px solid var(--k);animation:bob 1.2s ease-in-out infinite}
+.radar i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--k)}
+@keyframes bob{50%{transform:rotate(-45deg) translate(3px,-3px)}}
+.cl{list-style:none;margin:0;padding:0;width:100%;max-width:290px;display:flex;flex-direction:column;gap:9px}
+.cl li{display:flex;gap:10px;align-items:center;font-size:13.5px;font-weight:600;opacity:0;transform:translateY(6px);transition:all .35s var(--ease)}
+.cl li.v{opacity:1;transform:none}
+.cl li .st{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+.cl li.run .st{border-color:var(--k);border-right-color:transparent;animation:rot .7s linear infinite}
+.cl li.yes .st{background:var(--ok);border-color:var(--ok);color:#fff}
+.cl li.no .st{background:#e6e3d8;border-color:#e6e3d8;color:var(--g)}
+.sim{font-size:11px;color:var(--g);margin-top:18px}
+
+/* Hojas inferiores */
+.dim{position:absolute;inset:0;background:rgba(20,20,20,.48);z-index:20;opacity:0;transition:opacity .3s}
+.dim.v{opacity:1}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:86%;overflow:auto;background:#fff;border-radius:24px 24px 0 0;padding:10px 16px 22px;z-index:21;transform:translateY(105%);transition:transform .42s var(--ease)}
+.sheet.v{transform:none}
+.grab{width:44px;height:5px;border-radius:3px;background:#cfccc2;margin:0 auto 10px}
+.shd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.shd .h2{margin:0}
+.x{border:0;background:var(--bg);width:32px;height:32px;border-radius:50%;font-size:16px;font-weight:700;flex:none}
+.cmp{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.cmp .c{border:1.5px solid var(--l);border-radius:13px;padding:11px 12px}
+.cmp .c b{font-size:14.5px}
+.cmp .c .p{float:right;font-weight:900}
+.cmp ul{margin:7px 0 0;padding-left:18px;font-size:12.6px;color:var(--g);line-height:1.5}
+.slots{display:flex;gap:6px;margin-top:4px}
+.slots button{flex:1;border:1.5px solid var(--l);background:#fff;border-radius:10px;padding:8px 0;font-size:12.8px;font-weight:700}
+.slots button.on{border-color:var(--k);background:var(--y)}
+.done-msg{text-align:center;padding:18px 6px 6px}
+.done-msg .okc{width:46px;height:46px;font-size:22px;margin:0 auto 10px}
+.mail{border:1.5px solid var(--l);border-radius:12px;padding:12px;font-size:13px;line-height:1.55;background:#fcfcfa}
+.mail .mh{font-size:11.5px;color:var(--g);border-bottom:1px solid var(--l);padding-bottom:7px;margin-bottom:8px}
+
+/* WhatsApp simulado */
+.wa-fab{position:absolute;right:14px;bottom:18px;width:52px;height:52px;border-radius:50%;background:var(--wa);border:0;display:flex;align-items:center;justify-content:center;z-index:9;box-shadow:0 4px 12px rgba(0,0,0,.22);transition:transform .3s var(--ease),bottom .35s var(--ease)}
+.wa-fab:hover{transform:scale(1.07)}
+.wa-fab.up{bottom:166px}
+.wa-fab.hide{transform:scale(0)}
+.chat{background:#efeae2;border-radius:14px;padding:12px;min-height:200px;display:flex;flex-direction:column;gap:8px;background-image:radial-gradient(#e2dccf 1px,transparent 1px);background-size:14px 14px}
+.chat .who{display:flex;align-items:center;gap:9px;background:#075e54;color:#fff;margin:-12px -12px 4px;padding:10px 12px;border-radius:14px 14px 0 0;font-size:13.5px;font-weight:700}
+.chat .who i{width:30px;height:30px;border-radius:50%;background:var(--y);color:var(--k);font-style:normal;display:flex;align-items:center;justify-content:center;font-weight:900}
+.bub{max-width:88%;font-size:13.3px;line-height:1.45;padding:8px 10px 6px;border-radius:10px;box-shadow:0 1px 1px rgba(0,0,0,.1);animation:rise .35s var(--ease) both}
+.bub.me{align-self:flex-end;background:#d9fdd3;border-top-right-radius:2px}
+.bub.them{align-self:flex-start;background:#fff;border-top-left-radius:2px}
+.bub small{display:block;text-align:right;font-size:10.5px;color:#667781;margin-top:2px}
+.typing{align-self:flex-start;background:#fff;border-radius:10px;padding:9px 12px;display:flex;gap:4px}
+.typing span{width:6px;height:6px;border-radius:50%;background:#9aa;animation:tp 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes tp{50%{transform:translateY(-4px);opacity:.5}}
+.caret::after{content:"▍";animation:blink 1s steps(1) infinite;color:#075e54}
+@keyframes blink{50%{opacity:0}}
+
+/* Confirmación */
+.okdraw{width:86px;height:86px;margin:12px auto 10px;display:block}
+.okdraw circle{fill:none;stroke:var(--ok);stroke-width:5;stroke-dasharray:252;stroke-dashoffset:252;animation:draw .7s var(--ease) forwards}
+.okdraw path{fill:none;stroke:var(--ok);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60;animation:draw .45s .55s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.tl{list-style:none;margin:6px 0 0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:13px;top:8px;bottom:8px;width:2px;background:var(--l)}
+.tl li{display:flex;gap:12px;align-items:flex-start;padding:7px 0;font-size:13.4px;line-height:1.42;position:relative;animation:rise .5s var(--ease) both}
+.tl li:nth-child(1){animation-delay:.9s}.tl li:nth-child(2){animation-delay:1.05s}.tl li:nth-child(3){animation-delay:1.2s}
+.tl li i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--y);font-style:normal;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:13px;position:relative;z-index:1}
+.toast{position:absolute;left:16px;right:16px;bottom:96px;background:var(--k);color:#fff;font-size:13px;line-height:1.4;padding:11px 13px;border-radius:12px;z-index:40;transform:translateY(20px);opacity:0;transition:all .35s var(--ease);pointer-events:none}
+.toast.v{transform:none;opacity:1}
+.note{font-size:11.2px;color:var(--g);line-height:1.45;margin-top:14px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:980px){
+  .stage{grid-template-columns:1fr;justify-items:center;gap:28px;padding:22px 16px 40px}
+  .side{position:static;max-width:520px;width:100%;order:2}
+  .device{order:1}
+  .side h1{font-size:28px}
+}
+@media (max-width:480px){
+  .disc .dx{display:none}
+  .device{height:calc(100svh - 52px)!important}
+  .stage{padding:0 0 32px;background-image:none}
+  .device{width:100%;height:calc(100svh - 50px);border:0;border-radius:0;box-shadow:none}
+  .app{border-radius:0}
+  .island,.status{display:none}
+  .side{padding:0 16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<div class="disc" role="note"><b>Prototipo académico del TFM (ESIC)</b> · No es la web de Embou · No envía ni guarda ningún dato<span class="dx"> · Cobertura simulada · Precios de la web de Embou (6–7 nov. 2026) y del mapa de productos</span></div>
+
+<main class="stage">
+  <aside class="side" aria-label="Explicación del prototipo">
+    <div>
+      <div class="kicker">T3.2 · Estrategia E3 · Laura (S1)</div>
+      <h1 id="ttl">Configurador y formulario con precio final</h1>
+      <p class="lead">Recorrido navegable que aplica los requisitos y las siete reglas de presentación del precio. Lo que ves es lo que pagas, antes de dar la dirección.</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><small>Paso del configurador al formulario</small><b>18 % → <i>24 %</i></b></div>
+      <div class="kpi"><small>Formularios completados</small><b>12 % → <i>15 %</i></b></div>
+    </div>
+    <div class="card-s">
+      <h2>Recorrido</h2>
+      <div class="journey" id="journey"></div>
+    </div>
+    <div class="card-s">
+      <h2>Qué resuelve esta pantalla</h2>
+      <p id="nowTitle"></p>
+      <ul id="nowRules"></ul>
+    </div>
+    <div class="card-s">
+      <h2>Probar un caso de cobertura</h2>
+      <div class="scen">
+        <button data-scen="fibra">Llega fibra</button>
+        <button data-scen="wimax">Llega otra tecnología</button>
+        <button data-scen="nf">Dirección no encontrada</button>
+        <button data-scen="none">No llega ninguna conexión</button>
+        <button data-scen="reset" class="rst">↺ Reiniciar</button>
+      </div>
+    </div>
+    <div class="card-s">
+      <h2>Medición · eventos GA4 (simulados)</h2>
+      <ul id="log"><li class="empty">Los eventos del plan de medición (8.5) aparecen aquí al usar el prototipo.</li></ul>
+    </div>
+    <p class="foot">Entre llaves (<span class="ph" style="color:#141414">{N}</span>), los datos que fija Embou. El cargo por baja anticipada procede del centro de ayuda de Embou y su redacción final corresponde a las áreas comercial y legal. Elaboración propia para el TFM.</p>
+  </aside>
+
+  <div class="device">
+    <div class="island" aria-hidden="true"></div>
+    <div class="app" id="app">
+      <div class="status" aria-hidden="true"><span>9:41</span><span>●●● ᯤ ▮</span></div>
+      <header class="hdr">
+        <button class="back" id="back" aria-label="Volver">‹</button>
+        <div class="logo" aria-label="Embou">e<b>mbou</b></div>
+        <div class="sp"></div>
+        <span class="ic" aria-hidden="true"></span><span class="mn" aria-hidden="true">☰</span>
+      </header>
+      <div id="screen"></div>
+      <button class="wa-fab" id="wafab" aria-label="Escribir por WhatsApp">
+        <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z" fill="#fff"/><path d="M9 8.5c.3-.6.6-.6.9-.6h.6c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.6l-.5.6c-.1.1-.2.3 0 .5.6 1 1.4 1.8 2.4 2.3.2.1.4.1.5-.1l.6-.7c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.4.4 0 .5-.2 1.1-.6 1.4-.5.4-1.2.6-1.8.5-2.6-.5-5.4-3.2-5.9-5.8-.1-.8.2-1.6.7-2.3z" fill="#25d366"/></svg>
+      </button>
+      <div id="sheetRoot"></div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const fmt = n => n.toLocaleString('es-ES', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PH = t => `<span class="ph" title="Dato que fija Embou">{${t}}</span>`;
+
+/* ---------- Catálogo (web de Embou 6–7 nov. 2026 y mapa de productos) ---------- */
+const FIJO_F = 'Fijo ilimitado a fijos y 60 min a móviles';
+const T = {
+  f300:    {name:'Fibra 300Mb y móvil 30GB acumulables', short:'Fibra 300Mb y móvil 30GB', tech:'fibra', speed:'300', data:'30', price:29, feat:`${FIJO_F} · Móvil con llamadas ilimitadas`},
+  f600_80: {name:'Fibra 600Mb y móvil 80GB acumulables', short:'Fibra 600Mb y móvil 80GB', tech:'fibra', speed:'600', data:'80', price:36, feat:`${FIJO_F} · Móvil con llamadas ilimitadas`},
+  f600_inf:{name:'Fibra 600Mb y móvil GB infinitos', short:'Fibra 600Mb y móvil GB infinitos', tech:'fibra', speed:'600', data:'inf', price:46, feat:`${FIJO_F} · Móvil con llamadas ilimitadas`},
+  f1g_80:  {name:'Fibra 1Gb y móvil 80GB acumulables', short:'Fibra 1Gb y móvil 80GB', tech:'fibra', speed:'1000', data:'80', price:44, feat:`${FIJO_F} · Móvil con llamadas ilimitadas`},
+  f1g_inf: {name:'Fibra 1Gb y móvil GB infinitos', short:'Fibra 1Gb y móvil GB infinitos', tech:'fibra', speed:'1000', data:'inf', price:54, feat:`${FIJO_F} · Móvil con llamadas ilimitadas`},
+  w100:    {name:'WiMAX 100Mb y móvil 30GB acumulables', short:'WiMAX 100Mb y móvil 30GB', tech:'wimax', speed:'w100', data:'30', price:26, feat:'Fijo ilimitado a fijos y 150 min a móviles · Móvil con llamadas ilimitadas'},
+  m30:     {name:'Móvil 30GB acumulables', short:'Móvil 30GB', tech:'movil', price:7.90, feat:'Llamadas ilimitadas · Cobertura nacional', perm:'Sin permanencia'},
+  m80:     {name:'Móvil 80GB', short:'Móvil 80GB', tech:'movil', price:10.90, feat:'Llamadas ilimitadas · Cobertura nacional', perm:null},
+  minf:    {name:'Móvil GB infinitos', short:'Móvil GB infinitos', tech:'movil', price:29.90, feat:'Llamadas ilimitadas · Cobertura nacional', perm:null},
+};
+const TV = {
+  pack:{name:'DAZN, Agile TV y Filmin', price:5, desc:'+5 €/mes · permanencia 12 meses'},
+  prem:{name:'TV Premium', price:8, desc:'+8 €/mes · permanencia 12 meses'},
+};
+/* Cobertura simulada: direcciones públicas de ejemplo */
+const DB = {
+  '50004': {city:'Zaragoza', streets:[['Calle Coso','fibra'],['Plaza de España','fibra'],['Paseo de la Independencia','fibra'],['Calle Alfonso I','fibra']]},
+  '44200': {city:'Calamocha', streets:[['Plaza de España','wimax'],['Calle Mayor','wimax'],['Calle Real','wimax'],['Masía El Prototipo (simulada)','none']]},
+};
+const PISOS = ['Bajo A','Bajo B','1º A','1º B','2º A','2º B','3º A','3º B','Casa unifamiliar','Mi piso no aparece'];
+const COMPANIES = ['Movistar','Vodafone','Orange','Yoigo','MásMóvil','DIGI','O2','Lowi','Pepephone','Otra'];
+
+/* ---------- Estado ---------- */
+const fresh = () => ({
+  mode:'conv', base:null, speed:'300', data:'30', tech:null, addr:null, fromList:false,
+  lines:0, tv:{pack:false, prem:false}, dsg:false,
+  c:{name:'', email:'', tel:'', priv:false, com:false},
+  k:{ape:'', dni:'', porta:false, comp:''},
+  cov:{cp:'', street:'', num:'', piso:''}, hist:[], screen:'list', sent:false
+});
+let S = fresh();
+let lastTotal = null;
+
+/* ---------- Precio ---------- */
+function baseKey(){
+  if (S.tech === 'wimax') return 'w100';
+  if (S.speed === '300') return 'f300';
+  return (S.speed === '600' ? 'f600_' : 'f1g_') + (S.data === 'inf' ? 'inf' : '80');
+}
+function calc(){
+  const b = T[S.base] || T.f300;
+  const items = [{l:b.short, v:b.price}];
+  let t = b.price, after = b.price;
+  if (b.tech !== 'movil'){
+    if (S.lines > 0){
+      const v = 2 + (S.lines - 1) * 4;
+      items.push({l:`${S.lines} línea${S.lines > 1 ? 's' : ''} de 10GB`, v, promo:true});
+      t += v; after += S.lines * 4;
+    }
+    for (const k of ['pack','prem']) if (S.tv[k]){ items.push({l:TV[k].name, v:TV[k].price}); t += TV[k].price; after += TV[k].price; }
+  }
+  return {t, after, items, promo:S.lines > 0, b};
+}
+function summaryLine(){
+  const {b} = calc(); const p = [b.short];
+  if (S.lines) p.push(`${S.lines} línea${S.lines > 1 ? 's' : ''}`);
+  if (S.tv.pack) p.push(TV.pack.name);
+  if (S.tv.prem) p.push(TV.prem.name);
+  return p.join(' + ');
+}
+function addrText(full){
+  if (!S.addr) return '';
+  const a = S.addr; const s = `${a.street}, ${a.num}`;
+  return full ? `${s}${a.piso && a.piso !== 'Mi piso no aparece' ? ', ' + a.piso : ''} · ${a.cp} ${a.city}` : s;
+}
+function animateNum(el, from, to){
+  if (!el) return;
+  if (from === null || from === to || reduce){ el.textContent = fmt(to); return; }
+  const d = 520, t0 = performance.now();
+  const step = now => {
+    const k = Math.min(1, (now - t0) / d), e = 1 - Math.pow(1 - k, 3);
+    el.textContent = fmt(from + (to - from) * e);
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+  const box = el.closest('.n'); if (box){ box.classList.remove('pulse'); void box.offsetWidth; box.classList.add('pulse'); }
+}
+
+/* ---------- Medición simulada ---------- */
+let logEmpty = true;
+function track(name, params = {}){
+  const ul = $('#log');
+  if (logEmpty){ ul.innerHTML = ''; logEmpty = false; }
+  const li = document.createElement('li');
+  const now = new Date(); const ts = now.toTimeString().slice(0, 8);
+  const p = Object.entries(params).map(([k, v]) => `${k}: ${esc(v)}`).join(' · ');
+  li.innerHTML = `<time>${ts}</time><span><b>${esc(name)}</b>${p ? ' ' + p : ''}</span>`;
+  ul.prepend(li);
+  while (ul.children.length > 40) ul.lastChild.remove();
+}
+
+/* ---------- Panel lateral ---------- */
+const JOURNEY = [['list','Listado'],['coverage','Cobertura'],['config','Configurar'],['f1','Contacto'],['f2','Tus datos'],['f3','Resumen'],['done','Enviada']];
+const JMAP = {list:0, coverage:1, alt:1, notfound:1, none:1, config:2, f1:3, f2:4, f3:5, done:6};
+const INFO = {
+  list:{t:'1 · Listado de tarifas', r:[
+    ['1','Precio con IVA, en grande: ya es el precio final (regla 1).'],
+    ['2','Permanencia, instalación y router junto al precio, y qué pasa si se da de baja antes (regla 2).'],
+    ['3','Tarifas en la primera pantalla: en la web actual, la primera aparece a unos 1.760 píxeles.'],
+    ['4','Comprobar la cobertura aquí es opcional; los precios se ven sin dar la dirección (regla 3).']]},
+  coverage:{t:'2 · Cobertura, nada más elegir', r:[
+    ['3','La cobertura se comprueba antes del esfuerzo: tras elegir la tarifa y antes de los extras y los datos.'],
+    ['5','Campos para el móvil: teclado numérico, sugerencias que aceptan «calle», «c/», «plaza» o «pza.» y pisos en lenguaje claro.'],
+    ['6','La tarifa elegida no se pierde.'],
+    ['10','WhatsApp y «¿Te llamamos?» a la vista, también sobre la cobertura.']]},
+  config:{t:'3A · Configurador con precio firme', r:[
+    ['7','Con la cobertura confirmada, los precios ya no cambian.'],
+    ['5','Cada extra muestra su precio y su permanencia de 12 meses (regla 5).'],
+    ['6','Promoción con su duración y el precio posterior, al mismo tamaño (regla 6).'],
+    ['4','Barra fija con el total, la permanencia y el precio al acabar la promoción (regla 4).'],
+    ['7','«Guárdame la tarifa por correo», con consentimiento: aporta a T3.3 el correo para recuperar el abandono (regla 7).']]},
+  alt:{t:'3B · Llega otra tecnología', r:[
+    ['8','No es un «no»: la alternativa equivalente, con su precio real y la diferencia explicada.'],
+    ['8','Indica la velocidad de subida, la que más pesa en las videollamadas de Laura.'],
+    ['6','Lo ya elegido se conserva al cambiar de tarifa.']]},
+  notfound:{t:'3C · Dirección no encontrada', r:[
+    ['9','Nunca dice «sin cobertura»: en Aragón Embou llega con fibra, WiMAX y satélite, y lo comprueba una persona.'],
+    ['10','WhatsApp se abre con la tarifa y la dirección ya escritas.'],
+    ['10','«¿Te llamamos?» con su casilla de privacidad, que hoy no tiene.']]},
+  none:{t:'Sin conexión a casa', r:[
+    ['9','Una persona confirma antes si llega por satélite.'],
+    ['10','Alternativa real: la tarifa solo móvil, sin permanencia.'],
+    ['11','«Avísame cuando llegue la fibra», con su propio consentimiento, porque Laura aún no es clienta.']]},
+  f1:{t:'4 · Formulario, paso 1', r:[
+    ['1','Progreso con el nombre de cada paso y la tarifa siempre a la vista.'],
+    ['2','Paso corto: nombre, correo y teléfono, con autocompletado y el teclado adecuado.'],
+    ['3','Dos casillas separadas y sin marcar: privacidad (obligatoria) y comunicaciones comerciales (opcional, art. 21 de la Ley 34/2002).'],
+    ['4','Para qué se pide cada dato.']]},
+  f2:{t:'5 · Formulario, paso 2', r:[
+    ['5','La dirección comprobada se rellena sola: no se vuelve a escribir.'],
+    ['6','Conservar el número, con un interruptor.'],
+    ['11','Los errores se avisan en el momento, junto al campo y con un ejemplo.']]},
+  f3:{t:'6 · Resumen antes de enviar', r:[
+    ['7','Tecnología, desglose, permanencia y cargo por baja anticipada en una sola pantalla.'],
+    ['8','Precio final y precio al acabar la promoción antes de enviar (art. 60 del RDL 1/2007).']]},
+  done:{t:'7 · Confirmación', r:[
+    ['9','En lugar de volver al inicio, explica qué pasa ahora y quién da el siguiente paso.'],
+    ['10','Correo de resumen con los mismos datos que usarán la bienvenida (T2.1) y la renovación (T1.2).']]},
+};
+function updateSide(){
+  const i = JMAP[S.screen] ?? 0;
+  $('#journey').innerHTML = JOURNEY.map(([, l], j) => `<span class="${j === i ? 'on' : j < i ? 'done' : ''}">${j < i ? '✓ ' : ''}${l}</span>`).join('');
+  const inf = INFO[S.screen] || INFO.list;
+  $('#nowTitle').textContent = inf.t;
+  $('#nowRules').innerHTML = inf.r.map(([n, t]) => `<li><i>${n}</i><span>${t}</span></li>`).join('');
+}
+
+/* ---------- Navegación ---------- */
+function go(screen, opts = {}){
+  const dir = opts.back ? 'back' : 'fwd';
+  if (!opts.back && !opts.replace && S.screen !== screen) S.hist.push(S.screen);
+  S.screen = screen;
+  closeSheet(true);
+  const doRender = () => { render(true); };
+  document.documentElement.classList.toggle('back', dir === 'back');
+  if (document.startViewTransition && !reduce && !opts.instant){
+    document.startViewTransition(doRender);
+  } else doRender();
+}
+function back(){
+  const prev = S.hist.pop();
+  if (prev) go(prev, {back:true});
+}
+$('#back').addEventListener('click', back);
+
+/* ---------- Pantallas ---------- */
+function stickyTotal(btnLabel, action){
+  const c = calc();
+  return `<div class="sticky" id="sticky">
+    <div class="dsg ${S.dsg ? 'v' : ''}" id="dsg">${c.items.map(it => `<div><span>${esc(it.l)}${it.promo ? ` · ${PH('N')} meses` : ''}</span><b>${fmt(it.v)} €</b></div>`).join('')}</div>
+    <div class="tot">
+      <div><div class="n" aria-live="polite"><span id="totN">${fmt(c.t)}</span> <small>€/mes</small></div>
+        <button class="lnk" data-a="dsg" style="font-size:11.5px">${S.dsg ? 'Ocultar desglose ▴' : 'Ver desglose ▾'}</button></div>
+      <div class="r">IVA incluido · <b>Permanencia 12 meses</b><br>${c.promo ? `<b><span id="aftN">${fmt(c.after)}</span> € al acabar la promoción</b>` : 'Instalación y router incluidos'}</div>
+    </div>
+    <button class="btn" data-a="${action}">${btnLabel}</button>
+    <div class="shelp"><button class="lnk" data-a="wa">💬 WhatsApp</button><span>·</span><button class="lnk" data-a="call">¿Te llamamos?</button></div>
+  </div>`;
+}
+
+const SCREENS = {
+list(){
+  const filtered = S.addr && S.tech;
+  let keys;
+  if (S.mode === 'movil') keys = ['m30','m80','minf'];
+  else if (filtered && S.tech === 'wimax') keys = ['w100'];
+  else if (filtered && S.tech === 'none') keys = [];
+  else keys = ['f300','f600_80','f1g_80'];
+  const bar = filtered
+    ? `<div class="bar"><span class="pin">📍</span><span>Tarifas para <b>${esc(addrText())}</b> · ${esc(S.addr.city)}</span><button class="lnk go" data-a="cov-list">Cambiar</button></div>`
+    : `<button class="bar" data-a="cov-list"><span class="pin">📍</span><span><b>¿Llega a tu casa?</b> Compruébalo antes, si quieres</span><span class="go">›</span></button>`;
+  const cards = keys.map((k, i) => {
+    const t = T[k];
+    const cond = t.tech === 'movil' ? (t.perm || `Permanencia ${PH('la que fije Embou')}`) + ' · Sin instalación' : 'Permanencia 12 meses · Instalación y router incluidos';
+    return `<article class="card">
+      <div class="tname">${t.name}</div>
+      <div class="feat">${t.feat}</div>
+      <div class="price"><span class="big">${fmt(t.price)}</span><span class="unit">€/mes<br>IVA incluido</span></div>
+      <div class="cond">${cond}</div>
+      ${t.tech !== 'movil' ? '<button class="lnk" data-a="baja">¿Y si me doy de baja antes?</button>' : ''}
+      <button class="btn" data-a="choose" data-k="${k}">${filtered ? 'Elegir y configurar' : 'Elegir esta tarifa'}</button>
+    </article>`;
+  }).join('');
+  const noneMsg = (filtered && S.tech === 'none' && S.mode === 'conv')
+    ? `<div class="warn"><b>Por ahora no encontramos internet de Embou para tu dirección.</b> Una persona puede comprobar si llega por satélite.</div><div class="help"><button class="w" data-a="wa">WhatsApp</button><button data-a="call">¿Te llamamos?</button></div>` : '';
+  return {html:`<div class="scr enter" id="scr">
+    ${!filtered ? `<div class="hero"><b>El precio que ves es <em>el que pagas</em>.</b><span>IVA incluido, con la permanencia y la instalación a la vista. Sin pedirte la dirección.</span></div>` : ''}
+    ${bar}
+    <div class="chips" role="tablist"><button class="chip ${S.mode === 'conv' ? 'on' : ''}" data-a="mode" data-m="conv" role="tab">Internet y móvil</button><button class="chip ${S.mode === 'movil' ? 'on' : ''}" data-a="mode" data-m="movil" role="tab">Solo móvil</button></div>
+    <div class="h2">${filtered && S.mode === 'conv' ? 'Llegan a tu casa' : 'Elige tu tarifa'}</div>
+    ${noneMsg}${cards}
+    <p class="note">Precios de la web de Embou (6 y 7 de noviembre de 2026) y del mapa de productos.</p>
+  </div>`};
+},
+
+coverage(){
+  const b = S.base ? T[S.base] : null;
+  const c = S.cov;
+  return {html:`<div class="scr enter" id="scr">
+    ${b ? `<div class="sum"><span>Has elegido: <b>${b.short}</b> · ${fmt(b.price)} €/mes</span><button class="lnk" data-a="tolist">Cambiar</button></div>` : ''}
+    <div class="h2">${b ? 'Antes de seguir, ¿llega a tu casa?' : '¿Qué llega a tu casa?'}</div>
+    <p class="tx">Te lo decimos ahora, antes de personalizar nada y sin pedirte datos personales.</p>
+    <label class="lbl" for="cp">Código postal</label>
+    <input class="inp" id="cp" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="50004" value="${esc(c.cp)}">
+    <div class="errm" id="e-cp">Escribe los 5 números del código postal. Ejemplo: 50004</div>
+    <label class="lbl" for="st">Calle</label>
+    <div class="sugg"><input class="inp" id="st" autocomplete="off" placeholder="Empieza a escribir: coso, pza. españa…" value="${esc(c.street)}" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sug"><div class="sug" id="sug" role="listbox" hidden></div></div>
+    <div class="hint">Acepta «calle», «c/», «plaza» o «pza.»</div>
+    <div class="errm" id="e-st">Escribe el nombre de la calle.</div>
+    <div class="row2">
+      <div><label class="lbl" for="num">Número</label><input class="inp" id="num" inputmode="numeric" maxlength="4" placeholder="10" value="${esc(c.num)}"><div class="errm" id="e-num">Falta el número.</div></div>
+      <div style="flex:1.4"><label class="lbl" for="piso">Piso y puerta</label><select class="inp" id="piso"><option value="">Elige</option>${PISOS.map(p => `<option ${c.piso === p ? 'selected' : ''}>${p}</option>`).join('')}</select></div>
+    </div>
+    <button class="btn dk" data-a="check">Comprobar</button>
+    <p class="tx" style="text-align:center;margin:12px 0 0">¿Prefieres que lo miremos por ti?</p>
+    <div class="help"><button class="w" data-a="wa">WhatsApp</button><button data-a="call">¿Te llamamos?</button></div>
+    <div class="demo"><p>Direcciones de prueba (cobertura simulada)</p><div class="dl">
+      <button data-fill="50004|coso|10|2º B">Calle Coso, 10 · Zaragoza</button>
+      <button data-fill="44200|plaza españa|3|Casa unifamiliar">Pza. España, 3 · Calamocha</button>
+      <button data-fill="50004|calle inventada|7|1º A">Calle que no encuentra</button>
+      <button data-fill="44200|masia|1|Casa unifamiliar">Masía sin conexión</button>
+    </div></div>
+  </div>`};
+},
+
+config(){
+  const isW = S.tech === 'wimax';
+  const speeds = [['300','300Mb',29],['600','600Mb',36],['1000','1Gb',44]];
+  const showData = !isW && S.speed !== '300';
+  const dataPrices = S.speed === '600' ? [36,46] : [44,54];
+  return {sticky:true, html:`<div class="scr has-sticky enter" id="scr">
+    <div class="ok"><span class="okc">✓</span><span><b>Llega ${isW ? 'WiMAX' : 'fibra'} a ${esc(addrText())}.</b> Estos precios ya son los tuyos. <button class="lnk" data-a="cov-change">Cambiar dirección</button></span></div>
+    <div class="h3">${isW ? 'Tu conexión' : 'Velocidad de la fibra'}</div>
+    ${isW
+      ? `<div class="opt on" style="cursor:default"><span><b>WiMAX 100Mb</b><small>100 Mb de bajada · 10 de subida · antena de 20 cm incluida</small></span><span class="tg on"></span></div>`
+      : `<div class="seg" role="radiogroup">${speeds.map(([v, l, p]) => `<button role="radio" aria-checked="${S.speed === v}" class="${S.speed === v ? 'on' : ''}" data-a="speed" data-v="${v}">${l}<small>desde ${p} €</small></button>`).join('')}</div>`}
+    ${showData ? `<div class="h3">Datos de tu móvil</div><div class="seg" role="radiogroup">
+        <button role="radio" aria-checked="${S.data !== 'inf'}" class="${S.data !== 'inf' ? 'on' : ''}" data-a="data" data-v="80">80GB<small>${dataPrices[0]} €/mes</small></button>
+        <button role="radio" aria-checked="${S.data === 'inf'}" class="${S.data === 'inf' ? 'on' : ''}" data-a="data" data-v="inf">GB infinitos<small>${dataPrices[1]} €/mes</small></button></div>` : `<p class="tx" style="margin:4px 0 0">Incluye móvil 30GB acumulables con llamadas ilimitadas.</p>`}
+    <div class="h3">Líneas móviles adicionales</div>
+    <div class="opt ${S.lines ? 'on' : ''}" style="cursor:default"><span><b>Línea de 10GB</b><small>La 1ª: <b>2 €/mes durante ${PH('N')} meses; después, 4 €/mes</b>. Las siguientes, 4 €/mes.</small></span>
+      <span class="step"><button data-a="lines" data-d="-1" aria-label="Quitar línea" ${S.lines === 0 ? 'disabled' : ''}>−</button><span id="lnN">${S.lines}</span><button data-a="lines" data-d="1" aria-label="Añadir línea" ${S.lines >= 4 ? 'disabled' : ''}>+</button></span></div>
+    <div class="h3">Televisión y contenidos</div>
+    ${['pack','prem'].map(k => `<button class="opt ${S.tv[k] ? 'on' : ''}" data-a="tv" data-k="${k}" role="switch" aria-checked="${S.tv[k]}"><span><b>${TV[k].name}</b><small>${TV[k].desc}</small></span><span class="tg"></span></button>`).join('')}
+    <button class="lnk" data-a="compare">Comparar qué incluye cada paquete</button><br>
+    <button class="lnk" data-a="save" style="margin-top:8px">Guárdame la tarifa por correo</button>
+  </div>${stickyTotal('Continuar', 'tof1')}`};
+},
+
+alt(){
+  const b = T[S.base] && T[S.base].tech === 'fibra' ? T[S.base] : T.f300;
+  const w = T.w100;
+  const d = b.price - w.price;
+  return {html:`<div class="scr enter" id="scr">
+    <div class="sum"><span>Has elegido: <b>${b.short}</b> · ${fmt(b.price)} €/mes</span></div>
+    <div class="h2">A tu casa aún no llega la fibra, pero sí WiMAX</div>
+    <p class="tx">WiMAX es internet por radio desde la red propia de Embou, con más de 1.110 puntos de acceso en Aragón.</p>
+    <article class="card best"><span class="tag">Llega a ${esc(addrText())}</span>
+      <div class="tname">${w.name}</div>
+      <div class="price"><span class="big">${fmt(w.price)}</span><span class="unit">€/mes<br>IVA incluido</span></div>
+      <dl class="spec"><dt>Velocidad</dt><dd>100 Mb bajada · 10 subida</dd><dt>Instalación</dt><dd>Antena de 20 cm, incluida</dd><dt>Fijo</dt><dd>150 min a móviles (fibra: 60)</dd><dt>Móvil</dt><dd>El mismo: 30GB acumulables</dd></dl>
+      <div class="cond">Permanencia 12 meses · Después añades líneas y televisión igual que con la fibra</div>
+      <div class="diff"><b>La diferencia:</b> ${d > 0 ? `${fmt(d)} €/mes menos` : 'distinto precio'} y una subida de 10 Mb, la que más pesa en las videollamadas. Tus extras se conservan.</div>
+      <button class="btn" data-a="accept-alt">Cambiar a esta tarifa</button>
+    </article>
+    <button class="lnk" data-a="tolist-f">Ver todas las tarifas que llegan a tu casa</button>
+    <div class="help"><button class="w" data-a="wa">WhatsApp</button><button data-a="call">¿Te llamamos?</button></div>
+  </div>`};
+},
+
+notfound(){
+  const b = T[S.base] || T.f300;
+  return {html:`<div class="scr enter" id="scr">
+    <div class="sum"><span>Tu tarifa está guardada: <b>${b.short}</b></span></div>
+    <div class="h2">No encontramos tu dirección en el buscador</div>
+    <p class="tx">Eso no significa que no lleguemos: en Aragón llegamos con fibra, WiMAX y satélite. <b style="color:var(--k)">Una persona de Embou lo comprueba</b> y te dice qué tarifa llega a tu casa.</p>
+    <button class="btn" data-a="wa" style="background:var(--wa);color:#fff">Comprobarlo por WhatsApp</button>
+    <p class="hint" style="margin:7px 4px 0">Se abre con este mensaje: «Hola, quiero la ${esc(b.short)} y el buscador no encuentra mi dirección: ${esc(S.cov.street)} ${esc(S.cov.num)}, ${esc(S.cov.cp)}»</p>
+    <div class="h3">O te llamamos nosotros</div>
+    <label class="lbl" for="nfTel">Tu teléfono</label>
+    <input class="inp" id="nfTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="6__ ___ ___" maxlength="12">
+    <div class="errm" id="e-nfTel">Escribe un teléfono de 9 cifras. Ejemplo: 612 345 678</div>
+    <label class="chk"><input type="checkbox" id="nfPriv"><span>He leído la política de privacidad <small>(obligatoria)</small></span></label>
+    <div class="errm" id="e-nfPriv">Necesitamos que aceptes la política de privacidad para llamarte.</div>
+    <button class="btn dk" data-a="nf-call">Llamadme</button>
+    <p class="tx" style="text-align:center;margin-top:12px"><button class="lnk" data-a="cov-change">Escribir otra vez la dirección</button> · <button class="lnk" data-a="store">Ir a una tienda</button></p>
+  </div>`};
+},
+
+none(){
+  const b = T[S.base] || T.f300; const m = T.m30;
+  return {html:`<div class="scr enter" id="scr">
+    <div class="sum"><span>Has elegido: <b>${b.short}</b></span></div>
+    <div class="h2">Por ahora no encontramos internet de Embou para tu dirección</div>
+    <p class="tx">Puede que llegue por satélite. <b style="color:var(--k)">Una persona lo comprueba</b> y te dice si hay alguna opción.</p>
+    <div class="help" style="margin-top:0"><button class="w" data-a="wa">WhatsApp</button><button data-a="call">¿Te llamamos?</button></div>
+    <div class="h3">Mientras tanto, tu móvil con Embou</div>
+    <article class="card"><div class="tname">${m.name} y llamadas ilimitadas</div><div class="feat">Cobertura nacional</div>
+      <div class="price"><span class="big">${fmt(m.price)}</span><span class="unit">€/mes<br>IVA incluido</span></div>
+      <div class="cond">Sin permanencia</div><button class="btn" data-a="choose" data-k="m30">Elegir esta tarifa</button></article>
+    <div class="h3">Avísame cuando llegue la fibra</div>
+    <div id="notifyBox">
+      <label class="lbl" for="ntEmail">Tu correo</label>
+      <input class="inp" id="ntEmail" type="email" inputmode="email" autocomplete="email" placeholder="laura@…">
+      <div class="errm" id="e-ntEmail">Revisa el correo. Ejemplo: laura@correo.es</div>
+      <label class="chk"><input type="checkbox" id="ntCom"><span>Acepto que Embou me escriba cuando llegue la fibra a mi dirección <small>(obligatoria para el aviso)</small></span></label>
+      <label class="chk"><input type="checkbox" id="ntPriv"><span>He leído la política de privacidad <small>(obligatoria)</small></span></label>
+      <div class="errm" id="e-nt">Marca las dos casillas para recibir el aviso.</div>
+      <button class="btn dk" data-a="notify">Avisadme</button>
+    </div>
+  </div>`};
+},
+
+f1(){
+  const c = S.c;
+  return {html:`<div class="scr enter" id="scr">
+    ${progress(1)}
+    ${miniSum()}
+    <div class="h2">¿Cómo te contactamos?</div>
+    <label class="lbl" for="fName">Nombre</label>
+    <input class="inp" id="fName" autocomplete="given-name" placeholder="Laura" value="${esc(c.name)}">
+    <div class="hint">Se rellena con el autocompletado del móvil</div>
+    <div class="errm" id="e-fName">Escribe tu nombre.</div>
+    <label class="lbl" for="fEmail">Correo electrónico</label>
+    <input class="inp" id="fEmail" type="email" inputmode="email" autocomplete="email" placeholder="laura@correo.es" value="${esc(c.email)}">
+    <div class="hint">Para enviarte el resumen de tu tarifa</div>
+    <div class="errm" id="e-fEmail">Revisa el correo. Ejemplo: laura@correo.es</div>
+    <label class="lbl" for="fTel">Teléfono</label>
+    <input class="inp" id="fTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="6__ ___ ___" maxlength="12" value="${esc(c.tel)}">
+    <div class="hint">Para llamarte y fijar la instalación</div>
+    <div class="errm" id="e-fTel">Escribe un teléfono de 9 cifras. Ejemplo: 612 345 678</div>
+    <label class="chk"><input type="checkbox" id="fPriv" ${c.priv ? 'checked' : ''}><span>He leído y acepto la <u>política de privacidad</u> <small>(obligatoria)</small></span></label>
+    <div class="errm" id="e-fPriv">Para tramitar la solicitud necesitamos que aceptes la política de privacidad.</div>
+    <label class="chk"><input type="checkbox" id="fCom" ${c.com ? 'checked' : ''}><span>Quiero recibir ofertas y novedades de Embou <small>(opcional)</small></span></label>
+    <button class="btn" data-a="tof2">Continuar</button>
+  </div>`};
+},
+
+f2(){
+  const k = S.k; const isM = (T[S.base] || {}).tech === 'movil';
+  return {html:`<div class="scr enter" id="scr">
+    ${progress(2)}
+    ${miniSum()}
+    <div class="h2">Tus datos para el contrato</div>
+    <label class="lbl" for="fApe">Apellidos</label>
+    <input class="inp" id="fApe" autocomplete="family-name" placeholder="Gil Martín" value="${esc(k.ape)}">
+    <div class="errm" id="e-fApe">Escribe tus apellidos.</div>
+    <label class="lbl" for="fDni">DNI o NIE</label>
+    <input class="inp" id="fDni" autocomplete="off" autocapitalize="characters" maxlength="9" placeholder="12345678Z" value="${esc(k.dni)}">
+    <div class="errm" id="e-fDni"></div>
+    <div class="hint">Dato de prueba válido: 12345678Z</div>
+    <span class="lbl">${isM ? 'Envío de la tarjeta SIM' : 'Dirección de instalación'}</span>
+    ${isM ? `<div class="addr" style="background:var(--bg);border-color:var(--l)">La confirmamos en la llamada</div>`
+          : `<div class="addr">✓ ${esc(addrText(true))}</div><div class="hint">La que ya comprobaste · <button class="lnk" data-a="cov-change" style="font-size:11.3px">Cambiar</button></div>`}
+    <button class="opt ${k.porta ? 'on' : ''}" data-a="porta" role="switch" aria-checked="${k.porta}" style="margin-top:14px"><span><b>Quiero conservar mi número de móvil</b><small>El cambio de compañía lo gestiona Embou</small></span><span class="tg"></span></button>
+    <div id="portaBox" ${k.porta ? '' : 'hidden'}>
+      <label class="lbl" for="fComp">Compañía actual</label>
+      <select class="inp" id="fComp"><option value="">Elige tu compañía</option>${COMPANIES.map(c => `<option ${k.comp === c ? 'selected' : ''}>${c}</option>`).join('')}</select>
+      <div class="errm" id="e-fComp">Elige tu compañía actual.</div>
+    </div>
+    <button class="btn" data-a="tof3">Continuar</button>
+    <button class="btn ol" data-a="back">Atrás</button>
+  </div>`};
+},
+
+f3(){
+  const c = calc(); const isM = c.b.tech === 'movil';
+  const rows = c.items.map(it => `<div><span>${esc(it.l)}${it.promo ? `<br><small>${PH('N')} meses; después, ${fmt(S.lines * 4)} €</small>` : ''}</span><span>${fmt(it.v)} €</span></div>`).join('');
+  const tech = isM ? 'Móvil · cobertura nacional' : `${S.tech === 'wimax' ? 'WiMAX' : 'Fibra'} · ${esc(addrText())}`;
+  const perm = isM ? (c.b.perm || PH('la que fije Embou')) : '12 meses';
+  return {html:`<div class="scr enter" id="scr">
+    ${progress(3)}
+    <div class="h2">Revisa tu tarifa</div>
+    <div class="rev">${rows}
+      <div><span>Tecnología</span><span>${tech}</span></div>
+      ${isM ? '' : '<div><span>Instalación y router</span><span>Incluidos</span></div>'}
+      <div><span>Permanencia</span><span>${perm}</span></div>
+      ${isM ? '' : '<div><span>Si te das de baja antes</span><span>Cargo de instalación<br><small style="font-weight:500">(181,50 € la completa)</small></span></div>'}
+      ${S.k.porta ? `<div><span>Portabilidad</span><span>Desde ${esc(S.k.comp)}</span></div>` : ''}
+    </div>
+    <div class="totbox"><div class="n">${fmt(c.t)} <small>€/mes</small></div>
+      <p>IVA incluido · precio final${c.promo ? ` · <b>${fmt(c.after)} € al acabar la promoción</b>` : ''}</p></div>
+    <button class="btn" data-a="send" id="sendBtn">Enviar solicitud</button>
+    <p class="tx" style="text-align:center;margin-top:10px">Después te llamamos para fijar el día de la instalación.</p>
+    <p class="note" style="text-align:center">Prototipo: al pulsar «Enviar» no se envía ningún dato.</p>
+  </div>`};
+},
+
+done(){
+  const c = calc(); const isM = c.b.tech === 'movil';
+  return {html:`<div class="scr enter" id="scr" style="text-align:left">
+    <svg class="okdraw" viewBox="0 0 86 86" aria-hidden="true"><circle cx="43" cy="43" r="40"/><path d="M26 44 l11 11 l23 -24"/></svg>
+    <div class="h2" style="text-align:center">Solicitud enviada, ${esc(S.c.name || 'Laura')}</div>
+    <p class="tx" style="text-align:center">Te hemos enviado el resumen a <b style="color:var(--k)">${esc(S.c.email || 'laura@…')}</b> <button class="lnk" data-a="mail">Ver el correo</button></p>
+    <div class="h3">Qué pasa ahora</div>
+    <ol class="tl">
+      <li><i>1</i><span><b>Te llamamos ${PH('en el plazo que fije Embou')}</b> para ${isM ? 'confirmar los datos y el envío de la SIM' : 'fijar el día de la instalación'}.</span></li>
+      <li><i>2</i><span>${isM ? 'Recibes la SIM en casa y la activas.' : `Un técnico instala ${S.tech === 'wimax' ? 'la antena WiMAX' : 'la fibra'} y deja el router funcionando.`}</span></li>
+      <li><i>3</i><span>${S.k.porta ? 'El cambio de compañía lo gestionamos nosotros.' : 'Empieza tu bienvenida: te contamos cómo sacar partido a tu conexión.'}</span></li>
+    </ol>
+    <div class="sum" style="margin-top:12px"><span>${esc(summaryLine())} · <b>${fmt(c.t)} €/mes</b> · ${isM ? (c.b.perm || 'Permanencia ' + PH('Embou')) : 'Permanencia 12 meses'}</span></div>
+    <p class="tx" style="text-align:center;margin:6px 0 0">¿Alguna duda antes de la llamada?</p>
+    <div class="help"><button class="w" data-a="wa">WhatsApp</button><button data-a="phone">976 363 800</button></div>
+    <button class="btn ol" data-a="restart" style="margin-top:16px">Volver a empezar el prototipo</button>
+  </div>`};
+},
+};
+
+function progress(n){
+  const L = ['Contacto','Tus datos','Resumen'];
+  return `<div class="prog" aria-label="Paso ${n} de 3"><div class="tr"><div class="fl" style="width:${n === 1 ? 8 : (n - 1) * 33.4}%" data-w="${n * 33.4}"></div></div>
+    <div class="lb">${L.map((l, i) => `<span class="${i + 1 === n ? 'on' : i + 1 < n ? 'dn' : ''}">${i + 1 < n ? '✓ ' : ''}${l}</span>`).join('')}</div></div>`;
+}
+function miniSum(){
+  const c = calc();
+  return `<div class="sum"><span>${esc(summaryLine())} · <b>${fmt(c.t)} €/mes</b></span><button class="lnk" data-a="breakdown">Ver</button></div>`;
+}
+
+/* ---------- Render ---------- */
+function render(full){
+  const out = SCREENS[S.screen]();
+  const scr = $('#screen');
+  scr.innerHTML = out.html;
+  $('#back').classList.toggle('v', S.hist.length > 0 && S.screen !== 'done');
+  const fab = $('#wafab');
+  fab.classList.toggle('up', !!out.sticky);
+  fab.classList.toggle('hide', !!out.sticky || ['notfound','none','f1','f2','f3','done'].includes(S.screen));
+  if (out.sticky){
+    const c = calc();
+    animateNum($('#totN'), lastTotal, c.t);
+    lastTotal = c.t;
+  } else lastTotal = null;
+  // barra de progreso animada
+  const fl = $('.prog .fl'); if (fl) requestAnimationFrame(() => requestAnimationFrame(() => fl.style.width = fl.dataset.w + '%'));
+  if (full) updateSide();
+  bindScreen();
+}
+/* Re-render del configurador sin perder el desplazamiento */
+function rerenderConfig(){
+  const st = $('#scr') ? $('#scr').scrollTop : 0;
+  const prev = lastTotal;
+  const out = SCREENS.config();
+  $('#screen').innerHTML = out.html.replace('class="scr has-sticky enter"', 'class="scr has-sticky"');
+  $('#scr').style.scrollBehavior = 'auto';
+  $('#scr').scrollTop = st;
+  $('#scr').style.scrollBehavior = '';
+  const c = calc();
+  animateNum($('#totN'), prev, c.t);
+  if ($('#aftN')) $('#aftN').textContent = fmt(c.after);
+  lastTotal = c.t;
+  fitSticky();
+}
+
+/* ---------- Comportamiento por pantalla ---------- */
+let stickyRO = null;
+function fitSticky(){
+  if (stickyRO){ stickyRO.disconnect(); stickyRO = null; }
+  const st = $('#sticky'), scr = $('#scr');
+  if (!st || !scr || !window.ResizeObserver) return;
+  stickyRO = new ResizeObserver(() => { scr.style.paddingBottom = (st.offsetHeight + 24) + 'px'; });
+  stickyRO.observe(st);
+}
+function bindScreen(){
+  fitSticky();
+  if (S.screen === 'coverage') bindCoverage();
+  if (S.screen === 'f2'){
+    const d = $('#fDni');
+    d.addEventListener('input', () => { d.value = d.value.toUpperCase().replace(/[^0-9XYZA-Z]/g, ''); const r = dniCheck(d.value, true); setErr('fDni', r === true ? '' : r, d.value.length >= 9 ? r !== true : false); d.classList.toggle('good', r === true); });
+  }
+  if (S.screen === 'f1'){
+    $('#fTel').addEventListener('input', e => { e.target.value = e.target.value.replace(/[^\d ]/g, ''); });
+  }
+}
+function norm(s){
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/^\s*(calle|c\/|c\.|plaza|pza\.?|pl\.?|paseo|p[ºo°]\.?|avenida|avda\.?|av\.?)\s*/, '')
+    .replace(/\b(de la|de los|del|de)\b/g, ' ').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function findStreets(cp, q){
+  const nq = norm(q); if (nq.length < 2) return [];
+  const zones = cp && DB[cp] ? [[cp, DB[cp]]] : Object.entries(DB);
+  const res = [];
+  for (const [z, d] of zones) for (const [name, tech] of d.streets) if (norm(name).includes(nq)) res.push({cp:z, city:d.city, name, tech});
+  return res.slice(0, 5);
+}
+function bindCoverage(){
+  const cp = $('#cp'), st = $('#st'), sug = $('#sug');
+  let hi = -1, list = [];
+  const show = () => {
+    list = findStreets(cp.value.trim(), st.value);
+    if (!list.length || document.activeElement !== st){ sug.hidden = true; st.setAttribute('aria-expanded', 'false'); return; }
+    sug.innerHTML = list.map((r, i) => `<button type="button" role="option" class="${i === hi ? 'on' : ''}" data-i="${i}">${esc(r.name)} <small>· ${r.cp} ${esc(r.city)}</small></button>`).join('');
+    sug.hidden = false; st.setAttribute('aria-expanded', 'true');
+  };
+  const pick = i => { const r = list[i]; if (!r) return; st.value = r.name; if (!cp.value) cp.value = r.cp; sug.hidden = true; st.setAttribute('aria-expanded', 'false'); $('#num').focus(); };
+  cp.addEventListener('input', () => { cp.value = cp.value.replace(/\D/g, ''); setErr('cp', '', false); });
+  st.addEventListener('input', () => { hi = -1; show(); setErr('st', '', false); });
+  st.addEventListener('focus', show);
+  st.addEventListener('blur', () => setTimeout(() => { sug.hidden = true; }, 160));
+  st.addEventListener('keydown', e => {
+    if (sug.hidden) return;
+    if (e.key === 'ArrowDown'){ hi = Math.min(list.length - 1, hi + 1); show(); e.preventDefault(); }
+    if (e.key === 'ArrowUp'){ hi = Math.max(0, hi - 1); show(); e.preventDefault(); }
+    if (e.key === 'Enter' && hi >= 0){ pick(hi); e.preventDefault(); }
+  });
+  sug.addEventListener('mousedown', e => { const b = e.target.closest('[data-i]'); if (b){ e.preventDefault(); pick(+b.dataset.i); } });
+  $('#num').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, ''); setErr('num', '', false); });
+}
+function setErr(id, msg, on){
+  const e = $('#e-' + id), i = $('#' + id);
+  if (e){ if (msg) e.textContent = msg; e.classList.toggle('v', !!on); }
+  if (i){ i.classList.toggle('bad', !!on); i.setAttribute('aria-invalid', on ? 'true' : 'false'); }
+}
+function dniCheck(v, live){
+  const L = 'TRWAGMYFPDXBNJZSQVHLCKE';
+  if (!v) return 'Escribe tu DNI o NIE. Ejemplo: 12345678Z';
+  let s = v.toUpperCase();
+  const nie = /^[XYZ]/.test(s);
+  if (nie) s = String('XYZ'.indexOf(s[0])) + s.slice(1);
+  if (/^\d{8}$/.test(s)) return 'Falta la letra del final. Ejemplo: 12345678Z';
+  if (!/^\d{8}[A-Z]$/.test(s)) return nie ? 'El NIE tiene una letra, siete números y otra letra. Ejemplo: X1234567L' : 'El DNI tiene ocho números y una letra. Ejemplo: 12345678Z';
+  const ok = L[parseInt(s.slice(0, 8), 10) % 23] === s[8];
+  return ok ? true : 'La letra no corresponde a ese número. Revísalo.';
+}
+const emailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+const telOk = v => /^[6789]\d{8}$/.test(v.replace(/\s/g, ''));
+
+/* ---------- Cobertura simulada ---------- */
+function runCheck(){
+  const cp = $('#cp').value.trim(), st = $('#st').value.trim(), num = $('#num').value.trim(), piso = $('#piso').value;
+  let bad = false;
+  if (!/^\d{5}$/.test(cp)){ setErr('cp', '', true); bad = true; }
+  if (!st){ setErr('st', '', true); bad = true; }
+  if (!num){ setErr('num', '', true); bad = true; }
+  if (bad) return;
+  S.cov = {cp, street:st, num, piso};
+  const m = findStreets(cp, st);
+  const exact = m.find(r => norm(r.name) === norm(st)) || (m.length === 1 ? m[0] : m[0]);
+  let res = 'nf', addr = null;
+  if (exact && norm(exact.name).includes(norm(st)) && norm(st).length >= 3){
+    res = exact.tech;
+    addr = {cp:exact.cp, city:exact.city, street:exact.name, num, piso};
+  }
+  track('coverage_check', {cp});
+  const ov = document.createElement('div');
+  ov.className = 'check';
+  ov.innerHTML = `<div class="radar" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+    <ul class="cl" aria-live="polite">
+      <li id="c1"><span class="st"></span><span>${res === 'nf' ? 'Buscando la dirección…' : 'Dirección localizada: ' + esc(addr.street) + ', ' + esc(num)}</span></li>
+      <li id="c2"><span class="st"></span><span>Comprobando fibra</span></li>
+      <li id="c3"><span class="st"></span><span>Comprobando WiMAX</span></li>
+    </ul><div class="sim">Resultado simulado para el prototipo</div>`;
+  $('#screen').appendChild(ov);
+  const steps = res === 'nf'
+    ? [['c1','no']]
+    : res === 'fibra' ? [['c1','yes'],['c2','yes']] : [['c1','yes'],['c2','no'],['c3', res === 'wimax' ? 'yes' : 'no']];
+  const D = reduce ? 60 : 620;
+  steps.forEach(([id, r], i) => {
+    setTimeout(() => { const li = $('#' + id, ov); li.classList.add('v', 'run'); }, i * D);
+    setTimeout(() => { const li = $('#' + id, ov); li.classList.remove('run'); li.classList.add(r); li.querySelector('.st').textContent = r === 'yes' ? '✓' : '–'; if (id === 'c1' && r === 'no') li.lastElementChild.textContent = 'No encontramos la dirección en el buscador'; }, i * D + D * .8);
+  });
+  setTimeout(() => {
+    const label = {fibra:'fibra', wimax:'wimax', nf:'no_encontrada', none:'sin_conexion'}[res];
+    track('coverage_result', {resultado:label});
+    if (res === 'nf'){ S.addr = null; S.tech = null; go('notfound'); return; }
+    S.addr = addr; S.tech = res;
+    if (res === 'none'){ go(S.fromList && !S.base ? 'list' : 'none'); return; }
+    if (S.fromList && !S.base){ S.fromList = false; go('list'); return; }
+    const b = T[S.base];
+    if (res === 'fibra'){ if (b.tech === 'wimax'){ S.base = 'f300'; S.speed = '300'; S.data = '30'; } go('config'); }
+    else if (res === 'wimax'){ if (b.tech === 'fibra') go('alt'); else go('config'); }
+  }, steps.length * D + (reduce ? 50 : 450));
+}
+
+/* ---------- Hojas inferiores ---------- */
+function openSheet(html, onOpen){
+  closeSheet(true);
+  const root = $('#sheetRoot');
+  root.innerHTML = `<div class="dim" data-a="close"></div><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`;
+  requestAnimationFrame(() => { $('.dim', root).classList.add('v'); $('.sheet', root).classList.add('v'); });
+  const f = $('.sheet input, .sheet button.x', root); setTimeout(() => f && f.focus({preventScroll:true}), 350);
+  if (onOpen) onOpen($('.sheet', root));
+}
+function closeSheet(instant){
+  const root = $('#sheetRoot');
+  if (!root.firstChild) return;
+  if (instant){ root.innerHTML = ''; return; }
+  $('.dim', root).classList.remove('v'); $('.sheet', root).classList.remove('v');
+  setTimeout(() => root.innerHTML = '', 380);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+const shHead = t => `<div class="shd"><div class="h2">${t}</div><button class="x" data-a="close" aria-label="Cerrar">✕</button></div>`;
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('v');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('v'), 2800);
+}
+const tariffRef = () => S.base ? T[S.base].short : 'una tarifa de Embou';
+
+const SHEETS = {
+  baja: () => openSheet(`${shHead('¿Y si me doy de baja antes?')}
+    <p class="tx">Las tarifas de internet tienen una <b style="color:var(--k)">permanencia de 12 meses</b>. Si te das de baja antes, se cobra el cargo de instalación: la instalación completa cuesta <b style="color:var(--k)">181,50 €</b>.</p>
+    <p class="tx">La instalación y el router están incluidos mientras cumplas la permanencia. Los extras de televisión y contenidos tienen su propia permanencia de 12 meses.</p>
+    <p class="note">Dato del centro de ayuda de Embou. La redacción definitiva la fijan sus áreas comercial y legal.</p>
+    <button class="btn dk" data-a="close">Entendido</button>`),
+  compare: () => openSheet(`${shHead('Qué incluye cada paquete')}
+    <div class="cmp">
+      <div class="c"><span class="p">+5 €/mes</span><b>DAZN, Agile TV y Filmin</b><ul><li>DAZN: fútbol de Primera Federación, 10 partidos por jornada</li><li>Filmin: más de 11.000 películas y 500 series</li><li>Agile TV</li><li>Permanencia 12 meses</li></ul></div>
+      <div class="c"><span class="p">+8 €/mes</span><b>TV Premium</b><ul><li>Agile TV con más de 100 canales</li><li>Deco 4K y mando incluidos</li><li>Permanencia 12 meses</li></ul></div>
+    </div>
+    <p class="note">En el móvil, la comparación va en tarjetas apiladas: una tabla de varias columnas desborda la pantalla, como ocurre hoy en la web (433 px en una pantalla de 390). Contenidos del mapa de productos de Embou.</p>`),
+  save: () => { track('save_tariff_open'); const c = calc(); openSheet(`${shHead('Guárdate tu tarifa')}
+    <div class="sum"><span>${esc(summaryLine())} · <b>${fmt(c.t)} €/mes</b>${c.promo ? ` · ${fmt(c.after)} € al acabar la promoción` : ''} · Permanencia 12 meses</span></div>
+    <div id="saveBox"><label class="lbl" for="svEmail">Correo electrónico</label>
+    <input class="inp" id="svEmail" type="email" inputmode="email" autocomplete="email" placeholder="laura@correo.es">
+    <div class="errm" id="e-svEmail">Revisa el correo. Ejemplo: laura@correo.es</div>
+    <label class="chk"><input type="checkbox" id="svPriv"><span>He leído la política de privacidad <small>(obligatoria)</small></span></label>
+    <div class="errm" id="e-svPriv">Necesitamos que aceptes la política de privacidad.</div>
+    <label class="chk"><input type="checkbox" id="svCom"><span>Quiero recibir ofertas y novedades de Embou <small>(opcional)</small>. Si la marcas, podremos recordarte tu tarifa más adelante.</span></label>
+    <button class="btn dk" data-a="save-ok">Enviármela</button>
+    <p class="hint" style="text-align:center;margin-top:8px">Te llega al momento, con un enlace para seguir donde lo dejaste.</p></div>`); },
+  call: () => openSheet(`${shHead('Te llamamos')}
+    <div class="sum"><span>Sobre tu tarifa: <b>${esc(tariffRef())}</b>${S.base ? ' · ' + fmt(T[S.base].price) + ' €/mes' : ''}</span></div>
+    <div id="callBox"><label class="lbl" for="clName">Nombre</label><input class="inp" id="clName" autocomplete="given-name" placeholder="Laura">
+    <label class="lbl" for="clTel">Teléfono</label><input class="inp" id="clTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="6__ ___ ___" maxlength="12">
+    <div class="errm" id="e-clTel">Escribe un teléfono de 9 cifras. Ejemplo: 612 345 678</div>
+    <span class="lbl">¿Cuándo te viene mejor? <small>(opcional)</small></span>
+    <div class="slots"><button data-slot class="on">Cuanto antes</button><button data-slot>Mañana</button><button data-slot>Tarde</button></div>
+    <p class="hint">Llamamos de ${PH('horario de atención')}. Si nos escribes fuera de ese horario, te llamamos el siguiente día hábil.</p>
+    <label class="chk"><input type="checkbox" id="clPriv"><span>He leído la política de privacidad <small>(obligatoria)</small>. Usaremos tu teléfono solo para esta llamada.</span></label>
+    <div class="errm" id="e-clPriv">Necesitamos que aceptes la política de privacidad.</div>
+    <button class="btn dk" data-a="call-ok">Llamadme</button>
+    <p class="tx" style="text-align:center;margin-top:10px">¿Prefieres escribir? <button class="lnk" data-a="wa">WhatsApp</button></p></div>`),
+  wa: () => {
+    const nf = S.screen === 'notfound';
+    const msg = nf
+      ? `Hola, quiero la ${tariffRef()} y el buscador no encuentra mi dirección: ${S.cov.street} ${S.cov.num}, ${S.cov.cp}`
+      : S.screen === 'none' ? `Hola, no encuentro internet de Embou para ${addrText(true) || 'mi dirección'}. ¿Llega por satélite?`
+      : S.screen === 'done' ? `Hola, acabo de enviar una solicitud de ${summaryLine()} y tengo una duda.`
+      : S.base ? `Hola, estoy mirando la ${summaryLine()} (${fmt(calc().t)} €/mes) y tengo una duda.` : 'Hola, quiero información sobre las tarifas de Embou.';
+    track('whatsapp_click', {paso:S.screen});
+    openSheet(`${shHead('WhatsApp')}
+      <div class="chat"><div class="who"><i>e</i><span>Embou<br><small style="font-weight:500;opacity:.8">Atención comercial</small></span></div>
+        <div class="bub me" id="waMsg"><span class="caret" id="waTxt"></span><small>ahora</small></div></div>
+      <p class="note">En la web real, el botón abre WhatsApp con este mensaje ya escrito: el equipo sabe qué tarifa miraba Laura. Aquí solo se simula.</p>`,
+      sh => typeWriter($('#waTxt', sh), msg, () => {
+        setTimeout(() => { const ch = $('.chat', sh); if (!ch) return; const t = document.createElement('div'); t.className = 'typing'; t.innerHTML = '<span></span><span></span><span></span>'; ch.appendChild(t);
+          setTimeout(() => { if (!t.isConnected) return; t.remove(); const b = document.createElement('div'); b.className = 'bub them'; b.innerHTML = `¡Hola! Lo miramos ahora mismo con la tarifa que nos indicas. <small>ahora</small>`; ch.appendChild(b); }, reduce ? 50 : 1300);
+        }, 300);
+      }));
+  },
+  breakdown: () => { const c = calc(); openSheet(`${shHead('Tu tarifa')}
+    <div class="rev">${c.items.map(it => `<div><span>${esc(it.l)}${it.promo ? ` · ${PH('N')} meses` : ''}</span><span>${fmt(it.v)} €</span></div>`).join('')}
+    <div><span><b style="color:var(--k)">Total, IVA incluido</b></span><span>${fmt(c.t)} €/mes</span></div>
+    ${c.promo ? `<div><span>Al acabar la promoción</span><span>${fmt(c.after)} €/mes</span></div>` : ''}</div>`); },
+  mail: () => { const c = calc(); const isM = c.b.tech === 'movil';
+    const parts = c.items.map(it => it.promo ? `${it.l.replace(/^1 línea/, 'una línea')} (2,00 € durante ${PH('N')} meses; después, 4,00 €${S.lines > 1 ? `; las demás, 4,00 €` : ''})` : `${it.l} (${fmt(it.v)} €)`);
+    openSheet(`${shHead('Correo de resumen (R6)')}
+    <div class="mail"><div class="mh">De: Embou · Para: ${esc(S.c.email || 'laura@…')}<br>Asunto: Hemos recibido tu solicitud</div>
+    Hola, ${esc(S.c.name || 'Laura')}: hemos recibido tu solicitud. Vas a pagar <b>${fmt(c.t)} €/mes, IVA incluido</b>: ${parts.join(', ')}.
+    ${c.promo ? `Al acabar la promoción pasarás a <b>${fmt(c.after)} €/mes</b>, y te avisaremos antes.` : ''}
+    ${isM ? '' : 'Permanencia de 12 meses; instalación y router incluidos.'} Te llamamos ${PH('plazo')} para ${isM ? 'confirmar tus datos' : 'fijar la instalación'}. ¿Dudas? Escríbenos por WhatsApp o llama al 976 363 800.</div>
+    <p class="note">Texto R6 del anexo, con los datos de la solicitud. Prototipo: no se envía ningún correo.</p>`); },
+};
+function typeWriter(el, text, done){
+  if (reduce){ el.textContent = text; el.classList.remove('caret'); done && done(); return; }
+  let i = 0;
+  const tick = () => { if (!el.isConnected) return; el.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 18); else { el.classList.remove('caret'); done && done(); } };
+  tick();
+}
+
+/* ---------- Acciones ---------- */
+const A = {
+  mode: b => { S.mode = b.dataset.m; track('view_item_list', {lista:S.mode === 'conv' ? 'internet_y_movil' : 'solo_movil'}); go('list', {replace:true, instant:true}); },
+  'cov-list': () => { S.fromList = true; S.base = null; go('coverage'); },
+  choose: b => {
+    const k = b.dataset.k; const t = T[k];
+    S.base = k; track('select_item', {tarifa:t.short, precio:fmt(t.price)});
+    if (t.tech === 'movil'){ S.lines = 0; S.tv = {pack:false, prem:false}; track('begin_checkout', {valor:fmt(t.price)}); go('f1'); return; }
+    S.speed = t.speed === 'w100' ? S.speed : t.speed; S.data = t.data;
+    if (S.addr && S.tech && S.tech !== 'none'){ go('config'); return; }
+    go('coverage');
+  },
+  tolist: () => go('list'),
+  'tolist-f': () => go('list'),
+  'cov-change': () => { S.fromList = false; go('coverage'); },
+  check: () => runCheck(),
+  speed: b => { S.speed = b.dataset.v; if (S.speed === '300') S.data = '30'; else if (S.data === '30') S.data = '80'; S.base = baseKey(); track('select_variant', {velocidad:S.speed === '1000' ? '1Gb' : S.speed + 'Mb'}); rerenderConfig(); },
+  data: b => { S.data = b.dataset.v; S.base = baseKey(); track('select_variant', {datos:S.data === 'inf' ? 'GB infinitos' : '80GB'}); rerenderConfig(); },
+  lines: b => { const d = +b.dataset.d; S.lines = Math.max(0, Math.min(4, S.lines + d)); track(d > 0 ? 'add_extra' : 'remove_extra', {extra:'linea_10GB', lineas:S.lines}); rerenderConfig(); },
+  tv: b => { const k = b.dataset.k; S.tv[k] = !S.tv[k]; track(S.tv[k] ? 'add_extra' : 'remove_extra', {extra:TV[k].name}); rerenderConfig(); },
+  dsg: () => { S.dsg = !S.dsg; $('#dsg').classList.toggle('v', S.dsg); $('[data-a="dsg"]').textContent = S.dsg ? 'Ocultar desglose ▴' : 'Ver desglose ▾'; },
+  compare: () => SHEETS.compare(),
+  save: () => SHEETS.save(),
+  baja: () => SHEETS.baja(),
+  call: () => SHEETS.call(),
+  wa: () => SHEETS.wa(),
+  breakdown: () => SHEETS.breakdown(),
+  mail: () => SHEETS.mail(),
+  close: () => closeSheet(),
+  phone: () => toast('En la web real, este botón llama al 976 363 800.'),
+  store: () => toast('En la web real, se abriría el buscador de tiendas de Embou.'),
+  'accept-alt': () => { S.base = 'w100'; S.tech = 'wimax'; track('alternative_accept', {tarifa:T.w100.short}); go('config'); },
+  tof1: () => { const c = calc(); track('begin_checkout', {valor:fmt(c.t), gclid:'guardado (simulado)'}); go('f1'); },
+  tof2: () => {
+    const n = $('#fName').value.trim(), e = $('#fEmail').value.trim(), t = $('#fTel').value.trim(), p = $('#fPriv').checked, c = $('#fCom').checked;
+    let bad = false;
+    setErr('fName', '', !n); bad ||= !n;
+    setErr('fEmail', '', !emailOk(e)); bad ||= !emailOk(e);
+    setErr('fTel', '', !telOk(t)); bad ||= !telOk(t);
+    $('#e-fPriv').classList.toggle('v', !p); bad ||= !p;
+    if (bad){ const f = $('.inp.bad') || $('#fPriv'); f.focus(); return; }
+    S.c = {name:n, email:e, tel:t, priv:p, com:c};
+    track('form_step', {paso:1, consentimiento_comercial:c ? 'sí' : 'no'});
+    go('f2');
+  },
+  porta: b => { S.k.porta = !S.k.porta; b.classList.toggle('on', S.k.porta); b.setAttribute('aria-checked', S.k.porta); $('#portaBox').hidden = !S.k.porta; },
+  tof3: () => {
+    const a = $('#fApe').value.trim(), d = $('#fDni').value.trim(), comp = $('#fComp') ? $('#fComp').value : '';
+    let bad = false;
+    setErr('fApe', '', !a); bad ||= !a;
+    const r = dniCheck(d); setErr('fDni', r === true ? '' : r, r !== true); bad ||= r !== true;
+    if (S.k.porta){ setErr('fComp', '', !comp); bad ||= !comp; }
+    if (bad){ const f = $('.inp.bad'); f && f.focus(); return; }
+    S.k.ape = a; S.k.dni = d; S.k.comp = comp;
+    track('form_step', {paso:2, portabilidad:S.k.porta ? 'sí' : 'no'});
+    go('f3');
+  },
+  send: b => {
+    b.disabled = true; b.innerHTML = '<span class="spin"></span>Enviando…';
+    setTimeout(() => {
+      const c = calc();
+      track('generate_lead', {valor:fmt(c.t), tecnologia:c.b.tech, origen:'web', destino:'Dynamics 365 (simulado)'});
+      S.hist = []; go('done');
+    }, reduce ? 50 : 1100);
+  },
+  back: () => back(),
+  restart: () => reset(),
+  'nf-call': () => {
+    const t = $('#nfTel').value.trim(), p = $('#nfPriv').checked;
+    setErr('nfTel', '', !telOk(t)); $('#e-nfPriv').classList.toggle('v', !p);
+    if (!telOk(t) || !p) return;
+    track('call_request_submit', {paso:'direccion_no_encontrada'});
+    openSheet(`<div class="done-msg"><span class="okc">✓</span><div class="h2">Te llamamos enseguida</div><p class="tx">La persona que te llame ya sabrá que quieres la ${esc(tariffRef())} y que el buscador no encontró tu dirección.</p><p class="note">Prototipo: no se envía ningún dato.</p><button class="btn dk" data-a="close">Cerrar</button></div>`);
+  },
+  notify: () => {
+    const e = $('#ntEmail').value.trim(), c = $('#ntCom').checked, p = $('#ntPriv').checked;
+    setErr('ntEmail', '', !emailOk(e)); $('#e-nt').classList.toggle('v', !(c && p));
+    if (!emailOk(e) || !(c && p)) return;
+    track('notify_fiber_submit');
+    $('#notifyBox').innerHTML = `<div class="ok"><span class="okc">✓</span><span><b>Hecho.</b> Te escribiremos a ${esc(e)} cuando llegue la fibra a tu dirección. <small>(Simulado: no se guarda nada.)</small></span></div>`;
+  },
+  'save-ok': () => {
+    const e = $('#svEmail').value.trim(), p = $('#svPriv').checked, c = $('#svCom').checked;
+    setErr('svEmail', '', !emailOk(e)); $('#e-svPriv').classList.toggle('v', !p);
+    if (!emailOk(e) || !p) return;
+    track('save_tariff_submit', {consentimiento_comercial:c ? 'sí' : 'no'});
+    $('#saveBox').innerHTML = `<div class="done-msg"><span class="okc">✓</span><div class="h2">Tarifa guardada</div><p class="tx">Te llegaría a ${esc(e)} al momento, con el precio final, el precio al acabar la promoción y un enlace para seguir donde lo dejaste.${c ? ' Como has aceptado las comunicaciones, T3.3 podría recordártela.' : ''}</p><p class="note">Prototipo: no se envía ningún correo.</p><button class="btn dk" data-a="close">Seguir configurando</button></div>`;
+  },
+  'call-ok': () => {
+    const t = $('#clTel').value.trim(), p = $('#clPriv').checked;
+    setErr('clTel', '', !telOk(t)); $('#e-clPriv').classList.toggle('v', !p);
+    if (!telOk(t) || !p) return;
+    const slot = ($('[data-slot].on') || {}).textContent || '';
+    track('call_request_submit', {paso:S.screen, franja:slot});
+    $('#callBox').innerHTML = `<div class="done-msg"><span class="okc">✓</span><div class="h2">Te llamamos</div><p class="tx">Franja: ${esc(slot)}. La persona que te llame sabrá qué tarifa mirabas.</p><p class="note">Prototipo: no se envía ningún dato.</p><button class="btn dk" data-a="close">Cerrar</button></div>`;
+  },
+};
+document.addEventListener('click', e => {
+  const s = e.target.closest('[data-slot]');
+  if (s){ $$('[data-slot]').forEach(x => x.classList.toggle('on', x === s)); return; }
+  const f = e.target.closest('[data-fill]');
+  if (f){ const [cp, st, num, piso] = f.dataset.fill.split('|'); $('#cp').value = cp; $('#st').value = st; $('#num').value = num; $('#piso').value = piso; ['cp','st','num'].forEach(i => setErr(i, '', false)); return; }
+  const sc = e.target.closest('[data-scen]');
+  if (sc){ scenario(sc.dataset.scen); return; }
+  const b = e.target.closest('[data-a]');
+  if (b && A[b.dataset.a]){ e.preventDefault(); A[b.dataset.a](b); }
+});
+$('#wafab').addEventListener('click', () => SHEETS.wa());
+
+/* ---------- Casos de prueba del panel ---------- */
+function reset(){
+  S = fresh(); lastTotal = null; closeSheet(true);
+  $('#log').innerHTML = '<li class="empty">Los eventos del plan de medición (8.5) aparecen aquí al usar el prototipo.</li>'; logEmpty = true;
+  go('list', {replace:true});
+  setTimeout(() => track('view_item_list', {lista:'internet_y_movil'}), 400);
+}
+function scenario(k){
+  if (k === 'reset'){ reset(); return; }
+  const fill = {fibra:['50004','coso','10','2º B'], wimax:['44200','plaza españa','3','Casa unifamiliar'], nf:['50004','calle inventada','7','1º A'], none:['44200','masia','1','Casa unifamiliar']}[k];
+  S = fresh(); lastTotal = null; S.mode = 'conv'; S.base = 'f300'; S.speed = '300'; S.data = '30'; S.hist = ['list'];
+  if (k === 'fibra'){ S.lines = 1; S.tv.pack = true; }
+  track('select_item', {tarifa:T.f300.short, precio:'29,00', caso:k});
+  go('coverage', {replace:true});
+  setTimeout(() => {
+    const [cp, st, num, piso] = fill;
+    const typeInto = (id, v, cb) => { const el = $('#' + id); if (!el) return; if (reduce){ el.value = v; cb(); return; } let i = 0; const t = () => { if (!el.isConnected) return; el.value = v.slice(0, ++i); if (i < v.length) setTimeout(t, 45); else cb(); }; t(); };
+    typeInto('cp', cp, () => typeInto('st', st, () => typeInto('num', num, () => { const p = $('#piso'); if (p) p.value = piso; setTimeout(runCheck, 350); })));
+  }, reduce ? 50 : 500);
+}
+
+/* ---------- Título con tipografía en movimiento ---------- */
+(() => { const h = $('#ttl'); if (reduce) return; const w = h.textContent.split(' '); h.innerHTML = w.map((x, i) => `<span class="w" style="animation-delay:${.08 * i}s">${x}</span>`).join(' '); })();
+
+render(true);
+track('view_item_list', {lista:'internet_y_movil'});
+})();
+</script>
+</body>
+</html>

@@ -805,7 +805,7 @@ const secs = $$('main > section');
 const N = secs.length;
 $('#dots').innerHTML = secs.map((s, i) => `<a href="#${i + 1}" data-i="${i}" aria-label="${s.dataset.name}"><span>${s.dataset.name}</span></a>`).join('');
 const dots = $$('#dots a');
-function fit(){ secs.forEach(s => { const k = Math.min(innerWidth / 1600, innerHeight / s.offsetHeight); s.style.setProperty('--s', k); }); }
+function fit(){ if (innerWidth < 10 || innerHeight < 10) return; secs.forEach(s => { const k = Math.min(innerWidth / 1600, innerHeight / s.offsetHeight); s.style.setProperty('--s', k); }); }
 
 /* Animaciones al entrar en una diapositiva (todo queda cargado en ~1,5 s) */
 const timers = [];
@@ -816,7 +816,7 @@ function countUp(el){
   const t0 = performance.now(), dur = 1100;
   (function step(t){ const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(to * e, d) + suf; if (p < 1) requestAnimationFrame(step); })(t0);
 }
-function setW(el, w, left){ el.style.transition = 'none'; el.style.width = '0%'; if (left != null) el.style.left = Z + '%'; void el.offsetWidth; el.style.transition = ''; requestAnimationFrame(() => { el.style.width = w + '%'; if (left != null) el.style.left = left + '%'; }); }
+function setW(el, w, left){ el.style.transition = 'none'; el.style.width = '0%'; if (left != null) el.style.left = Z + '%'; void el.offsetWidth; el.style.transition = ''; void el.offsetWidth; el.style.width = w + '%'; if (left != null) el.style.left = left + '%'; }
 function enter(sec){
   timers.splice(0).forEach(clearTimeout);
   $$('.reveal', sec).forEach((el, k) => el.style.transitionDelay = (reduce ? 0 : 150 + k * 70) + 'ms');
@@ -824,7 +824,7 @@ function enter(sec){
   $$('.nr .bar', sec).forEach(b => setW(b, b.dataset.w));
   $$('#stack div', sec).forEach(d => setW(d, d.dataset.w));
   $$('.rr2 .b', sec).forEach(b => { const v = +b.dataset.v, w = Math.abs(v) / SPAN * 100; setW(b, w, v >= 0 ? Z : Z - w); });
-  if (sec.id === 'calendario'){ const l = $('#calLine'); l.style.transition = 'none'; l.style.transform = 'scaleX(0)'; void l.offsetWidth; l.style.transition = ''; requestAnimationFrame(() => l.style.transform = 'scaleX(1)'); }
+  if (sec.id === 'calendario'){ const l = $('#calLine'); l.style.transition = 'none'; l.style.transform = 'scaleX(0)'; void l.offsetWidth; l.style.transition = ''; void l.offsetWidth; l.style.transform = 'scaleX(1)'; }
   if (sec.id === 'clientes'){ const p = $$('#people i'); p.forEach(i => { i.style.background = ''; i.style.transform = ''; }); p.forEach((i, k) => later(() => i.style.background = 'var(--r)', 200 + k * 6)); p.slice(0, 5).forEach((i, k) => later(() => { i.style.background = 'var(--y)'; i.style.transform = 'scale(1.35)'; }, 900 + k * 80)); }
   if (sec.id === 'embudo'){
     sec.classList.remove('done');
@@ -840,11 +840,11 @@ function enter(sec){
 
 let cur = -1, lock = false;
 function show(i, instant){
-  i = Math.max(0, Math.min(N - 1, i));
+  i = Math.max(0, Math.min(N - 1, i)); fit();
   if (i === cur) return;
   const a = secs[cur], b = secs[i], d = cur < 0 ? 1 : (i > cur ? 1 : -1);
   b.style.transition = 'none'; b.style.setProperty('--dy', instant || reduce ? '0px' : (d * 100) + 'vh'); b.classList.add('vis'); void b.offsetWidth; b.style.transition = '';
-  requestAnimationFrame(() => { b.style.setProperty('--dy', '0px'); });
+  void b.offsetWidth; b.style.setProperty('--dy', '0px');
   if (a){ a.classList.remove('cur'); if (instant || reduce){ a.classList.remove('vis'); } else { a.style.setProperty('--dy', (-d * 100) + 'vh'); setTimeout(() => { if (!a.classList.contains('cur')) a.classList.remove('vis'); }, 850); } }
   b.classList.add('cur'); cur = i;
   enter(b);
@@ -891,6 +891,8 @@ function start(){
   show(isNaN(i) ? 0 : i, true);
 }
 addEventListener('resize', fit);
+document.addEventListener('visibilitychange', fit);
+setInterval(() => { const s = secs[cur]; if (s && !(parseFloat(s.style.getPropertyValue('--s')) > 0)) fit(); }, 500);
 document.addEventListener('toggle', () => fit(), true);
 addEventListener('hashchange', () => { const i = parseInt(location.hash.slice(1), 10) - 1; if (!isNaN(i) && i !== cur) show(i); });
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fit(); }); 

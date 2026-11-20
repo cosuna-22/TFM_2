@@ -537,6 +537,95 @@ section.cur .gauge i{width:var(--w)}
 #backB.on{opacity:1;pointer-events:auto;transform:translateX(-50%)}
 @media (prefers-reduced-motion:reduce){.bc .bin{transition:none}}
 
+
+/* ===== Modo adaptable: móvil, tablet en vertical y ventanas estrechas ===== */
+html.flow,html.flow body{height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior:auto}
+html.flow main{position:static;overflow:visible}
+html.flow main>section{position:relative!important;left:auto;top:auto;width:auto;min-height:0!important;transform:none!important;transition:none;visibility:visible;padding:72px 20px 56px!important;display:block!important;overflow:hidden}
+html.flow main>section+section{border-top:1px solid var(--line)}
+html.flow .dots,html.flow .keyhint,html.flow #backB,html.flow .scrollcue{display:none!important}
+html.flow .reveal{transition-duration:.5s}
+html.flow .kick{font-size:13px}
+html.flow h2.big{font-size:40px;line-height:1.02;margin-bottom:14px}
+html.flow p.lead,html.flow .lead{font-size:17px}
+/* Portada */
+html.flow #hero{min-height:100svh;display:flex!important;flex-direction:column;justify-content:flex-end;padding-bottom:40px!important}
+html.flow #hero h1{font-size:82px}
+html.flow #hero h1 .l2{padding-left:.3em}
+html.flow #hero .meta{font-size:13px;gap:6px 14px;margin-bottom:22px}
+html.flow #hero .sub{flex-direction:column;align-items:flex-start;gap:18px;margin-top:24px}
+html.flow #hero .sub p{font-size:17px}
+html.flow .orb{width:340px;height:340px;border-width:32px;right:-170px;top:70px}
+/* Rejillas a una columna */
+html.flow #trafico,html.flow #embudo,html.flow .two,html.flow .phases,html.flow .strats,html.flow .roi,html.flow .segs,html.flow .poswrap,html.flow .pillars,
+html.flow .ba,html.flow .roi2,html.flow .lv,html.flow .outs,html.flow .qa,html.flow .deck,html.flow .fgrid,html.flow .fmeta,html.flow .fsteps,html.flow .phs{grid-template-columns:1fr!important}
+html.flow #trafico,html.flow #embudo{display:grid!important;gap:28px}
+html.flow .objs,html.flow .legend,html.flow .legend.l6,html.flow .kp4,html.flow .rules,html.flow .stats{grid-template-columns:1fr 1fr!important;gap:18px!important}
+html.flow .htrack .cc{width:100%;min-height:0}
+/* Cifras grandes */
+html.flow .stat .n{font-size:46px}
+html.flow .stp h3{font-size:24px}
+html.flow .mult b{font-size:52px}
+html.flow .churn .n{font-size:60px}
+html.flow .ph .yr{font-size:46px}
+html.flow .ob .m{font-size:46px}
+html.flow .btotal{font-size:76px}
+html.flow .lk .v{font-size:32px}
+html.flow .rsum .n{font-size:52px}
+html.flow .claim{font-size:58px}
+html.flow .kpis span{font-size:32px}
+html.flow .cfnote .big1{font-size:46px}
+html.flow .kp4 b{font-size:38px}
+html.flow .ru b{font-size:32px}
+html.flow .marq span{font-size:24px}
+html.flow .cc .fig b{font-size:30px}
+/* Filas con etiqueta, barra y valor */
+html.flow .rr{grid-template-columns:110px 1fr 56px}
+html.flow .rr2{grid-template-columns:118px 1fr 70px;font-size:13px}
+/* Calendario en lista */
+html.flow .cal .line,html.flow .cal .months{display:none}
+html.flow .ms{position:static!important;height:auto!important;display:grid;gap:10px;margin-top:18px}
+html.flow .mi{position:static!important;left:auto!important;width:auto!important;transform:none!important;display:grid;grid-template-columns:70px 1fr;gap:10px;text-align:left!important;align-items:baseline}
+html.flow .mi i{display:none}
+/* Tabla de posicionamiento: desplazamiento lateral */
+html.flow .tzh,html.flow .tzr{min-width:760px}
+html.flow .tz,html.flow .tzw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* Buyers */
+html.flow .bc{height:430px}
+html.flow .bc h3{font-size:46px}
+html.flow .bc .front .av{width:84px;height:84px}
+html.flow .dhint{font-size:14px}
+/* Fichas de táctica */
+html.flow h2.ft{font-size:36px;flex-wrap:wrap;gap:10px}
+html.flow h2.ft .fc{font-size:22px;transform:none}
+html.flow p.fl{font-size:18px}
+html.flow .fstrip{flex-wrap:wrap}
+html.flow .kr{grid-template-columns:1fr!important;gap:4px!important;font-size:16px!important}
+html.flow .roiw .rl b{font-size:44px}
+html.flow .mr b{font-size:34px}
+/* Tablet en vertical: dos columnas donde caben */
+@media (min-width:640px){
+  html.flow main>section{padding:84px 40px 64px!important}
+  html.flow h2.big{font-size:56px}
+  html.flow #hero h1{font-size:128px}
+  html.flow .strats,html.flow .outs,html.flow .qa,html.flow .fsteps,html.flow .fmeta,html.flow .two,html.flow .phases,html.flow .lv,html.flow .pillars{grid-template-columns:1fr 1fr!important}
+  html.flow .segs,html.flow .objs,html.flow .legend,html.flow .legend.l6,html.flow .rules{grid-template-columns:repeat(3,1fr)!important}
+  html.flow .kp4{grid-template-columns:repeat(4,1fr)!important}
+  html.flow .htrack .cc{width:calc(50% - 8px)}
+}
+/* Ajustes tras la revisión en móvil */
+html.flow #hero{min-height:88svh!important}
+html.flow .nav{background:rgba(13,13,12,.92);backdrop-filter:blur(8px);padding:12px 20px;font-size:13px}
+html.flow .cursor{display:none!important}
+html.flow #cierre .in{padding:0}
+html.flow .claim{font-size:54px}
+html.flow .stack{height:56px}
+html.flow .stack div{font-size:0;padding:0}
+html.flow .rbh{flex-wrap:wrap;gap:6px}
+html.flow .rbh b{font-size:34px}
+@media (max-width:639px){html.flow .stats{grid-template-columns:1fr!important}}
+html.flow .orb{z-index:0;opacity:.55;top:36px}
+
 </style>
 </head>
 <body>
@@ -1081,7 +1170,8 @@ const secs = $$('main > section');
 const N = secs.length;
 $('#dots').innerHTML = secs.map((s, i) => `<a href="#${i + 1}" data-i="${i}" aria-label="${s.dataset.name}"><span>${s.dataset.name}</span></a>`).join('');
 const dots = $$('#dots a');
-function fit(){ if (innerWidth < 10 || innerHeight < 10) return; secs.forEach(s => { const k = Math.min(innerWidth / 1600, innerHeight / s.offsetHeight); s.style.setProperty('--s', k); }); }
+const isFlow = () => document.documentElement.classList.contains('flow');
+function fit(){ if (innerWidth < 10 || innerHeight < 10 || isFlow()) return; secs.forEach(s => { const k = Math.min(innerWidth / 1600, innerHeight / s.offsetHeight); s.style.setProperty('--s', k); }); }
 
 /* Animaciones al entrar en una diapositiva (todo queda cargado en ~1,5 s) */
 const timers = [];
@@ -1093,8 +1183,8 @@ function countUp(el){
   (function step(t){ const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(to * e, d) + suf; if (p < 1) requestAnimationFrame(step); })(t0);
 }
 function setW(el, w, left){ el.style.transition = 'none'; el.style.width = '0%'; if (left != null) el.style.left = Z + '%'; void el.offsetWidth; el.style.transition = ''; void el.offsetWidth; el.style.width = w + '%'; if (left != null) el.style.left = left + '%'; }
-function enter(sec){
-  timers.splice(0).forEach(clearTimeout);
+function enter(sec, keep){
+  if (!keep) timers.splice(0).forEach(clearTimeout);
   $$('.reveal', sec).forEach((el, k) => el.style.transitionDelay = (reduce ? 0 : 150 + k * 70) + 'ms');
   $$('[data-count]', sec).forEach(countUp);
   $$('.nr .bar', sec).forEach(b => setW(b, b.dataset.w));
@@ -1116,7 +1206,9 @@ function enter(sec){
 
 let cur = -1, lock = false;
 function show(i, instant){
-  i = Math.max(0, Math.min(N - 1, i)); fit();
+  i = Math.max(0, Math.min(N - 1, i));
+  if (isFlow()){ cur = i; secs[i].scrollIntoView({behavior: instant || reduce ? 'auto' : 'smooth'}); try { sessionStorage.setItem('embou-slide', String(i)); } catch (e) {} return; }
+  fit();
   if (i === cur) return;
   const a = secs[cur], b = secs[i], d = cur < 0 ? 1 : (i > cur ? 1 : -1);
   b.style.transition = 'none'; b.style.setProperty('--dy', instant || reduce ? '0px' : (d * 100) + 'vh'); b.classList.add('vis'); void b.offsetWidth; b.style.transition = '';
@@ -1136,6 +1228,7 @@ const next = () => !lock && show(cur + 1), prev = () => !lock && show(cur - 1);
 
 /* Teclado, botones, rueda y gestos */
 addEventListener('keydown', e => {
+  if (isFlow()) return;
   const tag = document.activeElement && document.activeElement.tagName;
   const onCtl = ['A','BUTTON','SUMMARY','INPUT','TEXTAREA','ARTICLE'].includes(tag);
   if (secs[cur] && secs[cur].id === 'buyers' && ['1','2','3'].includes(e.key)){ const c = $('#buyers .bc[data-k="' + e.key + '"]'); if (c) flipCard(c); return; }
@@ -1152,10 +1245,10 @@ $('#prevB').addEventListener('click', e => { e.currentTarget.blur(); prev(); });
 $('#toTop').addEventListener('click', () => show(0));
 dots.forEach(a => a.addEventListener('click', e => { e.preventDefault(); show(+a.dataset.i); }));
 let wheelT = 0;
-addEventListener('wheel', e => { if (e.target.closest('details[open] p')) return; const now = Date.now(); if (Math.abs(e.deltaY) < 25 || now - wheelT < 900) return; wheelT = now; e.deltaY > 0 ? next() : prev(); }, {passive:true});
+addEventListener('wheel', e => { if (isFlow() || e.target.closest('details[open] p')) return; const now = Date.now(); if (Math.abs(e.deltaY) < 25 || now - wheelT < 900) return; wheelT = now; e.deltaY > 0 ? next() : prev(); }, {passive:true});
 let ty = null;
 addEventListener('touchstart', e => ty = e.touches[0].clientY, {passive:true});
-addEventListener('touchend', e => { if (ty == null) return; const dy = ty - e.changedTouches[0].clientY; if (Math.abs(dy) > 50) dy > 0 ? next() : prev(); ty = null; }, {passive:true});
+addEventListener('touchend', e => { if (ty == null || isFlow()) return; const dy = ty - e.changedTouches[0].clientY; if (Math.abs(dy) > 50) dy > 0 ? next() : prev(); ty = null; }, {passive:true});
 
 /* Cursor */
 const curEl = $('#cursor');
@@ -1175,7 +1268,27 @@ const _show = show;
 show = function(i, instant){ _show(i, instant); if (ret !== null && (cur === ret)) { ret = null; backB.classList.remove('on'); backB.blur(); } };
 
 /* Arranque: vuelve a la diapositiva en la que estabais */
+/* Modo adaptable: en pantallas estrechas o en vertical, página con scroll */
+const wantFlow = () => innerWidth < 900 || innerWidth < innerHeight * .9;
+let io = null;
+function setMode(first){
+  const f = wantFlow(); if (!first && f === isFlow()) return;
+  const keepI = Math.max(0, cur);
+  document.documentElement.classList.toggle('flow', f);
+  if (io){ io.disconnect(); io = null; }
+  if (f){
+    secs.forEach(s => { s.style.removeProperty('--s'); s.style.removeProperty('--dy'); s.classList.add('vis'); s.classList.remove('cur'); delete s.dataset.seen; });
+    io = new IntersectionObserver(es => es.forEach(en => { const s = en.target; if (en.isIntersecting && !s.dataset.seen){ s.dataset.seen = '1'; s.classList.add('cur'); enter(s, true); } if (en.isIntersecting) { const i = secs.indexOf(s); if (i >= 0){ cur = i; try { sessionStorage.setItem('embou-slide', String(i)); } catch (e) {} } } }), {threshold: .18});
+    secs.forEach(s => io.observe(s));
+    if (!first) secs[keepI].scrollIntoView();
+  } else if (!first){
+    secs.forEach(s => s.classList.remove('vis', 'cur')); cur = -1; show(keepI, true);
+  }
+}
+addEventListener('resize', () => setMode(false));
 function start(){
+  setMode(true);
+  if (isFlow()){ let i = parseInt((location.hash || '').slice(1), 10) - 1; if (!isNaN(i) && i > 0) setTimeout(() => secs[Math.min(N - 1, i)].scrollIntoView(), 50); return; }
   fit();
   let i = parseInt((location.hash || '').slice(1), 10) - 1;
   if (isNaN(i)) { try { i = parseInt(sessionStorage.getItem('embou-slide'), 10); } catch (e) {} }

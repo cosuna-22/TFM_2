@@ -249,7 +249,6 @@ h1 .serif{color:var(--y);font-size:1.06em}
       <button class="on" data-tab="srch" role="tab">1 · Búsqueda</button>
       <button data-tab="meta" role="tab">2 · Redes de Meta</button>
       <button data-tab="rec" role="tab">3 · Recuperación (T3.3)</button>
-      <button data-tab="sim" role="tab">4 · Regla de corte y ROAS</button>
     </div>
   </div>
 
@@ -296,24 +295,6 @@ h1 .serif{color:var(--y);font-size:1.06em}
     </div>
     <div class="device"><div class="island"></div><div class="scr"><div class="sb"><span id="rClock">19:02</span><span>●●● ▮</span></div><div class="view" id="rec"></div></div></div>
   </section>
-
-  <!-- 4. SIMULADOR -->
-  <section class="pane" id="p-sim" style="grid-template-columns:1fr">
-    <div class="sim">
-      <div class="sl2">
-        <div class="box"><h2>Escenario</h2><div class="seg y" data-g="x.sc"><button data-v="0">Pesimista</button><button data-v="1" class="on">Base</button><button data-v="2">Optimista</button></div></div>
-        <div class="box"><h2>Hito de conversión de junio</h2><div class="seg" data-g="x.hito"><button data-v="si" class="on">Se cumple: se activan los medios</button><button data-v="no">No se cumple</button></div></div>
-        <div class="box sl2" id="ranges"></div>
-        <p class="note">Campaña de contratación de julio a diciembre: 3.500 € al mes (21.000 €) más 6.000 € de trabajo. Valores por venta: 257,85 € el primer año, 665,59 € de vida en ingresos y 248,87 € de vida en margen (37,4 %). Modelo de rentabilidad del anexo.</p>
-      </div>
-      <div>
-        <div class="kpis" id="kpis"></div>
-        <div class="gauge"><h3>Coste por venta frente a la regla de corte</h3><div class="gbar"><b id="gCost"></b><i id="gCut" data-l="249 € · corte"></i></div><div class="gl"><span>0 €</span><span>700 €</span></div></div>
-        <div class="gauge"><h3>ROAS de vida frente al de equilibrio</h3><div class="gbar"><b id="gRoas"></b><i id="gEq" data-l="3,44 · equilibrio"></i></div><div class="gl"><span>0</span><span>10</span></div></div>
-        <div class="gauge"><h3>Medios por mes (julio–diciembre)</h3><div class="months" id="months"></div><div class="verdict" id="verdict"></div></div>
-      </div>
-    </div>
-  </section>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -327,19 +308,19 @@ const f0 = n => { const r = Math.round(n); return (r < 0 ? '−' : '') + String(
 const f2 = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
 const PH = t => `<span class="ph" title="Dato que fija Embou">{${t}}</span>`;
 const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('v'); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('v'), 3000); };
-const S = {s:{mode:'plan', phase:'pre', who:'zgz', q:'0'}, m:{fmt:'feed', phase:'pre'}, r:{where:'cfg', mail:'no', ctrl:'no'}, x:{sc:'1', hito:'si'}};
+const S = {s:{mode:'plan', phase:'pre', who:'zgz', q:'0'}, m:{fmt:'feed', phase:'pre'}, r:{where:'cfg', mail:'no', ctrl:'no'}};
 
 /* ---------- Tabs y grupos ---------- */
 $$('.tabs button').forEach(b => b.addEventListener('click', () => {
   $$('.tabs button').forEach(x => x.classList.toggle('on', x === b));
   $$('.pane').forEach(p => p.classList.toggle('on', p.id === 'p-' + b.dataset.tab));
-  ({srch:drawSearch, meta:drawMeta, rec:drawRec, sim:drawSim})[b.dataset.tab]();
+  ({srch:drawSearch, meta:drawMeta, rec:drawRec})[b.dataset.tab]();
 }));
 $$('[data-g]').forEach(g => g.addEventListener('click', e => {
   const b = e.target.closest('button[data-v]'); if (!b) return;
   const [o, k] = g.dataset.g.split('.'); S[o][k] = b.dataset.v;
   $$('button', g).forEach(x => x.classList.toggle('on', x === b));
-  if (o === 's') drawSearch(); if (o === 'm') drawMeta(); if (o === 'r') { recStop(); drawRec(); } if (o === 'x'){ if (k === 'sc') applyScen(); drawSim(); }
+  if (o === 's') drawSearch(); if (o === 'm') drawMeta(); if (o === 'r') { recStop(); drawRec(); }
 }));
 
 /* ---------- 1. Búsqueda ---------- */
@@ -589,51 +570,6 @@ const buy = () => { if (S.r.ctrl === 'si' || bought) return; if (recH === 0) rec
 $('#rBuy').addEventListener('click', buy);
 $('#rReset').addEventListener('click', () => { recStop(); drawRec(); });
 $('#rec').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (!b) return; if (b.dataset.r === 'finish') buy(); else toast(b.dataset.r === 'wa' ? 'WhatsApp se abriría con la tarifa ya escrita (contacto cualificado).' : 'Se abriría «¿Te llamamos?» con la tarifa indicada.'); });
-
-/* ---------- 4. Simulador ---------- */
-const SC = [{cpc:2.5, cvr:2.55, l2v:20, inc:80}, {cpc:1.5, cvr:4, l2v:25, inc:90}, {cpc:1.2, cvr:5.14, l2v:30, inc:95}];
-const RG = [
-  ['cpc', 'Coste por clic', .8, 3, .05, v => f2(v) + ' €', 'CPC medio en España 0,65 $; las búsquedas de fibra, de las más competidas (ClickPatrol, 2025).'],
-  ['cvr', 'Clics que acaban en contacto o solicitud', 1, 7, .05, v => f2(v) + ' %', 'WordStream (2025): 2,55 % finanzas y 5,14 % servicios.'],
-  ['l2v', 'Contactos que acaban en alta', 10, 40, 1, v => f0(v) + ' %', 'Estimación del equipo.'],
-  ['inc', 'Incrementalidad', 50, 100, 1, v => f0(v) + ' %', 'Embou está entre las posiciones 21 y 34 en orgánico: casi todo es incremental.'],
-];
-let X = {...SC[1]};
-$('#ranges').innerHTML = RG.map(([k, l, mi, ma, st, fm, s]) => `<div class="rng"><label for="r-${k}">${l}<span id="v-${k}"></span></label><input type="range" id="r-${k}" min="${mi}" max="${ma}" step="${st}"><small>${s}</small></div>`).join('');
-RG.forEach(([k]) => $('#r-' + k).addEventListener('input', e => { X[k] = +e.target.value; $$('[data-g="x.sc"] button').forEach(b => b.classList.remove('on')); drawSim(); }));
-function applyScen(){ X = {...SC[+S.x.sc]}; }
-const ANUAL = 257.85, VIDA = 665.59, MARG = 248.87, MES = 3500, FIJO = 6000, CUT = 249;
-function drawSim(){
-  RG.forEach(([k, , , , , fm]) => { $('#r-' + k).value = X[k]; $('#v-' + k).textContent = fm(X[k]); });
-  const hito = S.x.hito === 'si';
-  const medios = hito ? MES * 6 : 0;
-  const ventasPrev = medios / X.cpc * (X.cvr / 100) * (X.l2v / 100) * (X.inc / 100);
-  const cpvPrev = ventasPrev ? medios / ventasPrev : Infinity;
-  const corte = hito && cpvPrev > CUT;
-  const mediosReal = corte ? MES * 2 : medios;
-  const ventas = ventasPrev * (medios ? mediosReal / medios : 0);
-  const coste = FIJO + mediosReal;
-  const margen = ventas * MARG, neto = margen - coste, roi = neto / coste;
-  const roas1 = mediosReal ? ventas * ANUAL / mediosReal : 0, roasV = mediosReal ? ventas * VIDA / mediosReal : 0;
-  const eq = FIJO / (0.374 * (medios || 1)) + 1 / 0.374;
-  const eqF = medios ? (FIJO + medios) / (0.374 * medios) : 0;
-  const kp = [
-    ['Clics', f0(medios / X.cpc), ''], ['Contactos y solicitudes', f0(medios / X.cpc * X.cvr / 100), ''],
-    ['Ventas incrementales', f0(ventas), ''], ['Coste por venta', hito ? f0(cpvPrev) + ' €' : '—', hito ? (cpvPrev > CUT ? 'bad' : 'good') : ''],
-    ['ROAS primer año', f2(roas1), ''], ['ROAS de vida', f2(roasV), roasV >= eqF && hito ? 'good' : 'bad'],
-    ['Beneficio neto', f0(neto) + ' €', neto >= 0 ? 'good' : 'bad'], ['ROI de T3.1', f0(roi * 100) + ' %', roi >= 0 ? 'good' : 'bad']];
-  $('#kpis').innerHTML = kp.map(([l, v, c]) => `<div class="kp ${c}"><small>${l}</small><b>${v}</b></div>`).join('');
-  const gc = $('#gCost'); gc.style.width = Math.min(100, (hito ? cpvPrev : 0) / 700 * 100) + '%'; gc.style.background = cpvPrev > CUT ? 'var(--r)' : '#7fd1ae';
-  $('#gCut').style.left = (CUT / 700 * 100) + '%';
-  const gr = $('#gRoas'); gr.style.width = Math.min(100, roasV / 10 * 100) + '%'; gr.style.background = roasV >= eqF ? '#7fd1ae' : 'var(--r)';
-  $('#gEq').style.left = (eqF / 10 * 100) + '%'; $('#gEq').dataset.l = `${f2(eqF || 3.44)} · equilibrio`;
-  const M = ['jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  $('#months').innerHTML = M.map((m, i) => { const on = hito && (!corte || i < 2); return `<div><div class="c ${on ? '' : 'cut'}" style="height:${on ? 100 : 22}%"></div><span>${m}</span><span style="font-weight:600">${on ? '3.500 €' : '0 €'}</span></div>`; }).join('');
-  const v = $('#verdict');
-  if (!hito){ v.className = 'verdict off'; v.innerHTML = '<b>El hito de junio no se cumple:</b> los 21.000 € de medios no se activan y quedan para corregir el configurador. T3.1 se limita a reorganizar la inversión que Embou ya tiene (6.000 € de trabajo). Llevar más tráfico a un embudo que no convierte sería invertir en la parte que menos rinde.'; }
-  else if (corte){ v.className = 'verdict no'; v.innerHTML = `<b>Se activa la regla de corte.</b> Cada venta costaría ${f0(cpvPrev)} €, más que los 249 € de margen de vida de un cliente, durante dos meses seguidos: se dejan de comprar medios desde septiembre y los ${f0(MES * 4)} € restantes pasan a imprevistos. La pérdida queda limitada a ${f0(-neto)} €.`; }
-  else { v.className = 'verdict ok'; v.innerHTML = `<b>La campaña se mantiene.</b> Cada venta cuesta ${f0(cpvPrev)} €, por debajo de la regla de corte (249 €). Cada euro de medios genera ${f2(roas1)} € el primer año y ${f2(roasV)} € en la vida del cliente, ${roasV >= eqF ? 'por encima' : 'por debajo'} de los ${f2(eqF)} € que necesita para cubrir todo su coste.`; }
-}
 
 drawSearch();
 })();

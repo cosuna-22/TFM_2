@@ -439,6 +439,57 @@ a.proto:hover{background:var(--c,var(--y));color:var(--k)}
 a.proto::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
 .phone a.proto{margin-top:14px;align-self:flex-start}
 
+/* ===== Fichas de táctica ===== */
+section.ficha{padding:58px var(--pad) 50px!important;justify-content:center!important}
+.fstrip{display:flex;gap:6px;margin-bottom:22px}
+.fstrip i{font-style:normal;font-size:12px;font-weight:800;letter-spacing:.04em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink3)}
+.fstrip i.dn{color:var(--ink2)}
+.fstrip i.on{background:var(--cc);border-color:var(--cc);color:var(--k)}
+.ftag{font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+h2.ft{font-size:64px;line-height:1;letter-spacing:-.04em;margin:10px 0 12px;display:flex;align-items:baseline;gap:18px}
+h2.ft .fc{font-size:30px;color:var(--k);background:var(--c);border-radius:12px;padding:6px 12px;letter-spacing:-.01em;transform:translateY(-8px)}
+p.fl{font-size:24px;line-height:1.4;color:var(--ink);max-width:1150px;margin:0 0 26px}
+.fgrid{display:grid;grid-template-columns:1.55fr 1fr;gap:28px;align-items:stretch}
+.fleft{display:flex;flex-direction:column;gap:16px}
+.fmeta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fmeta>div{background:var(--k2);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:17px;font-weight:700;line-height:1.3}
+.fmeta .wide{grid-column:1/-1}
+.fmeta small,.money small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.fsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fsteps li{background:var(--k2);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:14px;padding:14px 16px;display:flex;gap:10px;font-size:16.5px;line-height:1.4;color:var(--ink)}
+.fsteps li b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--c);color:var(--k);display:flex;align-items:center;justify-content:center;font-size:13px}
+.fkpi{background:var(--k2);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.fkpi .kt{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.kr{display:grid;grid-template-columns:1.25fr 1fr .95fr;gap:14px;padding:11px 0;border-top:1px solid var(--line);align-items:center;font-size:16.5px}
+.kr:first-of-type{border-top:0}
+.kr .kn{font-weight:700}
+.kr .km{font-weight:800;color:var(--ink)}
+.kr .ks{font-size:13.5px;color:var(--ink3)}
+.kr.main{background:color-mix(in srgb,var(--c) 14%,transparent);border-radius:10px;padding:10px 12px;margin:0 -12px;border-top:0}
+.kr.main .km{color:var(--c);font-size:18px}
+.money{background:var(--k2);border:1px solid var(--line);border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;gap:12px}
+.mr{display:flex;flex-direction:column;border-bottom:1px solid var(--line);padding-bottom:10px}
+.mr b{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1.05}
+.mr b.neg{color:var(--r)}
+.mr span{font-size:15px;color:var(--ink2);margin-top:2px}
+.roiw{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.roiw .rl b{font-size:58px;font-weight:900;letter-spacing:-.05em;line-height:.95;color:var(--c)}
+.roiw.neg .rl b{color:var(--r)}
+.gauge{position:relative;height:16px;background:var(--k3);border-radius:8px;margin-bottom:18px}
+.gauge i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--c);width:0;transition:width 1.2s cubic-bezier(.2,.7,.2,1) .3s}
+section.cur .gauge i{width:var(--w)}
+.roiw.neg .gauge i{background:var(--r)}
+.gauge em{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink3)}
+.gauge span{position:absolute;top:21px;font-size:11px;color:var(--ink3);transform:translateX(-50%);white-space:nowrap}
+.gauge span:first-of-type{transform:none}
+.gauge span:last-of-type{transform:translateX(-100%)}
+.be{font-size:16.5px;color:var(--ink2);line-height:1.4}
+.be b{color:var(--ink)}
+.fpro{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto}
+.fpro>span{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);width:100%}
+.fpro a.proto{--c:var(--y)}
+.fpro.none{font-size:13px;color:var(--ink3)}
+
 </style>
 </head>
 <body>
@@ -643,19 +694,173 @@ a.proto::before{content:"";width:8px;height:8px;border-radius:50%;background:cur
   <div class="strats">
     <div class="st reveal" style="--c:var(--e1)"><span class="code">E1 · CARE</span><h3>Fidelización: ciclo de vida del cliente</h3><div class="for">Clientes S4 y S3a · Mario y Paula · OE1</div>
       <ul><li><b>T1.1</b>Clientes en riesgo</li><li><b>T1.2</b>Renovación de promociones</li><li><b>T1.3</b>Segunda residencia sin llamadas</li></ul>
-      <div class="protos"><a class="proto" href="prototipos/flujo_T1.2_renovacion.png" target="_blank" rel="noopener" style="--c:var(--e1)">Flujo de renovación T1.2 ↗</a><a class="proto" href="prototipos/sms_T1.2_renovacion.png" target="_blank" rel="noopener" style="--c:var(--e1)">SMS T1.2 ↗</a></div><div class="kpi"><b>KPI:</b> bajas del programa al menos un 15 % por debajo del grupo de control.</div><div class="eur" data-count="20638" data-dec="0" data-suf=" €">20.638 €</div></div>
+      <div class="kpi"><b>KPI:</b> bajas del programa al menos un 15 % por debajo del grupo de control.</div><div class="eur" data-count="20638" data-dec="0" data-suf=" €">20.638 €</div></div>
     <div class="st reveal" style="--c:var(--e2)"><span class="code">E2 · CARE</span><h3>Fidelización: comunicación proactiva por tecnología</h3><div class="for">Clientes WiMAX y fibra indirecta · Mario · OE2</div>
       <ul><li><b>T2.1</b>Bienvenida y primer año por tecnología</li><li><b>T2.2</b>Avisos de incidencias por localidad</li></ul>
-      <div class="protos"><a class="proto" href="prototipos/avisos_E2_movil_Mario.html" target="_blank" rel="noopener" style="--c:var(--e2)">Un año de Mario: bienvenida y avisos ↗</a><a class="proto" href="prototipos/sms_T2.2_aviso_incidencia.png" target="_blank" rel="noopener" style="--c:var(--e2)">SMS de aviso T2.2 ↗</a></div><div class="kpi"><b>KPI:</b> NPS a 90 días de las altas de WiMAX y fibra indirecta por encima del grupo de control.</div><div class="eur" data-count="11800" data-dec="0" data-suf=" €">11.800 €</div></div>
+      <div class="kpi"><b>KPI:</b> NPS a 90 días de las altas de WiMAX y fibra indirecta por encima del grupo de control.</div><div class="eur" data-count="11800" data-dec="0" data-suf=" €">11.800 €</div></div>
     <div class="st reveal" style="--c:var(--e3)"><span class="code">E3 · THINK-DO</span><h3>Captación de no clientes</h3><div class="for">No clientes en Aragón · Laura · OE3.1 y OE3.2</div>
       <ul><li><b>T3.1</b>Publicidad solo en Aragón</li><li><b>T3.2</b>Configurador y formulario con precio final</li><li><b>T3.3</b>Recuperación de abandonos</li></ul>
-      <div class="protos"><a class="proto" href="prototipos/publicidad_T3-1_T3-3_prototipo.html" target="_blank" rel="noopener" style="--c:var(--e3)">Anuncios T3.1 y abandonos T3.3 ↗</a><a class="proto" href="prototipos/configurador_T3-2_prototipo.html" target="_blank" rel="noopener" style="--c:var(--e3)">Configurador T3.2 ↗</a></div><div class="kpi"><b>KPI:</b> configurador → formulario del 18 % al 24 % y formularios completados del 12 % al 15 % en junio.</div><div class="eur" data-count="49000" data-dec="0" data-suf=" €">49.000 €</div></div>
+      <div class="kpi"><b>KPI:</b> configurador → formulario del 18 % al 24 % y formularios completados del 12 % al 15 % en junio.</div><div class="eur" data-count="49000" data-dec="0" data-suf=" €">49.000 €</div></div>
   </div>
   <p class="src">E1 y E2 suman además un fondo de escalado de 32.312 € que se libera el 30 de septiembre solo para las tácticas con efecto frente al grupo de control.</p>
 </section>
+<!-- FICHA T1.1 -->
+<section id="t11" class="ficha" data-name="T1.1 · Clientes en riesgo" style="--c:var(--e1)">
+  <div class="fstrip"><i class="on" style="--cc:var(--e1)">T1.1</i><i class="" style="--cc:var(--e1)">T1.2</i><i class="" style="--cc:var(--e1)">T1.3</i><i class="" style="--cc:var(--e2)">T2.1</i><i class="" style="--cc:var(--e2)">T2.2</i><i class="" style="--cc:var(--e3)">T3.1</i><i class="" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E1 · Ciclo de vida</span></div>
+  <h2 class="ft reveal"><span class="fc">T1.1</span>Clientes en riesgo</h2>
+  <p class="fl reveal">Cuando un cliente acumula incidencias o puntúa mal, alguien de Embou le llama antes de que se vaya.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Mario · S4</div><div><small>Objetivo</small>OE1 (y OE2 en la rama técnica)</div><div class="wide"><small>Calendario 2027</small>Piloto 1-14 mar · despliegue 15 mar · evaluación 30 sep</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Alerta en Dynamics 365 con dos o más incidencias en 30 días o una nota de 0 a 6 en Opinat</span></li><li><b>2</b><span>Responsable y primer contacto en 24 h, por la vía técnica o la comercial</span></li><li><b>3</b><span>Cierre con el motivo registrado y comparación con el grupo de control</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Bajas a 90 días frente al grupo de control</span><span class="km">Al menos un 5 % inferiores</span><span class="ks">Dynamics 365 y Power BI · 9 jul y 30 sep</span></div><div class="kr"><span class="kn">Casos atendidos en menos de 72 horas</span><span class="km">Al menos el 90 %</span><span class="ks">Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Bajas de alertados con motivo registrado</span><span class="km">100 %</span><span class="ks">Dynamics 365 · mensual</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>12.288 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>112</b><span>clientes retenidos</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">14.443 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>118 %</b></div><div class="gauge"><i style="--w:29.5%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">Se paga con <b>32</b> clientes retenidos</div>
+      <div class="fpro none">Sin prototipo: el proceso se ve en la ficha del TFM</div>
+    </div>
+  </div>
+</section>
+<!-- FICHA T1.2 -->
+<section id="t12" class="ficha" data-name="T1.2 · Renovación de promociones" style="--c:var(--e1)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="on" style="--cc:var(--e1)">T1.2</i><i class="" style="--cc:var(--e1)">T1.3</i><i class="" style="--cc:var(--e2)">T2.1</i><i class="" style="--cc:var(--e2)">T2.2</i><i class="" style="--cc:var(--e3)">T3.1</i><i class="" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E1 · Ciclo de vida</span></div>
+  <h2 class="ft reveal"><span class="fc">T1.2</span>Renovación de promociones</h2>
+  <p class="fl reveal">Antes de que acabe su promoción, el cliente sabe qué precio pagará, si tiene permanencia y qué debe hacer.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Clientes con promoción que vence · S4</div><div><small>Objetivo</small>OE1</div><div class="wide"><small>Calendario 2027</small>Preparación en enero · arranque en marzo · evaluación en septiembre</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Aviso automático antes de la fecha: precio, permanencia y qué cambia</span></li><li><b>2</b><span>Dos ramas: renovación automática (A) o con documento, con SMS y enlace (B)</span></li><li><b>3</b><span>Ayuda en plazo a quien la pide; incentivo solo a quien piensa irse</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Bajas en los 90 días tras la renovación</span><span class="km">Al menos un 8 % menos que el control</span><span class="ks">Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Renovaciones avisadas de forma automática</span><span class="km">Al menos el 95 %</span><span class="ks">ActiveCampaign y Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Solicitudes de ayuda atendidas a tiempo</span><span class="km">Al menos el 90 %</span><span class="ks">Dynamics 365 · mensual</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>5.350 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>32</b><span>clientes retenidos</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">2.229 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>42 %</b></div><div class="gauge"><i style="--w:10.5%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">Se paga con <b>23</b> clientes retenidos</div>
+      <div class="fpro"><span>Ver prototipo</span><a class="proto" href="prototipos/flujo_T1.2_renovacion.png" target="_blank" rel="noopener">Flujo de renovación ↗</a><a class="proto" href="prototipos/sms_T1.2_renovacion.png" target="_blank" rel="noopener">SMS de la rama B ↗</a></div>
+    </div>
+  </div>
+</section>
+<!-- FICHA T1.3 -->
+<section id="t13" class="ficha" data-name="T1.3 · Segunda residencia sin llamadas" style="--c:var(--e1)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="dn" style="--cc:var(--e1)">T1.2</i><i class="on" style="--cc:var(--e1)">T1.3</i><i class="" style="--cc:var(--e2)">T2.1</i><i class="" style="--cc:var(--e2)">T2.2</i><i class="" style="--cc:var(--e3)">T3.1</i><i class="" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E1 · Ciclo de vida</span></div>
+  <h2 class="ft reveal"><span class="fc">T1.3</span>Segunda residencia sin llamadas</h2>
+  <p class="fl reveal">Paula enciende la conexión de su casa del Pirineo con un mensaje, y sabe antes de pagar qué cuotas mínimas le tocan.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Paula · S3a</div><div><small>Objetivo</small>OE1</div><div class="wide"><small>Calendario 2027</small>Mensajes el 3 mar, 1 jun, 21 sep y 2 nov</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Un mensaje antes de cada temporada: verano, otoño, Navidad y primavera</span></li><li><b>2</b><span>Activación por WhatsApp, sin llamar con 48 horas de antelación</span></li><li><b>3</b><span>Aviso en noviembre de las cuotas mínimas antes de cobrarlas</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Activaciones pedidas por WhatsApp</span><span class="km">Al menos la mitad desde el verano</span><span class="ks">Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Bajas de S3a frente al grupo de control</span><span class="km">Inferiores a las del control</span><span class="ks">Dynamics 365 y Power BI · trimestral</span></div><div class="kr"><span class="kn">Reclamaciones por cuotas mínimas</span><span class="km">Menos que en diciembre de 2026</span><span class="ks">Dynamics 365 · diciembre</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>3.000 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>35</b><span>clientes retenidos</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">2.794 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>93 %</b></div><div class="gauge"><i style="--w:23.2%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">Se paga con <b>18</b> clientes retenidos (165 € de valor de vida)</div>
+      <div class="fpro none">Sin prototipo: el proceso se ve en la ficha del TFM</div>
+    </div>
+  </div>
+</section>
+<!-- FICHA T2.1 -->
+<section id="t21" class="ficha" data-name="T2.1 · Bienvenida por tecnología" style="--c:var(--e2)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="dn" style="--cc:var(--e1)">T1.2</i><i class="dn" style="--cc:var(--e1)">T1.3</i><i class="on" style="--cc:var(--e2)">T2.1</i><i class="" style="--cc:var(--e2)">T2.2</i><i class="" style="--cc:var(--e3)">T3.1</i><i class="" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E2 · Comunicación proactiva</span></div>
+  <h2 class="ft reveal"><span class="fc">T2.1</span>Bienvenida por tecnología</h2>
+  <p class="fl reveal">Las altas de WiMAX y fibra indirecta reciben una bienvenida pensada para su tecnología, no un correo genérico.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Mario · S4 (altas y cartera de WiMAX y fibra indirecta)</div><div><small>Objetivo</small>OE2 (y OE1)</div><div class="wide"><small>Calendario 2027</small>1 mar WiMAX y fibra indirecta · abril guía para la cartera · 1 jun todas · evaluación 30 sep</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Secuencia desde el alta según la tecnología contratada</span></li><li><b>2</b><span>El día 10, «¿Necesitas ayuda?» con contacto en 24 horas</span></li><li><b>3</b><span>En abril, guía para los clientes actuales de WiMAX y fibra indirecta</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">NPS a 90 días de las altas tratadas</span><span class="km">Superior al del grupo de control</span><span class="ks">Opinat y Dynamics 365 · trimestral desde junio</span></div><div class="kr"><span class="kn">Tickets de configuración y facturación en 90 días</span><span class="km">Inferiores a los del control</span><span class="ks">Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Solicitudes de ayuda atendidas en plazo</span><span class="km">Al menos el 90 %</span><span class="ks">Dynamics 365 · mensual</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>4.400 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>28</b><span>clientes retenidos</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">2.571 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>58 %</b></div><div class="gauge"><i style="--w:14.5%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">Se paga con <b>18</b> clientes retenidos</div>
+      <div class="fpro"><span>Ver prototipo</span><a class="proto" href="prototipos/avisos_E2_movil_Mario.html" target="_blank" rel="noopener">Un año de Mario: la bienvenida ↗</a></div>
+    </div>
+  </div>
+</section>
+<!-- FICHA T2.2 -->
+<section id="t22" class="ficha" data-name="T2.2 · Avisos de incidencias" style="--c:var(--e2)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="dn" style="--cc:var(--e1)">T1.2</i><i class="dn" style="--cc:var(--e1)">T1.3</i><i class="dn" style="--cc:var(--e2)">T2.1</i><i class="on" style="--cc:var(--e2)">T2.2</i><i class="" style="--cc:var(--e3)">T3.1</i><i class="" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E2 · Comunicación proactiva</span></div>
+  <h2 class="ft reveal"><span class="fc">T2.2</span>Avisos de incidencias</h2>
+  <p class="fl reveal">Mario se entera de la caída por Embou antes de quedarse sin conexión, y no tiene que llamar para preguntar.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Mario · S4</div><div><small>Objetivo</small>OE2</div><div class="wide"><small>Calendario 2027</small>Marzo en WiMAX y fibra indirecta · junio en el resto de tecnologías</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>El área técnica confirma una caída que afecta a una localidad</span></li><li><b>2</b><span>SMS o WhatsApp a los afectados: qué pasa y cuándo se espera resolver</span></li><li><b>3</b><span>Aviso de resolución y seguimiento de las llamadas posteriores</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Llamadas y tickets por cliente afectado</span><span class="km">Al menos un 30 % menos</span><span class="ks">Ficha de la caída y Dynamics 365 · al cerrar cada caída</span></div><div class="kr"><span class="kn">Proceso cumplido (todos los mensajes a tiempo)</span><span class="km">Al menos el 90 %</span><span class="ks">Ficha de la caída · mensual</span></div><div class="kr"><span class="kn">Bajas en los 90 días tras una caída</span><span class="km">Inferiores a 2026</span><span class="ks">Ficha de cliente · trimestral</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>7.400 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>66</b><span>clientes retenidos + 3.750 llamadas evitadas</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">27.853 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>376 %</b></div><div class="gauge"><i style="--w:94.0%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">El ahorro en llamadas (18.750 €) ya cubre el coste</div>
+      <div class="fpro"><span>Ver prototipo</span><a class="proto" href="prototipos/avisos_E2_movil_Mario.html" target="_blank" rel="noopener">Un año de Mario: los avisos ↗</a><a class="proto" href="prototipos/sms_T2.2_aviso_incidencia.png" target="_blank" rel="noopener">SMS de aviso ↗</a></div>
+    </div>
+  </div>
+</section>
+<!-- FICHA T3.1 -->
+<section id="t31" class="ficha" data-name="T3.1 · Publicidad solo en Aragón" style="--c:var(--e3)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="dn" style="--cc:var(--e1)">T1.2</i><i class="dn" style="--cc:var(--e1)">T1.3</i><i class="dn" style="--cc:var(--e2)">T2.1</i><i class="dn" style="--cc:var(--e2)">T2.2</i><i class="on" style="--cc:var(--e3)">T3.1</i><i class="" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E3 · Conversión</span></div>
+  <h2 class="ft reveal"><span class="fc">T3.1</span>Publicidad solo en Aragón</h2>
+  <p class="fl reveal">La publicidad que Embou ya paga deja de llegar a quien no puede contratar, y solo crece si la web convierte.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Laura · S1</div><div><small>Objetivo</small>OE3.2 (principal) y OE3.1</div><div class="wide"><small>Calendario 2027</small>Auditoría en enero · campañas desde febrero · medios incrementales jul-dic</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Auditoría: los clics de fuera de Aragón bajan del 20 % al 5 %</span></li><li><b>2</b><span>Búsqueda genérica y Meta reorganizadas desde febrero</span></li><li><b>3</b><span>12.800 € de medios de julio a diciembre, solo si T3.2 cumple su hito</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Contactos cualificados de no clientes</span><span class="km">+20 % en jul-dic frente a feb-abr</span><span class="ks">GA4 y Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Coste por alta confirmada</span><span class="km">Hasta 249 € (referencia 136 €)</span><span class="ks">Dynamics 365 y Google Ads · desde junio</span></div><div class="kr"><span class="kn">Clics desde fuera de Aragón</span><span class="km">Menos del 5 %</span><span class="ks">Google Ads y Meta · semanal</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>18.800 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>127</b><span>altas (33 por la reorganización y 94 por medios)</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">12.823 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>68 %</b></div><div class="gauge"><i style="--w:17.0%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">Se paga con <b>76</b> altas</div>
+      <div class="fpro"><span>Ver prototipo</span><a class="proto" href="prototipos/publicidad_T3-1_T3-3_prototipo.html" target="_blank" rel="noopener">Anuncios en Google y Meta ↗</a></div>
+    </div>
+  </div>
+</section>
+<!-- FICHA T3.2 -->
+<section id="t32" class="ficha" data-name="T3.2 · Configurador y formulario" style="--c:var(--e3)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="dn" style="--cc:var(--e1)">T1.2</i><i class="dn" style="--cc:var(--e1)">T1.3</i><i class="dn" style="--cc:var(--e2)">T2.1</i><i class="dn" style="--cc:var(--e2)">T2.2</i><i class="dn" style="--cc:var(--e3)">T3.1</i><i class="on" style="--cc:var(--e3)">T3.2</i><i class="" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E3 · Conversión</span></div>
+  <h2 class="ft reveal"><span class="fc">T3.2</span>Configurador y formulario</h2>
+  <p class="fl reveal">Laura ve el precio final antes de dar su dirección, y la tarifa que elige no se pierde por el camino.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Laura · S1</div><div><small>Objetivo</small>OE3.1 y OE3.2</div><div class="wide"><small>Calendario 2027</small>Pruebas ene-feb · prototipo en marzo · lanzamiento 3 may · hito 30 jun</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Precio final, permanencia e instalación junto a cada tarifa</span></li><li><b>2</b><span>Cobertura comprobada sin perder la tarifa elegida</span></li><li><b>3</b><span>Formulario en tres pasos, con la tarifa ya rellenada</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Paso del configurador al formulario</span><span class="km">Del 18 % al 24 % en junio</span><span class="ks">GA4 · mensual; hito 30 jun</span></div><div class="kr"><span class="kn">Formularios completados</span><span class="km">Del 12 % al 15 % en junio</span><span class="ks">GA4 y Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Ventas online de nuevos clientes</span><span class="km">+42 % (OE3.1)</span><span class="ks">Dynamics 365 · trimestral</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>26.000 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>95</b><span>ventas online adicionales en 2027</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="neg">−2.392 €</b></div>
+      <div class="roiw neg"><div class="rl"><small>ROI 2027</small><b>−9 %</b></div><div class="gauge"><i style="--w:2.2%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">En 2027-2029, ROI del <b>191 %</b>: es un activo que sigue vendiendo</div>
+      <div class="fpro"><span>Ver prototipo</span><a class="proto" href="prototipos/configurador_T3-2_prototipo.html" target="_blank" rel="noopener">Configurador ↗</a><a class="proto" href="prototipos/formulario_T3-2_prototipo.html" target="_blank" rel="noopener">Formulario ↗</a></div>
+    </div>
+  </div>
+</section>
 <!-- CONFIGURADOR -->
 <section id="config" data-name="Configurador T3.2">
-  <div class="kick">T3.2 · La pieza que decide la captación</div>
+  <div class="kick">T3.2 · Demostración del recorrido</div>
   <h2 class="big reveal">Primero la web <span class="serif y">convierte.</span> Después compramos tráfico.</h2>
   <div class="ba">
     <div class="phone reveal"><div class="ph-h">Hoy</div>
@@ -665,6 +870,28 @@ a.proto::before{content:"";width:8px;height:8px;border-radius:50%;background:cur
       <ol class="flow"><li><b>1</b>Elige tarifa y ve el precio final</li><li><b>2</b>Permanencia e instalación junto al precio</li><li><b>3</b>La tarifa viaja al formulario, que se acorta</li><li><b>4</b>Quien abandona entra en T3.3 (correo y retargeting)</li></ol>
       <div class="kpis"><span>24 %<small>meta del 30 de junio</small></span><span>15 %<small>meta del 30 de junio</small></span></div><div class="protos"><a class="proto" href="prototipos/configurador_T3-2_prototipo.html" target="_blank" rel="noopener">Abrir el configurador ↗</a><a class="proto" href="prototipos/formulario_T3-2_prototipo.html" target="_blank" rel="noopener">Abrir el formulario ↗</a></div></div>
     <div class="cfnote reveal"><div class="big1">×1,67</div><p>solicitudes con el mismo tráfico.</p><hr><div class="big2">−9 % → 191 %</div><p>ROI de T3.2 en 2027 y en 2027-2029: es un activo que sigue vendiendo.</p><hr><p><b>Regla:</b> si el 30 de junio no se alcanzan las metas, T3.1 no compra los 12.800 € de medios incrementales.</p></div>
+  </div>
+</section>
+<!-- FICHA T3.3 -->
+<section id="t33" class="ficha" data-name="T3.3 · Recuperación de abandonos" style="--c:var(--e3)">
+  <div class="fstrip"><i class="dn" style="--cc:var(--e1)">T1.1</i><i class="dn" style="--cc:var(--e1)">T1.2</i><i class="dn" style="--cc:var(--e1)">T1.3</i><i class="dn" style="--cc:var(--e2)">T2.1</i><i class="dn" style="--cc:var(--e2)">T2.2</i><i class="dn" style="--cc:var(--e3)">T3.1</i><i class="dn" style="--cc:var(--e3)">T3.2</i><i class="on" style="--cc:var(--e3)">T3.3</i></div>
+  <div class="fhead reveal"><span class="ftag">E3 · Conversión</span></div>
+  <h2 class="ft reveal"><span class="fc">T3.3</span>Recuperación de abandonos</h2>
+  <p class="fl reveal">Quien abandona el configurador recibe un recordatorio con su tarifa, y deja de recibirlo en cuanto contrata.</p>
+  <div class="fgrid">
+    <div class="fleft">
+      <div class="fmeta reveal"><div><small>Buyer</small>Laura · S1</div><div><small>Objetivo</small>OE3.1</div><div class="wide"><small>Calendario 2027</small>Preparación en mayo · arranque en junio · evaluación oct-dic</div></div>
+      <ol class="fsteps reveal"><li><b>1</b><span>Laura abandona el configurador o el formulario</span></li><li><b>2</b><span>Con consentimiento, dos correos; sin él, anuncios 7 días (máximo 2 al día)</span></li><li><b>3</b><span>La secuencia se detiene al contratar y se mide frente al control</span></li></ol>
+      <div class="fkpi reveal"><div class="kt">Cómo sabremos si funciona</div><div class="kr main"><span class="kn">Tasa de alta en 7 días, tratado frente a control</span><span class="km">Grupo tratado por encima del control</span><span class="ks">Dynamics 365 y GA4 · mensual</span></div><div class="kr"><span class="kn">Altas recuperadas incrementales</span><span class="km">Al menos 17; escenario base 49</span><span class="ks">Dynamics 365 · mensual</span></div><div class="kr"><span class="kn">Coste por alta recuperada</span><span class="km">Hasta 249 € (referencia 86 €)</span><span class="ks">Dynamics 365, Google Ads y Meta · mensual</span></div></div>
+    </div>
+    <div class="money reveal">
+      <div class="mr"><small>Presupuesto 2027</small><b>4.200 €</b></div>
+      <div class="mr"><small>Resultado estimado</small><b>49</b><span>altas recuperadas</span></div>
+      <div class="mr"><small>Beneficio neto</small><b class="">8.001 €</b></div>
+      <div class="roiw"><div class="rl"><small>ROI 2027</small><b>190 %</b></div><div class="gauge"><i style="--w:47.5%"></i><em style="left:25%"></em><span>0</span><span style="left:25%">100 %</span><span style="left:100%">400 %</span></div></div>
+      <div class="be">Se paga con <b>17</b> altas</div>
+      <div class="fpro"><span>Ver prototipo</span><a class="proto" href="prototipos/publicidad_T3-1_T3-3_prototipo.html" target="_blank" rel="noopener">Simulador de recuperación ↗</a></div>
+    </div>
   </div>
 </section>
 

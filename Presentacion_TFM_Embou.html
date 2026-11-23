@@ -657,6 +657,51 @@ html.mob .tzr>div:not(:first-child){border:0!important;padding:0!important}
 html.mob .tzr>div:first-child{padding:0!important}
 html.mob .tzr>div::after{display:none!important}
 
+
+/* ===== Preguntas preparadas ===== */
+#reserva{justify-content:center!important}
+.qhead{display:flex;justify-content:space-between;align-items:flex-end;gap:48px;margin-bottom:28px}
+.qhead h2.big{margin:0}
+.qside{display:flex;flex-direction:column;align-items:flex-end;gap:14px;max-width:470px}
+.qcount{display:flex;align-items:center;gap:16px;text-align:left}
+.qcount b{font-size:84px;font-weight:900;line-height:.8;color:var(--y);letter-spacing:-.05em}
+.qcount span{font-size:15.5px;line-height:1.4;color:var(--ink2)}
+.qall{border:1.5px solid var(--y);background:transparent;color:var(--y);border-radius:999px;padding:10px 18px;font:inherit;font-weight:800;font-size:14.5px;cursor:pointer;transition:all .2s}
+.qall:hover,.qall.on{background:var(--y);color:var(--k)}
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.qcard{height:288px;perspective:1600px;cursor:pointer;border-radius:22px;outline-offset:4px}
+.qin{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.qcard:hover .qin{transform:translateY(-5px)}
+.qcard.flip .qin{transform:rotateY(180deg)}
+.qf{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;padding:20px 22px;display:flex;flex-direction:column;overflow:hidden}
+.qfront{background:var(--k2);border:1px solid var(--line);border-top:4px solid var(--qc)}
+.qback{transform:rotateY(180deg);background:var(--qc);color:var(--k)}
+.qtop{display:flex;align-items:center;gap:10px}
+.qn{font-size:14px;font-weight:900;color:var(--qc);letter-spacing:.04em}
+.qback .qn{color:var(--k)}
+.qcat{font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.qback .qcat{color:rgba(13,13,12,.7)}
+.qok{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--qc);color:var(--k);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;transform:scale(0) rotate(-30deg);transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+section.cur .qok{transform:none}
+.qcard h3{margin:14px 0 0;font-size:20px;line-height:1.22;font-weight:800;letter-spacing:-.01em}
+.qstat{margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.qstat b{display:block;font-size:38px;font-weight:900;letter-spacing:-.04em;color:var(--qc);line-height:1;white-space:nowrap}
+.qstat span{display:block;margin-top:6px;font-size:13.5px;line-height:1.35;color:var(--ink2)}
+.qhint{margin-top:10px;font-size:12.5px;font-weight:800;color:var(--ink3)}
+.qback p{margin:14px 0 0;font-size:16.5px;line-height:1.45;font-weight:600}
+.qdato{margin-top:auto;padding-top:10px;border-top:1.5px solid rgba(13,13,12,.25);font-size:13.5px;font-weight:800}
+.qfoot{margin:16px 0 0;font-size:14px;color:var(--ink3)}
+@media (prefers-reduced-motion:reduce){.qin{transition:none}}
+/* móvil */
+html.mob .qhead{flex-direction:column;align-items:flex-start;gap:18px}
+html.mob .qside{align-items:flex-start}
+html.mob .qcount b{font-size:56px}
+html.mob .qgrid{grid-template-columns:1fr!important}
+html.mob .qcard{height:auto}
+html.mob .qin{display:grid}
+html.mob .qf{position:relative;inset:auto;grid-area:1/1;min-height:250px}
+@media (min-width:640px){html.mob .qgrid{grid-template-columns:1fr 1fr!important}}
+
 </style>
 </head>
 <body>
@@ -1163,17 +1208,23 @@ html.mob .tzr>div::after{display:none!important}
   <div class="credits"><span><b>Trabajo Fin de Máster</b> · Máster en Marketing Digital · ESIC · 2026<br>Plan de marketing digital para Embou, mercado residencial. Trabajo académico, no es una comunicación de Embou.</span><button class="toTop" id="toTop">Volver a la portada ↑</button></div>
 </section>
 <!-- RESERVA -->
-<section id="reserva" data-name="Reserva · preguntas">
-  <div class="kick">Pantallas de reserva · turno de preguntas</div>
-  <h2 class="big reveal">Por si nos <span class="serif y">preguntan.</span></h2>
-  <div class="qa">
-    <details><summary>¿Por qué no hay SEO en 2027?</summary><p>Porque llevar más tráfico a una web que no convierte no rinde. Primero el configurador (3 de mayo) y después el SEO de negocio, que tarda meses: E5 SEO transaccional en 2028 (20 de 50 búsquedas en el top 5) y E6 contenido local en 2029 (+30 % de sesiones orgánicas sin marca). En 2027 se revisa el blog que atrae tráfico de fuera de Aragón.</p><span>Orgánico −30,9 % · 75-77 % de clics de marca · posición media 35,2 en búsquedas de negocio</span></details>
-    <details><summary>¿Por qué no redes sociales para fidelizar?</summary><p>El problema de retención es individual: una incidencia, una renovación, una segunda vivienda. Se resuelve uno a uno por canales propios y se mide frente a un grupo de control. Las redes llegan a seguidores, no al cliente en riesgo, y Embou ya las trabaja con su inversión habitual. En captación sí: Meta Ads en T3.1 y retargeting en T3.3.</p><span>25.634 seguidores frente a más de 100.000 clientes · Mi Embou en el 40 % de la cartera</span></details>
-    <details><summary>OE1 (retención) pide unas 530 bajas menos y las tácticas retienen 273</summary><p>Los 273 son la estimación prudente, solo con efectos atribuibles frente al control. La distancia la cubre el fondo de escalado de 32.312 €, que el 30 de septiembre amplía las tácticas que funcionan y no entra en el ROI.</p><span>10,61 % de bajas sobre más de 100.000 clientes</span></details>
-    <details><summary>¿Por qué T3.2 tiene ROI negativo?</summary><p>Funciona siete meses en 2027 sobre un volumen online todavía pequeño. Es un activo: sigue vendiendo en 2028 y 2029 con un mantenimiento del 15 % anual.</p><span>−9 % en 2027 · 191 % en 2027-2029</span></details>
-    <details><summary>Sin todos los datos internos, ¿cómo sabéis que funcionará?</summary><p>No lo damos por hecho. Cada efecto es prudente y está citado, y se sustituye por la diferencia real frente al grupo de control en cuanto hay volumen.</p><span>Grupo de control del 10 % · T1.1 con efecto de un experimento aleatorizado del sector</span></details>
-    <details><summary>¿Por qué solo se presupuesta 2027?</summary><p>Porque Embou fija 150.000 € para un año. 2028 y 2029 dependen de los resultados y de las condiciones de paso del 15 de diciembre.</p><span>OE4 venta cruzada · OE5 SEO · OE6 contenido local</span></details>
+<section id="reserva" data-name="Preguntas preparadas">
+  <div class="qhead">
+    <div><div class="kick">Antes de vuestro turno</div>
+    <h2 class="big reveal">Ya nos lo hemos <span class="serif y">preguntado.</span></h2></div>
+    <div class="qside reveal"><div class="qcount"><b>8</b><span>preguntas que nos hicimos al construir el plan, cada una con su respuesta y el dato que la sostiene</span></div><button type="button" id="qall" class="qall">Mostrar todas las respuestas</button></div>
   </div>
+  <div class="qgrid">
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="1" style="--qc:var(--e3)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">01</span><span class="qcat">Canales</span><span class="qok" aria-hidden="true">✓</span></div><h3>¿Por qué no hay SEO en 2027?</h3><div class="qstat"><b>−30,9 %</b><span>de tráfico orgánico; el 75–77 % de los clics ya es de marca</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">01</span><span class="qcat">Respuesta preparada</span></div><p>Llevar más tráfico a una web que no convierte no rinde. Primero el configurador (3 de mayo); el SEO de negocio llega en 2028 con E5 y el contenido local en 2029 con E6.</p><div class="qdato">Posición media 35,2 en búsquedas de negocio</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="2" style="--qc:var(--e3)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">02</span><span class="qcat">Canales</span><span class="qok" aria-hidden="true">✓</span></div><h3>¿Por qué no redes sociales para fidelizar?</h3><div class="qstat"><b>25.634</b><span>seguidores, frente a más de 100.000 clientes</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">02</span><span class="qcat">Respuesta preparada</span></div><p>La retención es individual: una incidencia, una renovación, una segunda vivienda. Se resuelve uno a uno por canales propios y se mide frente al control. En captación sí: Meta Ads (T3.1) y retargeting (T3.3).</p><div class="qdato">Mi Embou llega al 40 % de la cartera</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="3" style="--qc:var(--e1)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">03</span><span class="qcat">Objetivos</span><span class="qok" aria-hidden="true">✓</span></div><h3>OE1 Retención pide unas 530 bajas menos y las tácticas retienen 273</h3><div class="qstat"><b>273 / 530</b><span>clientes retenidos por las tácticas frente a la meta de OE1</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">03</span><span class="qcat">Respuesta preparada</span></div><p>Los 273 son la estimación prudente, solo con efectos atribuibles frente al grupo de control. La distancia la cubre el fondo de escalado, que el 30 de septiembre amplía lo que funciona.</p><div class="qdato">Fondo de escalado: 32.312 €, fuera del ROI</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="4" style="--qc:var(--e3)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">04</span><span class="qcat">Rentabilidad</span><span class="qok" aria-hidden="true">✓</span></div><h3>¿Por qué T3.2 tiene ROI negativo?</h3><div class="qstat"><b>−9 % → 191 %</b><span>ROI del configurador en 2027 y en 2027–2029</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">04</span><span class="qcat">Respuesta preparada</span></div><p>Funciona siete meses en 2027 sobre un volumen online todavía pequeño. Es un activo: sigue vendiendo en 2028 y 2029 con un mantenimiento del 15 % anual.</p><div class="qdato">95 ventas online adicionales en 2027</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="5" style="--qc:var(--e2)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">05</span><span class="qcat">Datos</span><span class="qok" aria-hidden="true">✓</span></div><h3>Sin todos los datos internos, ¿cómo sabéis que funcionará?</h3><div class="qstat"><b>10 %</b><span>de los clientes en grupo de control</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">05</span><span class="qcat">Respuesta preparada</span></div><p>No lo damos por hecho. Cada efecto es prudente y está citado, y se sustituye por la diferencia real frente al grupo de control en cuanto hay volumen.</p><div class="qdato">T1.1 usa el efecto de un experimento aleatorizado del sector</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="6" style="--qc:var(--e1)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">06</span><span class="qcat">Presupuesto</span><span class="qok" aria-hidden="true">✓</span></div><h3>¿Por qué solo se presupuesta 2027?</h3><div class="qstat"><b>1 año</b><span>es el horizonte de los 150.000 € que fija Embou</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">06</span><span class="qcat">Respuesta preparada</span></div><p>2028 y 2029 dependen de los resultados y de las condiciones de paso del 15 de diciembre: venta cruzada (OE4), SEO de negocio (OE5) y visibilidad en Aragón (OE6).</p><div class="qdato">Hoja de ruta See-Think-Do-Care</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="7" style="--qc:var(--e2)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">07</span><span class="qcat">Estrategia</span><span class="qok" aria-hidden="true">✓</span></div><h3>¿Por qué priorizar la retención y no la captación?</h3><div class="qstat"><b>154 % · 38 %</b><span>ROI de fidelización frente al de captación</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">07</span><span class="qcat">Respuesta preparada</span></div><p>Es donde están el problema y el retorno: Embou pierde unos 10.600 clientes al año, y cada cliente que se queda conserva 249 € de margen de vida. La captación sigue teniendo el 32,7 % del presupuesto.</p><div class="qdato">10,61 % de bajas de banda ancha en 2025</div></div></div></article>
+<article class="qcard reveal" tabindex="0" role="button" aria-pressed="false" data-k="8" style="--qc:var(--r)"><div class="qin"><div class="qf qfront"><div class="qtop"><span class="qn">08</span><span class="qcat">Control</span><span class="qok" aria-hidden="true">✓</span></div><h3>¿Qué pasa si un objetivo no se cumple?</h3><div class="qstat"><b>249 €</b><span>de coste máximo por alta: el margen de vida de un cliente</span></div><div class="qhint">↻ Ver respuesta</div></div><div class="qf qback"><div class="qtop"><span class="qn">08</span><span class="qcat">Respuesta preparada</span></div><p>Primero se corrige y se vuelve a medir; una táctica solo pierde presupuesto si no mejora frente a su grupo de control. Los 12.800 € de medios solo se compran si el configurador cumple el hito de junio.</p><div class="qdato">Cuadro de mando en Power BI con umbrales</div></div></div></article>
+  </div>
+  <p class="qfoot reveal">Pulsad una tarjeta, o las teclas 1 a 8, para darle la vuelta.</p>
 </section>
 
 </main>
@@ -1262,6 +1313,7 @@ addEventListener('keydown', e => {
   if (isFlow()) return;
   const tag = document.activeElement && document.activeElement.tagName;
   const onCtl = ['A','BUTTON','SUMMARY','INPUT','TEXTAREA','ARTICLE'].includes(tag);
+  if (secs[cur] && secs[cur].id === 'reserva' && /^[1-8]$/.test(e.key)){ const c = $('#reserva .qcard[data-k="' + e.key + '"]'); if (c){ flipQ(c); syncQall(); } return; }
   if (secs[cur] && secs[cur].id === 'buyers' && ['1','2','3'].includes(e.key)){ const c = $('#buyers .bc[data-k="' + e.key + '"]'); if (c) flipCard(c); return; }
   if (tag === 'ARTICLE' && (e.key === 'Enter' || e.key === ' ') && document.activeElement.classList.contains('bc')){ e.preventDefault(); flipCard(document.activeElement); return; }
   if (['ArrowDown','ArrowRight','PageDown'].includes(e.key) || (e.key === ' ' && !onCtl) || (e.key === 'Enter' && !onCtl)){ e.preventDefault(); next(); }
@@ -1297,6 +1349,14 @@ $$('#buyers .go').forEach(g => g.addEventListener('click', e => {
 backB.addEventListener('click', () => { if (ret !== null) show(ret); });
 const _show = show;
 show = function(i, instant){ _show(i, instant); if (ret !== null && (cur === ret)) { ret = null; backB.classList.remove('on'); backB.blur(); } };
+
+
+/* Preguntas preparadas: tarjetas que se giran */
+const qcards = $$('#reserva .qcard'), qall = $('#qall');
+function flipQ(c, on){ on = on === undefined ? !c.classList.contains('flip') : on; c.classList.toggle('flip', on); c.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+function syncQall(){ const all = qcards.every(c => c.classList.contains('flip')); qall.classList.toggle('on', all); qall.textContent = all ? 'Ocultar las respuestas' : 'Mostrar todas las respuestas'; }
+qcards.forEach(c => { c.addEventListener('click', () => { flipQ(c); syncQall(); }); c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); e.stopPropagation(); flipQ(c); syncQall(); } }); });
+qall.addEventListener('click', () => { const all = qcards.every(c => c.classList.contains('flip')); qcards.forEach((c, k) => setTimeout(() => flipQ(c, !all), reduce ? 0 : k * 90)); setTimeout(syncQall, reduce ? 0 : qcards.length * 90 + 50); });
 
 /* Arranque: vuelve a la diapositiva en la que estabais */
 /* Modo adaptable: en pantallas estrechas o en vertical, página con scroll */

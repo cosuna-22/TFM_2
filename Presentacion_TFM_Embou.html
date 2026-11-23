@@ -539,92 +539,120 @@ section.cur .gauge i{width:var(--w)}
 
 
 /* ===== Modo adaptable: móvil, tablet en vertical y ventanas estrechas ===== */
-html.flow,html.flow body{height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior:auto}
-html.flow main{position:static;overflow:visible}
-html.flow main>section{position:relative!important;left:auto;top:auto;width:auto;min-height:0!important;transform:none!important;transition:none;visibility:visible;padding:72px 20px 56px!important;display:block!important;overflow:hidden}
-html.flow main>section+section{border-top:1px solid var(--line)}
-html.flow .dots,html.flow .keyhint,html.flow #backB,html.flow .scrollcue{display:none!important}
-html.flow .reveal{transition-duration:.5s}
-html.flow .kick{font-size:13px}
-html.flow h2.big{font-size:40px;line-height:1.02;margin-bottom:14px}
-html.flow p.lead,html.flow .lead{font-size:17px}
+html.mob,html.mob body{height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior:auto}
+html.mob main{position:static;overflow:visible}
+html.mob main>section{position:relative!important;left:auto;top:auto;width:auto;min-height:0!important;transform:none!important;transition:none;visibility:visible;padding:72px 20px 56px!important;display:block!important;overflow:hidden}
+html.mob main>section+section{border-top:1px solid var(--line)}
+html.mob .dots,html.mob .keyhint,html.mob #backB,html.mob .scrollcue{display:none!important}
+html.mob .reveal{transition-duration:.5s}
+html.mob .kick{font-size:13px}
+html.mob h2.big{font-size:40px;line-height:1.02;margin-bottom:14px}
+html.mob p.lead,html.mob .lead{font-size:17px}
 /* Portada */
-html.flow #hero{min-height:100svh;display:flex!important;flex-direction:column;justify-content:flex-end;padding-bottom:40px!important}
-html.flow #hero h1{font-size:82px}
-html.flow #hero h1 .l2{padding-left:.3em}
-html.flow #hero .meta{font-size:13px;gap:6px 14px;margin-bottom:22px}
-html.flow #hero .sub{flex-direction:column;align-items:flex-start;gap:18px;margin-top:24px}
-html.flow #hero .sub p{font-size:17px}
-html.flow .orb{width:340px;height:340px;border-width:32px;right:-170px;top:70px}
+html.mob #hero{min-height:100svh;display:flex!important;flex-direction:column;justify-content:flex-end;padding-bottom:40px!important}
+html.mob #hero h1{font-size:82px}
+html.mob #hero h1 .l2{padding-left:.3em}
+html.mob #hero .meta{font-size:13px;gap:6px 14px;margin-bottom:22px}
+html.mob #hero .sub{flex-direction:column;align-items:flex-start;gap:18px;margin-top:24px}
+html.mob #hero .sub p{font-size:17px}
+html.mob .orb{width:340px;height:340px;border-width:32px;right:-170px;top:70px}
 /* Rejillas a una columna */
-html.flow #trafico,html.flow #embudo,html.flow .two,html.flow .phases,html.flow .strats,html.flow .roi,html.flow .segs,html.flow .poswrap,html.flow .pillars,
-html.flow .ba,html.flow .roi2,html.flow .lv,html.flow .outs,html.flow .qa,html.flow .deck,html.flow .fgrid,html.flow .fmeta,html.flow .fsteps,html.flow .phs{grid-template-columns:1fr!important}
-html.flow #trafico,html.flow #embudo{display:grid!important;gap:28px}
-html.flow .objs,html.flow .legend,html.flow .legend.l6,html.flow .kp4,html.flow .rules,html.flow .stats{grid-template-columns:1fr 1fr!important;gap:18px!important}
-html.flow .htrack .cc{width:100%;min-height:0}
+html.mob #trafico,html.mob #embudo,html.mob .two,html.mob .phases,html.mob .strats,html.mob .roi,html.mob .segs,html.mob .poswrap,html.mob .pillars,
+html.mob .ba,html.mob .roi2,html.mob .lv,html.mob .outs,html.mob .qa,html.mob .deck,html.mob .fgrid,html.mob .fmeta,html.mob .fsteps,html.mob .phs{grid-template-columns:1fr!important}
+html.mob #trafico,html.mob #embudo{display:grid!important;gap:28px}
+html.mob .objs,html.mob .legend,html.mob .legend.l6,html.mob .kp4,html.mob .rules,html.mob .stats{grid-template-columns:1fr 1fr!important;gap:18px!important}
+html.mob .htrack .cc{width:100%;min-height:0}
 /* Cifras grandes */
-html.flow .stat .n{font-size:46px}
-html.flow .stp h3{font-size:24px}
-html.flow .mult b{font-size:52px}
-html.flow .churn .n{font-size:60px}
-html.flow .ph .yr{font-size:46px}
-html.flow .ob .m{font-size:46px}
-html.flow .btotal{font-size:76px}
-html.flow .lk .v{font-size:32px}
-html.flow .rsum .n{font-size:52px}
-html.flow .claim{font-size:58px}
-html.flow .kpis span{font-size:32px}
-html.flow .cfnote .big1{font-size:46px}
-html.flow .kp4 b{font-size:38px}
-html.flow .ru b{font-size:32px}
-html.flow .marq span{font-size:24px}
-html.flow .cc .fig b{font-size:30px}
+html.mob .stat .n{font-size:46px}
+html.mob .stp h3{font-size:24px}
+html.mob .mult b{font-size:52px}
+html.mob .churn .n{font-size:60px}
+html.mob .ph .yr{font-size:46px}
+html.mob .ob .m{font-size:46px}
+html.mob .btotal{font-size:76px}
+html.mob .lk .v{font-size:32px}
+html.mob .rsum .n{font-size:52px}
+html.mob .claim{font-size:58px}
+html.mob .kpis span{font-size:32px}
+html.mob .cfnote .big1{font-size:46px}
+html.mob .kp4 b{font-size:38px}
+html.mob .ru b{font-size:32px}
+html.mob .marq span{font-size:24px}
+html.mob .cc .fig b{font-size:30px}
 /* Filas con etiqueta, barra y valor */
-html.flow .rr{grid-template-columns:110px 1fr 56px}
-html.flow .rr2{grid-template-columns:118px 1fr 70px;font-size:13px}
+html.mob .rr{grid-template-columns:110px 1fr 56px}
+html.mob .rr2{grid-template-columns:118px 1fr 70px;font-size:13px}
 /* Calendario en lista */
-html.flow .cal .line,html.flow .cal .months{display:none}
-html.flow .ms{position:static!important;height:auto!important;display:grid;gap:10px;margin-top:18px}
-html.flow .mi{position:static!important;left:auto!important;width:auto!important;transform:none!important;display:grid;grid-template-columns:70px 1fr;gap:10px;text-align:left!important;align-items:baseline}
-html.flow .mi i{display:none}
+html.mob .cal .line,html.mob .cal .months{display:none}
+html.mob .ms{position:static!important;height:auto!important;display:grid;gap:10px;margin-top:18px}
+html.mob .mi{position:static!important;left:auto!important;width:auto!important;transform:none!important;display:grid;grid-template-columns:70px 1fr;gap:10px;text-align:left!important;align-items:baseline}
+html.mob .mi i{display:none}
 /* Tabla de posicionamiento: desplazamiento lateral */
-html.flow .tzh,html.flow .tzr{min-width:760px}
-html.flow .tz,html.flow .tzw{overflow-x:auto;-webkit-overflow-scrolling:touch}
 /* Buyers */
-html.flow .bc{height:430px}
-html.flow .bc h3{font-size:46px}
-html.flow .bc .front .av{width:84px;height:84px}
-html.flow .dhint{font-size:14px}
+html.mob .bc{height:430px}
+html.mob .bc h3{font-size:46px}
+html.mob .bc .front .av{width:84px;height:84px}
+html.mob .dhint{font-size:14px}
 /* Fichas de táctica */
-html.flow h2.ft{font-size:36px;flex-wrap:wrap;gap:10px}
-html.flow h2.ft .fc{font-size:22px;transform:none}
-html.flow p.fl{font-size:18px}
-html.flow .fstrip{flex-wrap:wrap}
-html.flow .kr{grid-template-columns:1fr!important;gap:4px!important;font-size:16px!important}
-html.flow .roiw .rl b{font-size:44px}
-html.flow .mr b{font-size:34px}
+html.mob h2.ft{font-size:36px;flex-wrap:wrap;gap:10px}
+html.mob h2.ft .fc{font-size:22px;transform:none}
+html.mob p.fl{font-size:18px}
+html.mob .fstrip{flex-wrap:wrap}
+html.mob .kr{grid-template-columns:1fr!important;gap:4px!important;font-size:16px!important}
+html.mob .roiw .rl b{font-size:44px}
+html.mob .mr b{font-size:34px}
 /* Tablet en vertical: dos columnas donde caben */
 @media (min-width:640px){
-  html.flow main>section{padding:84px 40px 64px!important}
-  html.flow h2.big{font-size:56px}
-  html.flow #hero h1{font-size:128px}
-  html.flow .strats,html.flow .outs,html.flow .qa,html.flow .fsteps,html.flow .fmeta,html.flow .two,html.flow .phases,html.flow .lv,html.flow .pillars{grid-template-columns:1fr 1fr!important}
-  html.flow .segs,html.flow .objs,html.flow .legend,html.flow .legend.l6,html.flow .rules{grid-template-columns:repeat(3,1fr)!important}
-  html.flow .kp4{grid-template-columns:repeat(4,1fr)!important}
-  html.flow .htrack .cc{width:calc(50% - 8px)}
+  html.mob main>section{padding:84px 40px 64px!important}
+  html.mob h2.big{font-size:56px}
+  html.mob #hero h1{font-size:128px}
+  html.mob .strats,html.mob .outs,html.mob .qa,html.mob .fsteps,html.mob .fmeta,html.mob .two,html.mob .phases,html.mob .lv,html.mob .pillars{grid-template-columns:1fr 1fr!important}
+  html.mob .segs,html.mob .objs,html.mob .legend,html.mob .legend.l6,html.mob .rules{grid-template-columns:repeat(3,1fr)!important}
+  html.mob .kp4{grid-template-columns:repeat(4,1fr)!important}
+  html.mob .htrack .cc{width:calc(50% - 8px)}
 }
 /* Ajustes tras la revisión en móvil */
-html.flow #hero{min-height:88svh!important}
-html.flow .nav{background:rgba(13,13,12,.92);backdrop-filter:blur(8px);padding:12px 20px;font-size:13px}
-html.flow .cursor{display:none!important}
-html.flow #cierre .in{padding:0}
-html.flow .claim{font-size:54px}
-html.flow .stack{height:56px}
-html.flow .stack div{font-size:0;padding:0}
-html.flow .rbh{flex-wrap:wrap;gap:6px}
-html.flow .rbh b{font-size:34px}
-@media (max-width:639px){html.flow .stats{grid-template-columns:1fr!important}}
-html.flow .orb{z-index:0;opacity:.55;top:36px}
+html.mob #hero{min-height:88svh!important}
+html.mob .nav{background:rgba(13,13,12,.92);backdrop-filter:blur(8px);padding:12px 20px;font-size:13px}
+html.mob .cursor{display:none!important}
+html.mob #cierre .in{padding:0}
+html.mob .claim{font-size:54px}
+html.mob .stack{height:56px}
+html.mob .stack div{font-size:0;padding:0}
+html.mob .rbh{flex-wrap:wrap;gap:6px}
+html.mob .rbh b{font-size:34px}
+@media (max-width:639px){html.mob .stats{grid-template-columns:1fr!important}}
+html.mob .orb{z-index:0;opacity:.55;top:36px}
+/* Buyers en móvil: la tarjeta crece con su contenido y sigue girando */
+html.mob .bc{height:auto;min-height:0!important}
+html.mob .bc .bin{display:grid}
+html.mob .bc .bf{position:relative;inset:auto;grid-area:1/1;min-height:380px}
+html.mob .btac .go{padding:10px 12px}
+html.mob .btac .go strong{font-size:15px}
+html.mob .qa summary{padding:14px 0;min-height:44px}
+@media (max-width:400px){html.mob .kp4{grid-template-columns:1fr!important}html.mob .kp4 b{font-size:34px}}
+
+/* Auditoría móvil (23 nov) */
+html.mob{--pad:20px}
+html.mob #diag{padding-left:20px!important;padding-right:20px!important}
+html.mob .cc .fig{flex-wrap:wrap}
+html.mob .cc .fig span{flex:1 1 100%}
+html.mob .btotal{font-size:62px;white-space:nowrap}
+/* Trazabilidad: cada fila como tarjeta con etiquetas */
+html.mob .tzh{display:none!important}
+html.mob .tzr{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px 14px!important;min-width:0!important;padding:16px!important;border:1px solid var(--line);border-left:4px solid var(--c);border-radius:16px;margin-bottom:12px;background:var(--k2)}
+html.mob .tzr>div{min-width:0}
+html.mob .tzr>div::before{display:block;font-size:13.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+html.mob .tzr>div:nth-child(1)::before{content:"Diagnóstico"}
+html.mob .tzr>div:nth-child(2)::before{content:"Objetivo"}
+html.mob .tzr>div:nth-child(3)::before{content:"Buyer"}
+html.mob .tzr>div:nth-child(4)::before{content:"Estrategia"}
+html.mob .tzr>div:nth-child(5)::before{content:"Tácticas"}
+html.mob .tzr>div:nth-child(6)::before{content:"KPI de eficacia"}
+html.mob .tzr>div:nth-child(6){grid-column:1/-1}
+html.mob .tzr>div:not(:first-child){border:0!important;padding:0!important}
+html.mob .tzr>div:first-child{padding:0!important}
+html.mob .tzr>div::after{display:none!important}
 
 </style>
 </head>
@@ -1170,7 +1198,7 @@ const secs = $$('main > section');
 const N = secs.length;
 $('#dots').innerHTML = secs.map((s, i) => `<a href="#${i + 1}" data-i="${i}" aria-label="${s.dataset.name}"><span>${s.dataset.name}</span></a>`).join('');
 const dots = $$('#dots a');
-const isFlow = () => document.documentElement.classList.contains('flow');
+const isFlow = () => document.documentElement.classList.contains('mob');
 function fit(){ if (innerWidth < 10 || innerHeight < 10 || isFlow()) return; secs.forEach(s => { const k = Math.min(innerWidth / 1600, innerHeight / s.offsetHeight); s.style.setProperty('--s', k); }); }
 
 /* Animaciones al entrar en una diapositiva (todo queda cargado en ~1,5 s) */
@@ -1274,7 +1302,7 @@ let io = null;
 function setMode(first){
   const f = wantFlow(); if (!first && f === isFlow()) return;
   const keepI = Math.max(0, cur);
-  document.documentElement.classList.toggle('flow', f);
+  document.documentElement.classList.toggle('mob', f);
   if (io){ io.disconnect(); io = null; }
   if (f){
     secs.forEach(s => { s.style.removeProperty('--s'); s.style.removeProperty('--dy'); s.classList.add('vis'); s.classList.remove('cur'); delete s.dataset.seen; });
